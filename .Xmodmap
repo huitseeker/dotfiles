@@ -1,0 +1,4 @@
+clear Lock
+keycode 66 = Multi_key
+keycode 108 = F12
+add Mod4 = Caps_Lock Super_L
