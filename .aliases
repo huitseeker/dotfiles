@@ -1,0 +1,45 @@
+alias cleanup='mv *.tex ~/latex/latex-sources & mv *.pdf ~/latex/latex-pdfs & mv *.aux *.tns ~/latex/latex-compilation-remainings & mv *.log  ~/latex/latex-compilation-remainings & mv *.dvi  ~/latex/latex-precompiled & mv *.ps  ~/latex/latex-precompiled'
+alias mozilla='mozilla-firefox'
+alias xfig='xfig -specialtext -latexfonts -startlatexFont default'
+alias ls='ls -x --color'
+alias aterm='aterm -tn xterm -bg black -fg white -cr white -pr grey -tr -sh 50 +sb'
+alias LEMOUV="ogg123 http://ogg.tv-radio.fr:1441/encoderlemouv.ogg"
+alias INTER="ogg123 http://ogg.tv-radio.fr:1441/encoderfinter.ogg"
+alias INFO="ogg123 http://ogg.tv-radio.fr:1441/encoderfinfo.ogg"
+alias FIP="ogg123 http://ogg.tv-radio.fr:1441/encoderfip.ogg"
+alias KCSM="ogg123 http://hifi.kcsm.org:8040/vorbis2.ogg"
+alias KZSU="mpg321 http://171.66.118.51:8200/"
+alias grep="grep --color=auto"
+alias killev="killall evolution evolution-mail evolution-calendar evolution-alarm-notify evolution-wombat evolution-data-server-1.0"
+alias vncs="vncserver -geometry 1024x768"
+alias penncvs="cvs -d :ext:garillot@saul.cis.upenn.edu:/plclub/cvsroot"
+alias dicvs="cvs -d :ext:side@di.ens.fr:/import/staffs/side/cvs"
+alias mplayer="mplayer -monitoraspect 16:9 -subfont-autoscale 1"
+alias startx="xinit"
+#alias codemacs="emacs -fn \"-windows-proggy tiny-medium-r-normal--10-80-96-96-c-60-iso8859-1\""
+# alias chrome="/usr/bin/env http_proxy="http://127.0.0.1:3128" no_proxy="localhost,127.0.0.1,192.168.0.0/24" /usr/bin/google-chrome-beta --cipher-suite-blacklist=0x0033,0x0039,0x009E,0xcc15 --memory-model=low --purge-memory-button --disable-gpu"
+#alias google-chrome-noproxy="/usr/bin/google-chrome-beta --cipher-suite-blacklist=0x0033,0x0039,0x009E,0xcc15 --memory-model=low --enable-user-scripts --disk-cache-dir=/var/tmp --purge-memory-button --disk-cache-size=1 --media-cache-size=1 --disable-gpu"
+#alias google-chrome="/usr/bin/google-chrome-beta --cipher-suite-blacklist=0x0033,0x0039,0x009E,0xcc15 --memory-model=low --enable-user-scripts --proxy-server=localhost:8123 --proxy-bypass-list=\"127.0.0.1;localhost;192.168.1.0/24\" --disk-cache-dir=/var/tmp --purge-memory-button --disk-cache-size=1 --media-cache-size=1 --disable-gpu"
+#alias google-chrome-quatra="/usr/bin/google-chrome-beta --cipher-suite-blacklist=0x0033,0x0039,0x009E,0xcc15 --memory-model=low --enable-user-scripts --proxy-server=socks5://localhost:3128 --proxy-bypass-list=\"127.0.0.1;localhost;192.168.1.0/24\" --disk-cache-dir=/var/tmp --purge-memory-button --disk-cache-size=1 --media-cache-size=1"
+alias ack="ack-grep"
+alias ek='emacsclient -e \"(kill-emacs)\"'
+alias latest="ls -ltc|head -n 2|tail -n 1|awk '{print \$8}'"
+#alias scala="scala-2.9"
+#alias scalac="scalac-2.9"
+# alias spotify='rm ~/.cache/spotify/offline.bnk & spotify'
+alias lesspipe='lesspipe.sh'
+alias java='drip'
+alias ant='ant -Divy.cache.ttl.default=eternal'
+alias ant-scala='ant distpack -Dmaven.version.suffix="-`git rev-parse HEAD|cut -c 1-7`-SNAPSHOT"'
+alias ant-clean='ant -Divy.cache.ttl.default=eternal clean'
+alias ant-full-scala='ant distpack-maven-opt -Dmaven.version.suffix="-`git rev-parse HEAD|cut -c 1-7`-SNAPSHOT" && cd dists/maven/latest && ant -Dmaven.version.suffix="-`git rev-parse HEAD|cut -c 1-7`-SNAPSHOT" deploy.local && cd -'
+alias repl='rlwrap scala -feature -Xnojline'
+alias ant-full-scala-fake='ant distpack-maven-opt -Dmaven.version.suffix="-SNAPSHOT" && cd dists/maven/latest && ant -Dmaven.version.suffix="-SNAPSHOT" deploy.local && cd -'
+alias tar='tar --use-compress-program=pigz'
+alias gcall='find ./ -type d -name .git -execdir git gc \;'
+alias rupall='find ./ -type d -name .git -execdir git rup \;'
+alias list-branches='for k in $(git branch -r | perl -pe "s/^..(.*?)( ->.*)?$/\1/"); do echo -e $(git show --pretty=format:"%Cgreen%ci %Cblue%cr%Creset" $k -- | head -n 1); done | sort -r'
+alias gpg=gpg2
+alias bat='upower -d /org/freedesktop/UPower/devices/battery_BAT0|grep -E "state|empty|time"|uniq'
+alias pipupgrade="pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U"
+alias scalafmt="java -jar /home/huitseeker/tmp/scalafmt/cli/target/scala-2.11/scalafmt.jar"
