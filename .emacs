@@ -60,11 +60,6 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
 
-;; auto-compile-mode
-(require 'auto-compile)
-(auto-compile-on-load-mode 1)
-(auto-compile-on-save-mode 1)
-
 ;; eval-depth doubled from default of 500
 (setq max-lisp-eval-depth 10000)
 (setq max-specpdl-size 10000)
@@ -818,7 +813,7 @@ point using autocomplete."
 (require 'help-mode)
 ; help-mode necessary,see3
 ; http://github.com/m2ym/auto-complete/issues#issue/34
-(require 'auto-complete) ; trigger use
+(use-package auto-complete) ; trigger use
 ; fuzzy completion/search
 (use-package fuzzy
   :config
