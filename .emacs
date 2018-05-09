@@ -1019,7 +1019,18 @@ point using autocomplete."
 
 ; Eldoc mode
 ; shows you the argument list of the function call you are currently writing
-(elpy-enable)
+;; ensure:
+;;; pip install jedi
+;;  pip install flake8
+;;  pip install importmagic
+;;  pip install autopep8
+;;  pip install yapf
+(use-package elpy
+  :ensure t
+  :after python
+  :config
+  (elpy-enable)
+  )
 
 ;;Anything
 (require 'helm) ; immediate use
