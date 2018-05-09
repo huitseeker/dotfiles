@@ -26,14 +26,13 @@
 (use-package auto-compile
   :config (auto-compile-on-load-mode))
 (setq load-prefer-newer t)
-(require 'diminish)
 (require 'bind-key)
 
 ;; Setup a few default packages
 (setq url-http-attempt-keepalives nil)
 
 (defvar prelude-packages '(ack-and-a-half auctex better-defaults
-  clojure-mode coffee-mode deft expand-region gist haml-mode
+  clojure-mode coffee-mode deft diminish expand-region gist haml-mode
   haskell-mode helm helm-projectile inf-ruby magit markdown-mode
   paredit projectile pymacs python sass-mode rainbow-mode
   scss-mode solarized-theme volatile-highlights yaml-mode yari
@@ -81,9 +80,7 @@
 
 
 ;; Package repo
-(require 'exec-path-from-shell)
-(when (memq window-system '(mac ns))
- (exec-path-from-shell-initialize))
+(use-package exec-path-from-shell)
 
 ;; Personal info
 (setq user-full-name "François Garillot"
