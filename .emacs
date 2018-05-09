@@ -640,18 +640,25 @@ the camldebug commands `cd DIR' and `directory'."
 (setq whizzytex-semantic-filtering 0)
 
 ;; Magit
-
-(autoload 'magit-status "magit" "Magit vc-mode for git" t)
-(eval-after-load "magit"
-  '(setq magit-process-connection-type nil))
-;; https://github.com/philjackson/magit/issues#issue/18
-;; Infamous 'v' keypress suffices to revert by default !
-(setq magit-revert-item-confirm t)
-(global-set-key (kbd "C-x g") 'magit-status)
+;; == magit ==
+(use-package magit
+  :ensure t
+  :defer t
+  :bind ("C-x g" . magit-status)
+  :init
+  (setq magit-diff-options (quote ("--word-diff")))
+  (setq magit-diff-refine-hunk 'all)
+  (setq magit-process-connection-type nil)
+  ;; https://github.com/philjackson/magit/issues#issue/18
+  ;; Infamous 'v' keypress suffices to revert by default !
+  (setq magit-revert-item-confirm t)
+  )
 
 (use-package magithub
   :after magit
   :config (magithub-feature-autoinject t))
+
+
 
 ;; NXml-mode support
 (autoload 'nxml-mode "nxml-mode" "XML editing mode." t)
@@ -1318,13 +1325,6 @@ wc and untex."
   "Major mode for editing Markdown files" t)
 (setq auto-mode-alist
       (cons '("\\.md" . gfm-mode) auto-mode-alist))
-
-;; json mode
-;;(add-to-list 'load-path "~/.emacs.d/packages/json-mode/")
-(load "~/.emacs.d/packages/json-mode/json-mode.el")
-;;(autoload 'json "json" "Json mode" t)
-(require 'json)
-(add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 
 ;; org-mode in text
 ;; (add-hook 'text-mode-hook 'turn-on-orgstruct)
