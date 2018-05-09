@@ -1,7 +1,7 @@
 alias cleanup='mv *.tex ~/latex/latex-sources & mv *.pdf ~/latex/latex-pdfs & mv *.aux *.tns ~/latex/latex-compilation-remainings & mv *.log  ~/latex/latex-compilation-remainings & mv *.dvi  ~/latex/latex-precompiled & mv *.ps  ~/latex/latex-precompiled'
 alias mozilla='mozilla-firefox'
 alias xfig='xfig -specialtext -latexfonts -startlatexFont default'
-alias ls='ls -x --color'
+alias ls='ls -x'
 alias aterm='aterm -tn xterm -bg black -fg white -cr white -pr grey -tr -sh 50 +sb'
 alias LEMOUV="ogg123 http://ogg.tv-radio.fr:1441/encoderlemouv.ogg"
 alias INTER="ogg123 http://ogg.tv-radio.fr:1441/encoderfinter.ogg"
