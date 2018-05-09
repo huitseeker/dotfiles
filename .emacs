@@ -842,10 +842,7 @@ point using autocomplete."
      ac-show-menu-immediately-on-auto-complete nil
      ac-use-fuzzy t
      ac-candidate-limit 20)
-; sources for autocomplete
-(eval-after-load "auto-complete"
-  '(progn
-     (load "~/.emacs.d/packages/ac-math/ac-math")))
+(use-package ac-math)
 ; add LaTeX source
 (add-hook 'LaTeX-mode-hook
                  (lambda ()
