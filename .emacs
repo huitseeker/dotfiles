@@ -560,7 +560,6 @@ the camldebug commands `cd DIR' and `directory'."
   (setq flycheck-disabled-checkers '(python-flake8 python-pylint)))
 
 ;; ===== flycheck-pyflakes ======
-
 (use-package flycheck-pyflakes)
 
 
@@ -1023,6 +1022,13 @@ point using autocomplete."
              '(lambda ()
                (add-to-list 'ac-sources 'ac-source-ropemacs)))
    ))
+
+;; py-autopep8
+(use-package py-autopep8
+  :ensure t
+  :commands (py-autopep8-enable-on-save py-autopep8-buffer)
+  :init
+  (add-hook 'python-mode-hook 'py-autopep8-enable-on-save))
 
 ; Eldoc mode
 ; shows you the argument list of the function call you are currently writing
