@@ -1441,3 +1441,20 @@ wc and untex."
     "C-c C-v" "org-babel")
 
   (which-key-mode 1))
+;; rtags
+
+(use-package rtags
+  :config
+  (setq rtags-path (expand-file-name "~/bin"))
+  (setq rtags-autostart-diagnostics t)
+  (rtags-enable-standard-keybindings c-mode-base-map "\C-t")
+  (use-package helm-rtags
+    :config
+    (setq rtags-use-helm t)
+    (setq rtags-display-result-backend 'helm))
+  (use-package flycheck-rtags
+    :config
+    (add-hook 'c++-mode-hook
+              (lambda()
+                (flycheck-select-checker 'rtags))))
+  )
