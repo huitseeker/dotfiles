@@ -43,3 +43,4 @@ alias gpg=gpg2
 alias bat='upower -d /org/freedesktop/UPower/devices/battery_BAT0|grep -E "state|empty|time"|uniq'
 alias pipupgrade="pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U"
 alias scalafmt="java -jar /home/huitseeker/tmp/scalafmt/cli/target/scala-2.11/scalafmt.jar"
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
