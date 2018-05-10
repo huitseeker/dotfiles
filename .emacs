@@ -993,6 +993,8 @@ point using autocomplete."
   (add-hook 'python-mode-hook 'smartparens-mode)
   (add-hook 'python-mode-hook 'color-identifiers-mode))
 
+(use-package color-identifiers-mode)
+
 (require 'comint)
 (define-key comint-mode-map [(meta p)]
    'comint-previous-matching-input-from-input)
