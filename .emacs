@@ -60,6 +60,22 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file 'noerror)
 
+;; increase minimum prime bit size
+(setq gnutls-min-prime-bits 4096)
+
+;; modernize Emacs Lisp
+(require 'cl)
+
+(use-package dash
+  :ensure t
+  :config (eval-after-load "dash" '(dash-enable-font-lock)))
+
+(use-package s
+  :ensure t)
+
+(use-package f
+  :ensure t)
+
 ;; eval-depth doubled from default of 500
 (setq max-lisp-eval-depth 10000)
 (setq max-specpdl-size 10000)
@@ -219,26 +235,38 @@ the camldebug commands `cd DIR' and `directory'."
 ; Backup shortcut key for modes where tab is special (such as python)
 (global-set-key "\M-/" 'hippie-expand)
 
-;; better minibuffer completion
-(ido-mode t)
-(setq ;; Use it for many file dialogs
-      ido-everywhere t
-      ;; Don't be case sensitive
-      ido-case-fold t
-      ;; If the file at point exists, use that
-      ;;ido-use-filename-at-point t
-      ;; Or if it is an URL
-      ;;ido-use-url-at-point t
-      ;; Even if TAB completes uniquely,
-      ;; still wait for RET
-      ido-confirm-unique-completion t
-      ;; If the input does not exist,
-      ;; don't look in unnexpected places.
-      ;; I probably want a new file.
-      ido-auto-merge-work-directories-length -1
-      ido-enable-flex-matching t
-      ido-create-new-buffer 'always
-      )
+;; IDO : better minibuffer completion
+(use-package ido
+  :ensure t
+  :init  (setq ido-enable-flex-matching t
+               ido-ignore-extensions t
+               ido-use-virtual-buffers t
+               ;; Don't be case sensitive
+               ido-case-fold t
+               ;; If the file at point exists, use that
+               ;;ido-use-filename-at-point t
+               ;; Or if it is an URL
+               ;;ido-use-url-at-point t
+               ;; Even if TAB completes uniquely,
+               ;; still wait for RET
+               ido-confirm-unique-completion t
+               ;; If the input does not exist,
+               ;; don't look in unnexpected places.
+               ;; I probably want a new file.
+               ido-auto-merge-work-directories-length -1
+               ido-enable-flex-matching t
+               ido-create-new-buffer 'always
+               ido-everywhere t)
+  :config
+  (ido-mode 1)
+  (ido-everywhere 1))
+
+;; Flx
+(use-package flx-ido
+   :ensure t
+   :init (setq ido-enable-flex-matching t
+               ido-use-faces nil)
+   :config (flx-ido-mode 1))
 
 ;; EXPERIMENTAL : execute-extended-command
 (use-package smex
@@ -268,22 +296,6 @@ the camldebug commands `cd DIR' and `directory'."
 (autoload 'tuareg-mode "tuareg" "Mode majeur pour éditer du code Caml" t)
 (autoload 'camldebug "camldebug" "Exécuter le débogueur Caml" t)
 (autoload 'caml-types "caml-types" "View the inferred types" t)
-
-;; Completion for ocaml with auto-complete [BROKEN]
-;; (defun ac-caml-candidates ()
-;;   (with-no-warnings
-;;     (loop for c in (caml-complete)
-;;           collect (nth 1 c))))
-
-;; (defvar ac-source-caml
-;;   '((candidates . ac-caml-candidates)
-;;     (symbol . "caml"))
-;;   "Source for Ocaml")
-
-;; (add-hook 'tuareg-mode-hook
-;;                  (lambda ()
-;;                    (add-to-list 'ac-sources 'ac-source-caml)
-;;                    ))
 
 ;; tuareg i-menu
 (autoload 'tuareg-imenu-set-imenu "tuareg-imenu" "Configuration of imenu for tuareg" t)
@@ -968,21 +980,18 @@ point using autocomplete."
 ;;;;;;;;;;;;
 ;; Python ;;
 ;;;;;;;;;;;;
-(eval-after-load "ipython"
-  '(progn
-     (setq py-python-command-args '("-colors" "Linux"))
-     (setq ipython-completion-command-string "print(';'.join(__IP.Completer.all_completions('%s')))\n")
-     )
-  )
+(use-package python
+  :mode ("\\.py\\'" . python-mode)
+        ("\\.wsgi$" . python-mode)
+  :interpreter ("python" . python-mode)
 
-;; (autoload 'python-mode "python-mode" "Python Mode." t)
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+  :init
+  (setq-default indent-tabs-mode nil)
 
-(setq py-python-command-args '( "-colors" "Linux"))
-(defadvice py-execute-buffer (around python-keep-focus activate)
-  "return focus to python code buffer"
-  (save-excursion ad-do-it))
+  :config
+  (setq python-indent-offset 4)
+  (add-hook 'python-mode-hook 'smartparens-mode)
+  (add-hook 'python-mode-hook 'color-identifiers-mode))
 
 (require 'comint)
 (define-key comint-mode-map [(meta p)]
@@ -993,6 +1002,12 @@ point using autocomplete."
     'comint-next-input)
 (define-key comint-mode-map [(control meta p)]
     'comint-previous-input)
+
+(use-package jedi
+  :ensure t
+  :init
+  (jedi:ac-setup)
+  )
 
 (setq py-load-pymacs-p nil)
 (require 'pymacs)
@@ -1005,22 +1020,22 @@ point using autocomplete."
    (autoload 'pymacs-exec "pymacs" nil t)
    (autoload 'pymacs-load "pymacs" nil t)
    (setq py-load-pymacs-p nil)
-   ;; Initialize Rope
-   (pymacs-load "ropemacs" "rope-")
-   (setq ropemacs-confirm-saving nil
-         ropemacs-guess-project t
-         ropemacs-enable-autoimport t
-         )
-   (autoload 'anything-ipython-complete "anything-ipython" "" t)
-   (add-hook 'python-mode-hook '(lambda ()
-                                   (define-key py-mode-map (kbd "M-<tab>") 'anything-ipython-complete)))
-   (add-hook 'ipython-shell-hook '(lambda ()
-                                     (define-key py-mode-map (kbd "M-<tab>") 'anything-ipython-complete)))
-   ; ac features
-   (ac-ropemacs-initialize)
-   (add-hook 'python-mode-hook
-             '(lambda ()
-               (add-to-list 'ac-sources 'ac-source-ropemacs)))
+   ;; ;; Initialize Rope
+   ;; (pymacs-load "ropemacs" "rope-")
+   ;; (setq ropemacs-confirm-saving nil
+   ;;       ropemacs-guess-project t
+   ;;       ropemacs-enable-autoimport t
+   ;;       )
+   ;; (autoload 'anything-ipython-complete "anything-ipython" "" t)
+   ;; (add-hook 'python-mode-hook '(lambda ()
+   ;;                                 (define-key py-mode-map (kbd "M-<tab>") 'anything-ipython-complete)))
+   ;; (add-hook 'ipython-shell-hook '(lambda ()
+   ;;                                   (define-key py-mode-map (kbd "M-<tab>") 'anything-ipython-complete)))
+   ;; ; ac features
+   ;; (ac-ropemacs-initialize)
+   ;; (add-hook 'python-mode-hook
+   ;;           '(lambda ()
+   ;;             (add-to-list 'ac-sources 'ac-source-ropemacs)))
    ))
 
 ;; py-autopep8
@@ -1040,12 +1055,48 @@ point using autocomplete."
 ;;  pip install yapf
 (use-package elpy
   :ensure t
-  :after python
-  :config
-  (elpy-enable)
-  )
+  :commands elpy-enable
+  :init (with-eval-after-load 'python (elpy-enable))
 
-;;Anything
+  :config
+  (electric-indent-local-mode -1)
+  (delete 'elpy-module-highlight-indentation elpy-modules)
+  (delete 'elpy-module-flymake elpy-modules))
+
+;; AG
+(use-package ag
+  :ensure    t
+  :commands  ag
+  :init      (setq ag-highlight-search t)
+  :config    (add-to-list 'ag-arguments "--word-regexp"))
+
+;; Recentf
+(use-package recentf
+  :init
+  (setq recentf-max-menu-items 25
+        recentf-auto-cleanup 'never
+        recentf-keep '(file-remote-p file-readable-p))
+  (recentf-mode 1)
+  (let ((last-ido "~/.emacs.d/ido.last"))
+    (when (file-exists-p last-ido)
+      (delete-file last-ido)))
+
+  :bind ("C-c f r" . recentf-open-files))
+
+;; Visual regex
+(use-package visual-regexp
+  :ensure t
+  :init
+  (use-package visual-regexp-steroids :ensure t)
+
+  :bind (("C-c r" . vr/replace)
+         ("C-c q" . vr/query-replace))
+
+  ;; if you use multiple-cursors, this is for you:
+  :config (use-package  multiple-cursors
+            :bind ("C-c m" . vr/mc-mark)))
+
+;; Helm
 (require 'helm) ; immediate use
 (require 'helm-config)
 (defvar helm-source-emacs-commands
@@ -1191,6 +1242,12 @@ point using autocomplete."
                               (unless (string= major-mode "makefile-mode")
                                 (whitespace-cleanup))))
 ;; TOFIX : problems on makefiles
+
+;; Common warnings
+(add-hook 'prog-common-hook
+          (lambda ()
+            (font-lock-add-keywords nil
+                                    '(("\\<\\(FIX\\|FIXME\\|TODO\\|BUG\\|HACK\\):" 1 font-lock-warning-face t)))))
 
 (defun force-revert-buffer ()
   "revert-buffer, without confirmation"
@@ -1378,6 +1435,11 @@ wc and untex."
 
 (define-key global-map (kbd "C-c M-t") 'center-text-mode)
 
+;; Better Jumping
+(use-package avy
+  :ensure t
+  :init (setq avy-background t))
+
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
     (defun unfill-paragraph (&optional region)
       "Takes a multi-line paragraph and makes it into a single line of text."
@@ -1441,6 +1503,66 @@ wc and untex."
     "C-c C-v" "org-babel")
 
   (which-key-mode 1))
+
+;; Projectile
+(use-package projectile
+  :ensure t
+  :diminish projectile-mode
+  :init (projectile-global-mode 1)
+  :commands projectile-ag
+  :config
+  (setq projectile-switch-project-action 'projectile-commander
+        projectile-completion-system 'ido
+        projectile-create-missing-test-files t)
+  (add-to-list 'projectile-globally-ignored-files ".DS_Store")
+
+  (def-projectile-commander-method ?d
+    "Open project root in dired."
+    (projectile-dired))
+
+  (def-projectile-commander-method ?s
+    "Open a *shell* buffer for the project."
+    (projectile-run-shell))
+
+  (def-projectile-commander-method ?X
+    "Open a Direx buffer on the side."
+    (call-interactively #'ha/projectile-direx))
+
+  (def-projectile-commander-method ?F
+    "Git fetch."
+    (magit-status)
+    (call-interactively #'magit-fetch-current))
+
+  (def-projectile-commander-method ?j
+    "Jack-in with Cider."
+    (let* ((opts (projectile-current-project-files))
+           (file (ido-completing-read
+                  "Find file: "
+                  opts
+                  nil nil nil nil
+                  (car (cl-member-if
+                        (lambda (f)
+                          (string-match "core\\.clj\\'" f))
+                        opts)))))
+      (find-file (expand-file-name
+                  file (projectile-project-root)))
+      (run-hooks 'projectile-find-file-hook)
+      (cider-jack-in))))
+
+;; Direx
+
+(use-package direx
+  :ensure t
+  :bind (("C-c p X" . ha/projectile-direx)
+         :map direx:direx-mode-map
+         ("q" . kill-buffer-and-window))
+  :init
+  (defun kill-buffer-and-window (&optional buffer)
+    "Kills the buffer and closes the window it is in."
+    (interactive)
+    (kill-buffer buffer)
+    (delete-window)))
+
 ;; rtags
 
 (use-package rtags
