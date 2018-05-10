@@ -566,8 +566,8 @@ the camldebug commands `cd DIR' and `directory'."
 
 (use-package flycheck
   :bind
-  (("M-n" . flycheck-next-error)
-   ("M-p" . flycheck-previous-error))
+  (("C-M-n" . flycheck-next-error)
+   ("C-M-p" . flycheck-previous-error))
   :init
   (setq flycheck-disabled-checkers '(python-flake8 python-pylint)))
 
