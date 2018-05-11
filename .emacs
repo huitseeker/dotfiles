@@ -990,11 +990,9 @@ point using autocomplete."
 
   :config
   (setq python-indent-offset 4)
-  (add-hook 'python-mode-hook 'smartparens-mode)
   (add-hook 'python-mode-hook 'color-identifiers-mode))
 
 (use-package color-identifiers-mode)
-(use-package smartparens)
 
 (require 'comint)
 (define-key comint-mode-map [(meta p)]
