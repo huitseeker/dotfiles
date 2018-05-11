@@ -47,48 +47,20 @@ export GNOME_DESKTOP_SESSION_ID=this-is-deprecated
 export LC_CTYPE=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-# export PERL_LOCAL_LIB_ROOT="/home/huitseeker/perl5";
-# export PERL_MB_OPT="--install_base /home/huitseeker/perl5";
-# export PERL_MM_OPT="INSTALL_BASE=/home/huitseeker/perl5";
-# export PERL5LIB="/home/huitseeker/perl5/lib/perl5/x86_64-linux-thread-multi:/home/huitseeker/perl5/lib/perl5";
-# export PATH="/home/huitseeker/perl5/bin:$PATH";
-export PATH="/home/huitseeker/.gem/ruby/2.4.0/bin:$PATH"
-
 source $HOME/.aliases
-source $HOME/.profile
-export JAVA_HOME=/usr/lib/jvm/default/
-DISABLE_UPDATE_PROMPT=true
 
-# PATH="/home/huitseeker/perl5/bin${PATH:+:${PATH}}"; export PATH;
-# PERL5LIB="/home/huitseeker/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-# PERL_LOCAL_LIB_ROOT="/home/huitseeker/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-# PERL_MB_OPT="--install_base \"/home/huitseeker/perl5\""; export PERL_MB_OPT;
-# PERL_MM_OPT="INSTALL_BASE=/home/huitseeker/perl5"; export PERL_MM_OPT;
+DISABLE_UPDATE_PROMPT=true
 
 autoload bashcompinit
 bashcompinit
 export LIBND4J_HOME=~/DL4J/libnd4j
 
 export GPG_TTY=$(tty)
-export SKIL_HOME=/opt/skil
-export SKIL_CLASS_PATH="/opt/skil/lib/*"
 export JAVA_HOME=/usr/lib/jvm/default
 export TERM=xterm
-
-PATH="/home/huitseeker/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/huitseeker/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/huitseeker/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/huitseeker/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/huitseeker/perl5"; export PERL_MM_OPT;
 
 # GO config
 export GOPATH=$HOME/golang
 export GOROOT=/lib/go
 export PATH=$GOPATH/bin:$PATH
 export PATH=$GOROOT/bin:$PATH
-
-# OPAM configuration
-. /home/huitseeker/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
-
-# dotfiles config
-alias config='/usr/bin/git --git-dir=/home/huitseeker//.cfg/ --work-tree=/home/huitseeker/'
