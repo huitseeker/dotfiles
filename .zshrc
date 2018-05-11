@@ -68,7 +68,6 @@ DISABLE_UPDATE_PROMPT=true
 autoload bashcompinit
 bashcompinit
 export LIBND4J_HOME=~/DL4J/libnd4j
-eval "$(ntfy shell-integration)"
 
 export GPG_TTY=$(tty)
 export SKIL_HOME=/opt/skil
