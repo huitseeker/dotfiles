@@ -40,7 +40,7 @@ source $ZSH/oh-my-zsh.sh
 autoload -U z
 
 export JAVA_HOME="/usr/lib/jvm/default/"
-export _JAVA_OPTIONS="-DJINTEGRA_NATIVE_MODE -DJINTEGRA_COINIT_VALUE=0 -Dsun.io.useCanonCaches=false -XX:ThreadPriorityPolicy=42 -XX:CompileThreshold=1500 -XX:+TieredCompilation -XX:+UnlockExperimentalVMOptions -XX:+UseBiasedLocking -Xverify:none -XX:UseSSE=3 -XX:+UseThreadPriorities -Djava.net.preferIPv4Stack=true -XX:-UseLargePages -XX:+OptimizeStringConcat -XX:+UseFastAccessorMethods -XX:+UseCompressedOops -XX:+AggressiveOpts -XX:ReservedCodeCacheSize=512m -XX:LargePageSizeInBytes=2m -XX:+CMSClassUnloadingEnabled -Xms512M -Xmx7168M -Xss1M -Dawt.useSystemAAFontSettings=lcd -Dsun.java2d.xrender=true"
+export _JAVA_OPTIONS="-DJINTEGRA_NATIVE_MODE -DJINTEGRA_COINIT_VALUE=0 -Dsun.io.useCanonCaches=false -XX:ThreadPriorityPolicy=42 -XX:CompileThreshold=1500 -XX:+TieredCompilation -XX:+UnlockExperimentalVMOptions -XX:+UseBiasedLocking -Xverify:none -XX:UseSSE=3 -XX:+UseThreadPriorities -XX:-UseLargePages -XX:+OptimizeStringConcat -XX:+UseFastAccessorMethods -XX:+UseCompressedOops -XX:+AggressiveOpts -XX:ReservedCodeCacheSize=512m -XX:LargePageSizeInBytes=2m -XX:+CMSClassUnloadingEnabled -Xms512M -Xmx7168M -Xss1M -Dawt.useSystemAAFontSettings=lcd -Dsun.java2d.xrender=true"
 export GNOME_DESKTOP_SESSION_ID=this-is-deprecated
 
 # Locale settings (utf-8)
