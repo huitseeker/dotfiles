@@ -53,7 +53,6 @@ DISABLE_UPDATE_PROMPT=true
 
 autoload bashcompinit
 bashcompinit
-export LIBND4J_HOME=~/DL4J/libnd4j
 
 export GPG_TTY=$(tty)
 export JAVA_HOME=/usr/lib/jvm/default
