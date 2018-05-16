@@ -309,7 +309,10 @@ the camldebug commands `cd DIR' and `directory'."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; from the emacs manual
 (setq font-lock-maximum-decoration t) ;as colored as possible
-(setq visible-bell t) ;stop beeping
+(setq visible-bell nil)
+;; (setq ring-bell-function 'ignore)
+(setq ring-bell-function '(lambda ()
+                            (message "Bell!")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; from http://www-rocq.inria.fr/~fleuret
@@ -376,9 +379,6 @@ the camldebug commands `cd DIR' and `directory'."
 
 ; Le curseur ne clignote pas.
 (if (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
-
-; Bip visuel : l'écran flashe au lieu que la machine bippe.
-(setq visible-bell nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;; Configuration de divers modes ;;;;;;;;;;;;;;;;;;;;;;;;
@@ -540,15 +540,10 @@ the camldebug commands `cd DIR' and `directory'."
                 '("[Mm]akefile" . makefile-mode))
               auto-mode-alist))
 
-; Par défaut, les recherches/remplacements ne tiennent pas compte des
-; différences minuscules/majuscules. Ça peut être pénible. Pour désactiver
-; dans un buffer : « M-x toggle-case-fold-search ». Pour désactiver
-; définitivement, décommentez la ligne suivante :
-;; (setq-default case-fold-search nil)
+; Recursive minibuffers
+(setq enable-recursive-minibuffers t)
 
-; Par défaut, les fonctions d'indentations utilisent des tabulations, ce
-; qui est très pénible. La ligne suivante fait en sorte que seuls des
-; espaces soient insérés pour indenter.
+; No tab indentation
 (setq-default indent-tabs-mode nil)
 
 ;; Fond clair pour les Xterm
@@ -602,7 +597,6 @@ the camldebug commands `cd DIR' and `directory'."
                 ("\\.v$" . proof-mode)
                 ) auto-mode-alist ))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;              C# Mode support
 ;;;
 (autoload 'csharp-mode "csharp-mode")
@@ -629,12 +623,7 @@ the camldebug commands `cd DIR' and `directory'."
 (use-package ensime
   :commands ensime ensime-mode)
 
-;; (require 'ensime)
-;; (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
-
-(push "/home/huitseeker/Scala/scala/build/quick/bin/" exec-path)
 (push "/usr/bin/" exec-path)
-
 
 (require 'compile);; TOFIX
 (setq compilation-error-regexp-alist
