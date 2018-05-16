@@ -233,7 +233,7 @@ the camldebug commands `cd DIR' and `directory'."
 (global-set-key "\C-x\'" 'braces-insertion)
 
 ; Backup shortcut key for modes where tab is special (such as python)
-(global-set-key "\M-/" 'hippie-expand)
+(global-set-key (kbd "M-/") 'hippie-expand)
 
 ;; IDO : better minibuffer completion
 (use-package ido
@@ -937,6 +937,90 @@ point using autocomplete."
 (use-package auto-dictionary
   :hook flyspell-mode)
 
+;; ivy
+(use-package ivy
+  :diminish ivy-mode
+  :config
+  ;; https://writequit.org/denver-emacs/presentations/2017-04-11-ivy.html
+  ;; Add recent files and bookmarks to the ivy-switch-buffer
+  (setq ivy-use-virtual-buffers t)
+  ;; Set this to "(%d/%d) " to display both the index and the count.
+  (setq ivy-count-format "%d/%d ")
+  ;; Number of lines for the minibuffer window.
+  (setq ivy-height 20)
+  ;;
+  ;; Out of order matching
+  ;; https://oremacs.com/2015/05/23/swiper-0.5.0/
+  (setq ivy-re-builders-alist
+        '((t . ivy--regex-ignore-order)))
+  ;;
+  ;; Additional keys
+  ;; ivy-immediate-done finishes without completion
+  (define-key ivy-minibuffer-map (kbd "C-<return>") 'ivy-immediate-done)
+  ;; Activate
+  (ivy-mode 1))
+
+;;;  counsel.el
+(use-package counsel
+  :commands (counsel-ag
+             counsel-rg
+             counsel-git-grep)
+  :bind (("s-w" . counsel-ag-at-point)
+         ("C-s-w" . counsel-ag)
+         ("C-c C-w" . counsel-ag))
+  ;;
+  :config
+  ;; Project directory advise.
+  (defun counsel-ag-arg2-to-project-root (args)
+    "Swap the second argument to the project root directory.
+ARGS is a list of arguments."
+    ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Backquote.html
+    `(,(car args)
+      ;; New second element
+      ,(projectile-project-root)
+      ,@(cddr args)))
+  ;;
+  ;; (advice-add #'counsel-ag
+  ;;             :filter-args
+  ;;             #'counsel-ag-arg2-to-project-root)
+  ;;
+  (defun counsel-ag-at-point (u-arg)
+    "counsel-ag with at-point and project root enhancement
+The initial string is produced by selection-or-thing-at-point.
+The directory is detected by projectile-project-root."
+    (interactive "P")
+    (if u-arg
+        ;; This command detects the current-prefix-arg. If t, it ask for a directory and arguments.
+        (counsel-ag)
+      (counsel-ag (selection-or-thing-at-point)
+                  ;; This will be replaced if counsel-ag-arg2-to-project-root advice is used.
+                  (let
+                      ((projectile-require-project-root nil))
+                    (projectile-project-root)))))
+  ;;
+  (defun counsel-rg-at-point (u-arg)
+    "counsel-rg with at-point and project root enhancement
+The initial string is produced by selection-or-thing-at-point.
+The directory is detected by projectile-project-root."
+    (interactive "P")
+    (if u-arg
+        ;; This command detects the current-prefix-arg. If t, it ask for a directory and arguments.
+        (counsel-rg)
+      (counsel-rg (selection-or-thing-at-point)
+                  ;; This will be replaced if counsel-ag-arg2-to-project-root advice is used.
+                  (let
+                      ((projectile-require-project-root nil))
+                    (projectile-project-root)))))
+  ;; https://github.com/abo-abo/swiper/issues/66
+  (defun counsel-git-grep-at-point (u-arg)
+    "counsel-git-grep with at-point enhancement
+The initial string is produced by selection-or-thing-at-point."
+    (interactive "P")
+    (if u-arg
+        (counsel-git-grep nil)
+      (counsel-git-grep nil
+                        (selection-or-thing-at-point)))))
+
 ;;;;;;;;;;;;;;;
 ;; Yasnippet ;;
 ;;;;;;;;;;;;;;;
@@ -1425,10 +1509,82 @@ wc and untex."
 
 (define-key global-map (kbd "C-c M-t") 'center-text-mode)
 
+;; Swiper
+;;;
+;;; SWIPER-RELATED
+;;;  swiper.el
+;; https://github.com/abo-abo/swiper
+;; http://pragmaticemacs.com/emacs/dont-search-swipe/
+;; http://pragmaticemacs.com/emacs/search-or-swipe-for-the-current-word/
+(use-package swiper
+  :commands (swiper
+             swiper-at-point)
+  :bind (("s-s" . swiper-at-point)
+         ("C-s-s" . swiper)
+         ("C-c C-s" . swiper)
+         ;; Add bindings to isearch-mode
+         :map isearch-mode-map
+         ("s-s" . swiper-from-isearch)
+         ("C-c C-s" . swiper-from-isearch))
+  ;;
+  :config
+  (defun swiper-at-point (u-arg)
+    "Custom function to pick up a thing at a point for swiper
+If a selected region exists, it will be searched for by swiper
+If there is a symbol at the current point, its textual representation is
+searched. If there is no symbol, empty search box is started."
+    (interactive "P")
+    (if u-arg
+        (swiper)
+      (swiper (selection-or-thing-at-point)))))
+
 ;; Better Jumping
 (use-package avy
-  :ensure t
-  :init (setq avy-background t))
+  :demand
+  :commands (avy-goto-char
+             avy-goto-char-2
+             avy-goto-word-1
+             avy-goto-word-or-subword-1
+             avy-isearch)
+  :bind (("s-l" . avy-goto-line)
+         ("C-'" . avy-goto-line)
+         ("C-M-s" . avy-goto-char-timer)
+         :map isearch-mode-map
+         ("s-a" . avy-isearch)
+         ("C-'" . avy-isearch))
+  :config
+  ;; Darken background in GUI only.
+  (setq avy-background (display-graphic-p))
+  ;; Highlight the first decision char with `avy-lead-face-0'.
+  ;; https://github.com/abo-abo/avy/wiki/defcustom#avy-highlight-first
+  (setq avy-highlight-first t)
+  ;; The default method of displaying the overlays.
+  ;; https://github.com/abo-abo/avy/wiki/defcustom#avy-style
+  (setq avy-style 'at-full)
+  ;; Keys to be used. Use a-z.
+  (setq avy-keys (loop for c from ?a to ?z collect c))
+  ;;
+  ;; Time out for *-timer functions
+  (setq avy-timeout-seconds 0.3)
+  ;;
+  ;; avy version of one-step activation
+  ;; https://github.com/cjohansen/.emacs.d/commit/65efe88
+  (defun add-keys-to-avy (prefix c &optional mode)
+    (define-key global-map
+      (read-kbd-macro (concat prefix (string c)))
+      `(lambda ()
+         (interactive)
+         (funcall (cond
+                   ;; Word beginning
+                   ((eq ',mode 'word)  #'avy-goto-word-1)
+                   ;; Anywhere
+                   (t                  #'avy-goto-char))
+                  ,c))))
+  ;;
+  ;; Assing key bindings for all characters
+  (loop for c from ?! to ?~ do (add-keys-to-avy "M-s-" c))
+  (loop for c from ?! to ?~ do (add-keys-to-avy "H-" c))
+  (loop for c from ?! to ?~ do (add-keys-to-avy "C-M-s-" c 'word)))
 
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
     (defun unfill-paragraph (&optional region)
