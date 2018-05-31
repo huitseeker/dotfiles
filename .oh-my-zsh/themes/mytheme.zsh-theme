@@ -1,5 +1,5 @@
 # PROMPT='%{$fg_no_bold[cyan]%}%n@%m%{$fg_no_bold[magenta]%}➜%{$fg_no_bold[green]%}%3~$(git_prompt_info)%{$reset_color%}» '
-PROMPT='%{$fg_bold[white]%}%M %{$fg_no_bold[cyan]%}%n@%m%{$fg_no_bold[magenta]%}➜%{$fg_no_bold[green]%}%3~$(git_prompt_info)%{$reset_color%}» '
+PROMPT='%{$fg_no_bold[cyan]%}%n@%{$fg_no_bold[white]%}%M%{$fg_no_bold[magenta]%}➜%{$fg_no_bold[green]%}%3~$(git_prompt_info)%{$reset_color%}» '
 
 RPROMPT='[%*]'
 

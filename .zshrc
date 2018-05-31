@@ -49,7 +49,7 @@ export LANG=en_US.UTF-8
 
 source $HOME/.aliases
 
-DISABLE_UPDATE_PROMPT=true
+# DISABLE_UPDATE_PROMPT=true
 
 autoload bashcompinit
 bashcompinit
