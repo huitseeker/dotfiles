@@ -9,6 +9,7 @@
  '(Firebrick ((t (:background "gray95" :foreground "black"))))
  '(MidnightBlue ((t (:foreground "red2" :underline t))))
  '(RosyBrown ((t (:foreground "gray56"))))
+ '(artbollocks-passive-voice-face ((t (:background "blue" :foreground "Gray"))))
  '(flyspell-duplicate ((t (:foreground "Blue" :underline t :weight bold))))
  '(flyspell-duplicate-face ((t (:foreground "Blue" :underline t :weight bold))) t)
  '(font-lock-function-name-face ((((class color) (background light)) (:foreground "firebrick" :underline t))))
