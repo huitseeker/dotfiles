@@ -1496,11 +1496,12 @@ wc and untex."
   ("C-;" . iedit-dwim)
   )
 
-(setq custom-theme-load-path
-     (cons
-        (expand-file-name "~/.emacs.d/packages/emacs-color-theme-solarized")
-        load-path))
-(load-theme 'solarized-dark t)
+ (use-package solarized-theme
+       :ensure t
+       :no-require t
+       :init
+       (progn
+         (load-theme 'solarized-dark t t)))
 
 ;; markdown-mode
 (autoload 'gfm-mode "markdown-mode"
