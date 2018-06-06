@@ -232,9 +232,6 @@ the camldebug commands `cd DIR' and `directory'."
 
 (global-set-key "\C-x\'" 'braces-insertion)
 
-; Backup shortcut key for modes where tab is special (such as python)
-(global-set-key (kbd "M-/") 'hippie-expand)
-
 ;; IDO : better minibuffer completion
 (use-package ido
   :ensure t
@@ -747,32 +744,6 @@ the camldebug commands `cd DIR' and `directory'."
 ;;      )
 ;; )
 
-;; Autocompletion
-(require 'hippie-exp) ; trigger use
-(setq hippie-expand-try-functions-list
-      '(try-expand-all-abbrevs
-        try-expand-list
-        try-expand-line
-        try-expand-dabbrev
-        try-expand-dabbrev-from-kill
-        try-expand-dabbrev-all-buffers
-        try-complete-file-name-partially
-        try-complete-file-name
-        try-complete-lisp-symbol-partially
-        try-complete-lisp-symbol
-        try-expand-whole-kill))
-
-;; DWIM [tab] key
-(defun hippie-indent-or-expand (arg)
-  "Either indent according to mode, or expand the word preceding
-point using hippie-completion."
-  (interactive "*P")
-  (if (and
-       (or (bobp) (= ?w (char-syntax (char-before))))
-       (or (eobp) (not (= ?w (char-syntax (char-after))))))
-      (hippie-expand arg)
-    (indent-according-to-mode)))
-
 (defun ac-indent-or-expand ()
   "Either indent according to mode, or expand the word preceding
 point using autocomplete."
@@ -782,9 +753,6 @@ point using autocomplete."
        (or (eobp) (not (= ?w (char-syntax (char-after))))))
       (ac-start)
     (indent-according-to-mode)))
-
-(global-set-key (quote [S-iso-lefttab]) (quote hippie-indent-or-expand))
-(global-set-key (quote [S-tab]) (quote hippie-indent-or-expand))
 
 (defun my-tab-fix ()
   (local-set-key [tab] 'ac-indent-or-expand))
@@ -797,7 +765,7 @@ point using autocomplete."
 (add-hook 'proof-mode-hook 'my-tab-fix)
 (add-hook 'mail-mode-hook 'my-tab-fix)
 (add-hook 'LaTeX-mode-hook 'my-tab-fix)
-(add-hook 'python-mode-hook 'my-tab-fix)
+;; (add-hook 'python-mode-hook 'my-tab-fix)
 (add-hook 'scala-mode-hook 'my-tab-fix)
 (add-hook 'adoc-mode-hook 'my-tab-fix)
 (add-hook 'text-mode-hook 'my-tab-fix)
@@ -826,7 +794,7 @@ point using autocomplete."
 (define-key ac-complete-mode-map [return] 'ac-complete)
 (define-key ac-complete-mode-map [C-g] 'ac-stop)
 ; (setq ac-trigger-key [tab])
-;(when (require 'auto-complete-config nil 'noerror) ;; don't break if not installed
+; (when (require 'auto-complete-config nil 'noerror) ;; don't break if not installed
   (require 'auto-complete-config)
   (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
   (setq ac-comphist-file  "~/.emacs.d/ac-comphist.dat")
