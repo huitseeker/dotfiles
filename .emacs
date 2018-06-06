@@ -268,17 +268,6 @@ the camldebug commands `cd DIR' and `directory'."
                ido-use-faces nil)
    :config (flx-ido-mode 1))
 
-;; EXPERIMENTAL : execute-extended-command
-(use-package smex
-  :bind
-  ("M-x" . smex)
-  ("M-X" . smex-major-mode-commands)
-  ;; This is the old M-x.
-  ("C-c C-c M-x" . execute-extended-command)
-  :init
-  (smex-initialize);trigger use
-  )
-
 ;; personal key-binding for comfort on my azerty keyboard (when I type french texts):
 ;; C-home deletes the indentation of the current line,
 ;; then merges it with the preceding line.
