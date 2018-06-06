@@ -808,19 +808,6 @@ point using autocomplete."
      ac-show-menu-immediately-on-auto-complete nil
      ac-use-fuzzy t
      ac-candidate-limit 20)
-(use-package ac-math)
-; add LaTeX source
-(add-hook 'LaTeX-mode-hook
-                 (lambda ()
-                   ; add them at the end of the list !
-                   (add-to-list 'ac-sources 'ac-source-math-latex t)
-                   (add-to-list 'ac-sources 'ac-source-latex-commands t)
-                   ; don't only autofill comments
-                   (if (fboundp 'comment-auto-fill-only-comments)
-                       (setq comment-auto-fill-only-comments nil))
-                   ))
-; dabbrev by default
-(require 'dabbrev)
 
 (defun sanityinc/dabbrev-friend-buffer (other-buffer)
   (< (buffer-size other-buffer) (* 1 1024 1024)))
@@ -897,27 +884,25 @@ point using autocomplete."
   :hook flyspell-mode)
 
 ;; ivy
-(use-package ivy
-  :diminish ivy-mode
+(use-package ivy :ensure t
+  :diminish (ivy-mode . "")
+  :bind
+  (:map ivy-mode-map
+   ("C-'" . ivy-avy))
   :config
-  ;; https://writequit.org/denver-emacs/presentations/2017-04-11-ivy.html
-  ;; Add recent files and bookmarks to the ivy-switch-buffer
+  (ivy-mode 1)
+  ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
   (setq ivy-use-virtual-buffers t)
-  ;; Set this to "(%d/%d) " to display both the index and the count.
-  (setq ivy-count-format "%d/%d ")
-  ;; Number of lines for the minibuffer window.
-  (setq ivy-height 20)
-  ;;
-  ;; Out of order matching
-  ;; https://oremacs.com/2015/05/23/swiper-0.5.0/
+  ;; number of result lines to display
+  (setq ivy-height 10)
+  ;; does not count candidates
+  (setq ivy-count-format "")
+  ;; no regexp by default
+  (setq ivy-initial-inputs-alist nil)
+  ;; configure regexp engine.
   (setq ivy-re-builders-alist
-        '((t . ivy--regex-ignore-order)))
-  ;;
-  ;; Additional keys
-  ;; ivy-immediate-done finishes without completion
-  (define-key ivy-minibuffer-map (kbd "C-<return>") 'ivy-immediate-done)
-  ;; Activate
-  (ivy-mode 1))
+        ;; allow input not in order
+        '((t   . ivy--regex-ignore-order))))
 
 ;;;  counsel.el
 (use-package counsel
