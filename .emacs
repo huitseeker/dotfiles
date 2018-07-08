@@ -809,65 +809,6 @@ point using autocomplete."
      ac-use-fuzzy t
      ac-candidate-limit 20)
 
-(defun sanityinc/dabbrev-friend-buffer (other-buffer)
-  (< (buffer-size other-buffer) (* 1 1024 1024)))
-(setq dabbrev-friend-buffer-function 'sanityinc/dabbrev-friend-buffer)
-
-(defun dabbrev--wrapper-ordered (prefix ignore-case &optional maxnum)
-    "A wrapper for dabbrev that returns a list of expansions of
-  PREFIX ordered in the same way dabbrev-expand find expansions.
-  First, expansions from the current point and up to the beginning
-  of the buffer is listed. Second, the expansions from the current
-  point and down to the bottom of the buffer is listed. Last,
-  expansions in other buffers are listed top-down. The returned
-  list has at most MAXNUM elements."
-    (dabbrev--reset-global-variables)
-    (let ((all-expansions nil)
-          (i 0)
-          expansion)
-      ;; Search backward until we hit another buffer or reach max num
-      (save-excursion
-        (while (and (or (null maxnum) (< i maxnum))
-                    (setq expansion (dabbrev--find-expansion prefix 1 ignore-case))
-                    (not dabbrev--last-buffer))
-          (setq all-expansions (nconc all-expansions (list expansion)))
-          (setq i (+ i 1))))
-        ;; If last expansion was found in another buffer, remove of it from the
-        ;; dabbrev-internal list of found expansions so we can find it when we
-        ;; are supposed to search other buffers.
-        (when (and expansion dabbrev--last-buffer)
-          (setq dabbrev--last-table (delete expansion dabbrev--last-table)))
-        ;; Reset to prepare for a new search
-        (let ((table dabbrev--last-table))
-          (dabbrev--reset-global-variables)
-          (setq dabbrev--last-table table))
-        ;; Search forward in current buffer and after that in other buffers
-        (save-excursion
-          (while
-              (and (or (null maxnum) (< i maxnum))
-                   (setq expansion (dabbrev--find-expansion prefix -1 ignore-case)))
-            (setq all-expansions (nconc all-expansions (list expansion)))
-            (setq i (+ i 1))))
-        all-expansions))
-
-; grab only the first 20 completions
-(defun ac-source-dabbrev (abbrev)
-  (interactive)
-  (dabbrev--reset-global-variables)
-  (let ((dabbrev-check-all-buffers t))
-    (dabbrev--wrapper-ordered abbrev t 10)))
-
-(defvar ac-source-dabbrev-words
-  '((candidates
-     . (lambda () (all-completions ac-target
-                              (ac-source-dabbrev ac-target))))
-    (cache))
-  "Get all the completions using dabbrev")
-
-(setq-default ac-sources
-              '(ac-source-dabbrev-words ac-source-dictionary ac-source-words-in-buffer
-              ac-source-words-in-same-mode-buffers
-              ac-source-words-in-all-buffer))
 ; activate everywhere
 (define-globalized-minor-mode real-global-auto-complete-mode
   auto-complete-mode (lambda ()
