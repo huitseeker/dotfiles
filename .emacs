@@ -964,36 +964,6 @@ The initial string is produced by selection-or-thing-at-point."
         (counsel-git-grep nil)
       (counsel-git-grep nil
                         (selection-or-thing-at-point)))))
-
-;;;;;;;;;;;;;;;
-;; Yasnippet ;;
-;;;;;;;;;;;;;;;
-;; (require 'yasnippet);trigger use
-;; (yas/initialize)
-;; (yas/load-directory "~/elisp/snippets")
-;; I don't like using partial words for completion
-;; (setq yas/key-syntaxes '("w_" "w_." "^ "))
-;; (setq hippie-expand-try-functions-list
-;;       (cons
-;;        'yas/hippie-try-expand
-;;        hippie-expand-try-functions-list))
-
-;; (defun yasnippet-config () (progn
-;;              (make-variable-buffer-local 'yas/trigger-key)
-;;              ; Invocated indirectly through ac-complete
-;;              ; (setq yas/trigger-key [tab])
-;;              (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)
-;;              (define-key yas/keymap [S-iso-lefttab] 'yas/prev-field)
-;;              (yas/minor-mode-on)
-;;              (local-unset-key "\M-n")
-;;              (local-unset-key "\M-p")
-;;              (add-to-list 'ac-sources 'ac-source-yasnippet)
-;;              ))
-
-;; (add-hook 'proof-mode-hook 'yasnippet-config)
-;; (add-hook 'tuareg-mode-hook 'yasnippet-config)
-;; (add-hook 'LaTeX-mode-hook 'yasnippet-config)
-
 ;;;;;;;;;;;;
 ;; Python ;;
 ;;;;;;;;;;;;
