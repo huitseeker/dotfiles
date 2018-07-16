@@ -1,0 +1,5 @@
+#!/bin/sh
+
+xcompmgr -c &
+
+[ -f ~/.Xresources ] && xrdb ~/.Xresources

@@ -26,10 +26,6 @@ CVS_RSH=ssh
 LC_CTYPE="en_US.utf8"
 export CVSROOT CVSEDITOR CVS_RSH LC_CTYPE
 
-if [ -f "${HOME}/.gpg-agent-info" ]; then
-  . "${HOME}/.gpg-agent-info"
-fi
-
 
 export JAVA_HOME CLASSPATH
 
