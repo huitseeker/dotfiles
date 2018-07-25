@@ -554,7 +554,9 @@ the camldebug commands `cd DIR' and `directory'."
   :ensure t
   :init
   (global-flycheck-mode t)
-  (setq flycheck-disabled-checkers '(python-flake8 python-pylint)))
+  (setq flycheck-disabled-checkers '(python-flake8 python-pylint))
+  (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++11")))
+)
 
 ;; ===== flycheck-pyflakes ======
 (use-package flycheck-pyflakes)
@@ -1590,11 +1592,7 @@ searched. If there is no symbol, empty search box is started."
     :config
     (setq rtags-use-helm t)
     (setq rtags-display-result-backend 'helm))
-  (use-package flycheck-rtags
-    :config
-    (add-hook 'c++-mode-hook
-              (lambda()
-                (flycheck-select-checker 'rtags))))
+  (use-package flycheck-rtags)
   )
 
 ;; Writeroom
