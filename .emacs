@@ -1006,6 +1006,12 @@ The initial string is produced by selection-or-thing-at-point."
   (delete 'elpy-module-highlight-indentation elpy-modules)
   (delete 'elpy-module-flymake elpy-modules))
 
+(use-package pyenv-mode
+  :ensure t
+  :init
+  (pyvenv-activate "~/tmp/venv/")
+)
+
 ;; AG
 (use-package ag
   :ensure    t
