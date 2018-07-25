@@ -549,7 +549,9 @@ the camldebug commands `cd DIR' and `directory'."
   :bind
   (("C-M-n" . flycheck-next-error)
    ("C-M-p" . flycheck-previous-error))
+  :ensure t
   :init
+  (global-flycheck-mode t)
   (setq flycheck-disabled-checkers '(python-flake8 python-pylint)))
 
 ;; ===== flycheck-pyflakes ======
@@ -623,6 +625,18 @@ the camldebug commands `cd DIR' and `directory'."
 ;; compilation tries to find its buffer in other windows
 (setq-default display-buffer-reuse-frames t)
 (setq pop-up-windows nil)
+
+;; UI
+
+(use-package anzu
+  :ensure    anzu
+  :config    (global-anzu-mode t)
+  :diminish  anzu-mode)
+
+(use-package wrap-region
+  :ensure    wrap-region
+  :config    (wrap-region-global-mode t)
+  :diminish  wrap-region-mode)
 
 ;; Whizzy correction
 (setq whizzytex-semantic-filtering 0)
@@ -935,8 +949,8 @@ The initial string is produced by selection-or-thing-at-point."
 (use-package jedi
   :ensure t
   :init
-  (jedi:ac-setup)
-  )
+  (add-hook 'python-mode-hook 'jedi:setup)
+  (add-hook 'python-mode-hook 'jedi:ac-setup))
 
 (setq py-load-pymacs-p nil)
 (require 'pymacs)
