@@ -253,7 +253,9 @@ the camldebug commands `cd DIR' and `directory'."
                ido-auto-merge-work-directories-length -1
                ido-enable-flex-matching t
                ido-create-new-buffer 'always
-               ido-everywhere t)
+               ido-everywhere t
+               ido-max-dir-file-cache 20
+               ido-max-work-directory-list 10)
   :config
   (ido-mode 1)
   (ido-everywhere 1))
@@ -370,11 +372,11 @@ the camldebug commands `cd DIR' and `directory'."
 ;;;;;;;;;;;;;;;;;;;;;;;; Configuration de divers modes ;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(add-hook 'vc-mode-hook
-          (if (string= (vc-backend (buffer-file-name)) "Git")
-              (progn (local-unset-key "\C-x v a")
-                     (local-set-key "\C-x v a" 'add-change-log-entry-other-window))
-            ))
+;;(add-hook 'vc-mode-hook
+;;          (if (string= (vc-backend (buffer-file-name)) "Git")
+;;              (progn (local-unset-key "\C-x v a")
+;;                     (local-set-key "\C-x v a" 'add-change-log-entry-other-window))
+;;            ))
 
 ;; VC-mode is evolving disruptively in emacs-24,
 ;; which troubles auto-revert settings based on it.
@@ -386,7 +388,7 @@ the camldebug commands `cd DIR' and `directory'."
 ;;  "Make vc-mode turn on autorevert"
 ;;  (unless (boundp 'auto-revert-mode)
 ;;    (turn-on-auto-revert-mode)))
-(setq auto-revert-check-vc-info t)
+;; (setq auto-revert-check-vc-info t)
 
 (add-hook 'text-mode-hook
           (lambda ()
@@ -864,61 +866,10 @@ point using autocomplete."
   :commands (counsel-ag
              counsel-rg
              counsel-git-grep)
-  :bind (("s-w" . counsel-ag-at-point)
-         ("C-s-w" . counsel-ag)
-         ("C-c C-w" . counsel-ag))
+)
+
   ;;
-  :config
-  ;; Project directory advise.
-  (defun counsel-ag-arg2-to-project-root (args)
-    "Swap the second argument to the project root directory.
-ARGS is a list of arguments."
-    ;; https://www.gnu.org/software/emacs/manual/html_node/elisp/Backquote.html
-    `(,(car args)
-      ;; New second element
-      ,(projectile-project-root)
-      ,@(cddr args)))
-  ;;
-  ;; (advice-add #'counsel-ag
-  ;;             :filter-args
-  ;;             #'counsel-ag-arg2-to-project-root)
-  ;;
-  (defun counsel-ag-at-point (u-arg)
-    "counsel-ag with at-point and project root enhancement
-The initial string is produced by selection-or-thing-at-point.
-The directory is detected by projectile-project-root."
-    (interactive "P")
-    (if u-arg
-        ;; This command detects the current-prefix-arg. If t, it ask for a directory and arguments.
-        (counsel-ag)
-      (counsel-ag (selection-or-thing-at-point)
-                  ;; This will be replaced if counsel-ag-arg2-to-project-root advice is used.
-                  (let
-                      ((projectile-require-project-root nil))
-                    (projectile-project-root)))))
-  ;;
-  (defun counsel-rg-at-point (u-arg)
-    "counsel-rg with at-point and project root enhancement
-The initial string is produced by selection-or-thing-at-point.
-The directory is detected by projectile-project-root."
-    (interactive "P")
-    (if u-arg
-        ;; This command detects the current-prefix-arg. If t, it ask for a directory and arguments.
-        (counsel-rg)
-      (counsel-rg (selection-or-thing-at-point)
-                  ;; This will be replaced if counsel-ag-arg2-to-project-root advice is used.
-                  (let
-                      ((projectile-require-project-root nil))
-                    (projectile-project-root)))))
-  ;; https://github.com/abo-abo/swiper/issues/66
-  (defun counsel-git-grep-at-point (u-arg)
-    "counsel-git-grep with at-point enhancement
-The initial string is produced by selection-or-thing-at-point."
-    (interactive "P")
-    (if u-arg
-        (counsel-git-grep nil)
-      (counsel-git-grep nil
-                        (selection-or-thing-at-point)))))
+
 ;;;;;;;;;;;;
 ;; Python ;;
 ;;;;;;;;;;;;
@@ -1387,12 +1338,12 @@ wc and untex."
 ;; (add-hook 'text-mode-hook 'turn-on-orgstruct++)
 
 ;; VC-check-status
-(use-package vc-check-status
-  :ensure vc-check-status
-  :init
-  (progn
-    (vc-check-status-activate 1))
-  )
+;; (use-package vc-check-status
+;;  :ensure vc-check-status
+;;  :init
+;;  (progn
+;;    (vc-check-status-activate 1))
+;;  )
 
 (defun check-grammar ()
   "Checks the current buffer with atdtool"
