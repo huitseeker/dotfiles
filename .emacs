@@ -1581,19 +1581,6 @@ searched. If there is no symbol, empty search box is started."
     (kill-buffer buffer)
     (delete-window)))
 
-;; rtags
-
-(use-package rtags
-  :config
-  (setq rtags-path (expand-file-name "~/bin"))
-  (setq rtags-autostart-diagnostics t)
-  (rtags-enable-standard-keybindings c-mode-base-map "\C-t")
-  (use-package helm-rtags
-    :config
-    (setq rtags-use-helm t)
-    (setq rtags-display-result-backend 'helm))
-  (use-package flycheck-rtags)
-  )
 
 ;; Writeroom
 (use-package writeroom-mode)
