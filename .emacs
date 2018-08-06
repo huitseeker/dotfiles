@@ -839,8 +839,8 @@ point using autocomplete."
 (add-hook 'flyspell-mode-hook
           'ac-flyspell-workaround)
 ; automatic language detection for flyspell
-(use-package auto-dictionary
-  :hook flyspell-mode)
+;; (use-package auto-dictionary
+;;   :hook flyspell-mode)
 
 ;; ivy
 (use-package ivy :ensure t
