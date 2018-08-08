@@ -5,7 +5,7 @@ After=xorg.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/bin/xmodmap ~/.Xmodmap
+ExecStart=/usr/bin/xmodmap $HOME/.Xmodmap
 
 [Install]
 WantedBy=wm.target
