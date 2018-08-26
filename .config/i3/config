@@ -9,8 +9,8 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Mod1
-set $sup Mod4
+set $mod Mod3
+# set $sup Mod4
 set $alt Mod1
 
 # Work with urxvtc
@@ -248,3 +248,4 @@ mode "focused" {
 }
 
 bindsym $mod+n mode "focused"
+exec --no-startup-id nm-applet
