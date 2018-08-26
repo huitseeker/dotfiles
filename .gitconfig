@@ -108,7 +108,7 @@
 [mergetool "mymeld"]
            cmd = meld $LOCAL $BASE $REMOTE -o $MERGED --diff $BASE $LOCAL --diff $BASE $REMOTE --auto-merge
 [mergetool.ediff]
-    cmd = emacs-client --eval \"\
+    cmd = emacs --eval \"\
 (progn\
   (defun ediff-write-merge-buffer ()\
     (let ((file ediff-merge-store-file))\
