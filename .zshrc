@@ -64,6 +64,9 @@ export GOROOT=/lib/go
 export PATH=$GOPATH/bin:$PATH
 export PATH=$GOROOT/bin:$PATH
 
+# LOCAL_ADMIN_SCRIPTS
+[[ -d '/usr/facebook/ops/rc' ]] && export LOCAL_ADMIN_SCRIPTS='/usr/facebook/ops/rc'
+
 # Start the gpg-agent if not already running
 if ! pgrep -x -u "${USER}" gpg-agent >/dev/null 2>&1; then
         gpg-connect-agent /bye >/dev/null 2>&1
