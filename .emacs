@@ -136,19 +136,6 @@
      (load "~/.emacs.d/packages/develock-py")
      (load "~/.emacs.d/packages/develock-proof")))
 
-(defun tuareg-setup ()
-  (progn
-     (setq tuareg-in-indent 0) ; no extra indentation after `in'
-     (global-set-key "\C-c\C-t" 'caml-types-show-type)
-     (defun caml-types-explore-temp ()
-       "types-explore at point"
-       (interactive)
-       (caml-types-explore mouse-movement))
-     (local-set-key "\C-ct" 'caml-types-explore-temp)
-     (local-set-key [f11] 'imenu)
-     (setq tuareg-manual-url
-           "http://caml.inria.fr/pub/docs/manual-ocaml/index.html")))
-
 ;;customization of a few major modes
 (remove-hook 'text-mode-hook #'turn-on-auto-fill)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
@@ -164,43 +151,6 @@
 
 (defun list-fonts (pattern)
   (font-list pattern))
-(defvar ocamldebug-history nil)
-(defun my-camldebug (command-line)
-  "Run camldebug on program FILE in buffer *camldebug-FILE*.
-The directory containing FILE becomes the initial working directory
-and source-file directory for camldebug.  If you wish to change this, use
-the camldebug commands `cd DIR' and `directory'."
-  (interactive
-   (list (read-from-minibuffer "Run ocamldebug (like this): "
-                               (if (consp ocamldebug-history)
-                                   (car ocamldebug-history)
-                                 "ocamldebug")
-                               nil
-                               nil
-                               '(ocamldebug-history . 1))))
-  ; call something from camldebug.el to make sure it is loaded
-  (camldebug-numeric-arg 1)
-
-  ; We must override the camldebug-display-line
-  (if (not (fboundp 'original-camldebug-display-line))
-      (fset 'original-camldebug-display-line
-            (symbol-function 'camldebug-display-line)))
-  (defun camldebug-display-line (true-file character kind)
-    (original-camldebug-display-line true-file character kind))
-
-
-  (pop-to-buffer (concat "*camldebug*"))
-  (setq words (split-string command-line))
-  (message "Current directory is %s" default-directory)
-  (apply 'make-comint (cons "camldebug"
-                      (cons (car words)
-                      (cons nil (cdr words)))))
-  (set-process-filter (get-buffer-process (current-buffer))
-                      'camldebug-filter)
-  (set-process-sentinel (get-buffer-process (current-buffer))
-                        'camldebug-sentinel)
-  (camldebug-mode)
-  (camldebug-set-buffer))
 
 ;; Less confirmations
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -1585,4 +1535,15 @@ searched. If there is no symbol, empty search box is started."
 ;; Writeroom
 (use-package writeroom-mode)
 
+
+;; FB setup
+(setq master-dir
+      (let ((fb-master-dir-env "LOCAL_ADMIN_SCRIPTS"))
+        (or (getenv "LOCAL_ADMIN_SCRIPTS")
+            (warn (format "%s: missing environment var"
+                           fb-master-dir-env)))))
 ;;
+(let ((fb-settings "/usr/facebook/ops/rc/master.emacs"))
+ (when (file-exists-p fb-settings)
+   (load-file fb-settings))
+)
