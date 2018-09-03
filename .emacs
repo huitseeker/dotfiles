@@ -906,6 +906,7 @@ point using autocomplete."
 
   :config
   (electric-indent-local-mode -1)
+  (setq elpy-rpc-backend "jedi")
   (delete 'elpy-module-highlight-indentation elpy-modules)
   (delete 'elpy-module-flymake elpy-modules))
 
