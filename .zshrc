@@ -65,6 +65,9 @@ export PATH=$GOPATH/bin:$PATH
 export PATH=$GOROOT/bin:$PATH
 
 [[ -d '/usr/facebook/ops/rc' ]] && export LOCAL_ADMIN_SCRIPTS='/usr/facebook/ops/rc'
+
+[[ ! -z $LOCAL_ADMIN_SCRIPTS ]] && source "${LOCAL_ADMIN_SCRIPTS}/master.zshrc"
+
 export EDITOR=mg
 # Start the gpg-agent if not already running
 if ! pgrep -x -u "${USER}" gpg-agent >/dev/null 2>&1; then

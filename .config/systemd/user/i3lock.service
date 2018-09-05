@@ -6,7 +6,7 @@ Description=i3lock
 Before=suspend.target
 
 [Service]
-Type=forking
+Type=simple
 Environment=DISPLAY=:0
 ExecStart=/usr/bin/i3lock -c 111111
 

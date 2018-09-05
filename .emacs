@@ -1548,3 +1548,10 @@ searched. If there is no symbol, empty search box is started."
  (when (file-exists-p fb-settings)
    (load-file fb-settings))
 )
+
+;; De-caml-case
+(defun to-underscore()
+  (interactive)
+  (progn (replace-regexp "\\([A-Z]\\)" "_\\1" nil (region-beginning) (region-end))
+         (downcase-region (region-beginning) (region-end)))
+  )
