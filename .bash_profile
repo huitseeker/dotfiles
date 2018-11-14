@@ -48,3 +48,5 @@ export CLICOLOR=1
 # Tell grep to highlight matches
 export GREP_OPTIONS='--color=auto'
 export XDG_RUNTIME_DIR=/run/user/`id -u`
+
+export PATH="$HOME/.cargo/bin:$PATH"

@@ -32,9 +32,9 @@
 (setq url-http-attempt-keepalives nil)
 
 (defvar prelude-packages '(ack-and-a-half auctex better-defaults
-  clojure-mode coffee-mode deft diminish expand-region gist haml-mode
+  clojure-mode coffee-mode deft diminish expand-region flycheck-rust gist haml-mode
   haskell-mode helm helm-ag helm-projectile inf-ruby magit markdown-mode
-  paredit projectile pymacs python sass-mode rainbow-mode
+  paredit projectile pymacs python sass-mode rainbow-mode rust-mode
   scss-mode solarized-theme volatile-highlights yaml-mode yari
   yasnippet zenburn-theme)
   "A list of packages to ensure are installed at launch.")
@@ -149,9 +149,6 @@
 (add-hook 'tuareg-mode-hook 'tuareg-setup)
 
 
-(defun list-fonts (pattern)
-  (font-list pattern))
-
 ;; Less confirmations
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-echo-area-message t)
@@ -164,7 +161,7 @@
 
 ;;Window-splitting enhancement for WideScreen
 (defun window-split-horizontally-twice ()
-  "split the window in three horizontally"
+  "Split the window in three horizontally."
   (interactive)
   (split-window-horizontally (* (/ (window-width) 3) 2))
   (set-window-buffer (next-window) (other-buffer))
@@ -401,12 +398,6 @@
 (autoload 'reftex-index-phrase-mode "reftex-index" "Phrase Mode" t)
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex) ; with Emacs latex mode
 
-; Commun aux modes c et c++.
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            ; On s'assure que delete fait vraiment delete et non backspace.
-            ; Normalement, c'est pas la peine, mais on sait jamais...
-            (setq c-delete-function 'delete-char)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Quelques bindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1554,4 +1545,31 @@ searched. If there is no symbol, empty search box is started."
   (interactive)
   (progn (replace-regexp "\\([A-Z]\\)" "_\\1" nil (region-beginning) (region-end))
          (downcase-region (region-beginning) (region-end)))
+  )
+
+;; Rust-mode
+(use-package rust-mode
+  :ensure t
+  :defer t
+  :init
+  (require 'rust-mode)
+  (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+
+  :config
+  (use-package flycheck-rust)
+  (use-package racer
+    :ensure t
+    :defer t
+    :init
+    :config
+    (define-key rust-mode-map (kbd "M-\"") #'racer-find-definition)
+    (add-hook 'racer-mode-hook #'eldoc-mode)
+    (add-hook 'racer-mode-hook #'company-mode)
+    (local-set-key (kbd "TAB") #'company-indent-or-complete-common)
+    )
+  (defun my-rust-mode-hook()
+    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+    )
+  (add-hook 'rust-mode-hook 'my-rust-mode-hook)
+  (add-hook 'rust-mode-hook #'racer-mode)
   )

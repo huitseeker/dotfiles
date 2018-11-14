@@ -60,7 +60,7 @@ export TERM=xterm-256color
 
 # GO config
 export GOPATH=$HOME/golang
-export GOROOT=/lib/go
+export GOROOT=
 export PATH=$GOPATH/bin:$PATH
 export PATH=$GOROOT/bin:$PATH
 
@@ -88,3 +88,6 @@ if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
 fi
 # add alias for ssh to update the tty
 alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null; ssh"
+
+# OPAM configuration
+. /home/fga/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
