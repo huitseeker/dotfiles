@@ -247,5 +247,5 @@ mode "focused" {
                 bindsym Escape mode "default"
 }
 
-bindsym $mod+n mode "focused"
+# bindsym $mod+n mode "focused"
 exec --no-startup-id nm-applet
