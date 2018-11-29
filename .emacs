@@ -4,8 +4,12 @@
 ;; Install use-package automatically
 (require 'package)
 (setq package-enable-at-startup nil)
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (proto (if no-ssl "http" "https")))
+  (add-to-list 'package-archives
+               (cons "melpa" (concat proto "://melpa.org/packages/")) t))
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("elpy" . "https://jorgenschaefer.github.io/packages/"))
@@ -616,8 +620,8 @@
 (fset 'xml-mode 'nxml-mode)
 
 ;; Coq mode
-;; (setq auto-mode-alist (cons '("\\.v$" . coq-mode) auto-mode-alist))
-;;   (autoload 'coq-mode "coq" "Major mode for editing Coq vernacular." t)
+(setq auto-mode-alist (cons '("\\.v$" . coq-mode) auto-mode-alist))
+  (autoload 'coq-mode "coq" "Major mode for editing Coq vernacular." t)
 
 ;; Lose the UI
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
