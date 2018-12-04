@@ -1579,3 +1579,8 @@ searched. If there is no symbol, empty search box is started."
   (add-hook 'rust-mode-hook 'cargo-minor-mode)
   (add-hook 'racer-mode-hook #'eldoc-mode)
   )
+
+;; Popwin
+(require 'popwin)
+(popwin-mode 1)
+(push '("\*cargo*" :regexp t :height 20) popwin:special-display-config)
