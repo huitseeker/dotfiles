@@ -152,6 +152,13 @@
 
 (add-hook 'tuareg-mode-hook 'tuareg-setup)
 
+;; Auto-filling comments
+(defun comment-auto-fill ()
+  "Auto-fill comments."
+  (setq-local comment-auto-fill-only-comments t)
+  (auto-fill-mode 1))
+
+(add-hook 'prog-mode-hook 'comment-auto-fill)
 
 ;; Less confirmations
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -260,7 +267,7 @@
 
 ;automatic text
 (defun start-latex ()
-  "Adds all that stuff to start a new LaTeX document"
+  "Adds all that stuff to start a new LaTeX document."
   (interactive)
   (goto-char (point-min))
   (insert "\\documentclass[a4paper,french]{article}
@@ -456,7 +463,7 @@
        completion-ignored-extensions))
 
 ; Par défaut, on ouvre un fichier en mode texte.
-(setq default-major-mode 'text-mode)
+(setq major-mode 'text-mode)
 
 ; Vous ne voulez pas utiliser rmail!
 (put 'rmail 'disabled t)
@@ -630,7 +637,7 @@
 
 ;; Create a new scratch buffer
 (defun create-scratch-buffer nil
-  "create a new scratch buffer to work in. (could be *scratch* .. *scratchX*)"
+  "Create a new scratch buffer to work in (could be *scratch* .. *scratchX*)."
   (interactive)
   (let ((n 0)
         bufname
@@ -674,6 +681,7 @@
 ;; (require 'ox-asciidoc)
 
 (defun org-mode-reftex-setup ()
+  "Setup reftex for org-mode"
   (load-library "reftex")
   (and (buffer-file-name) (file-exists-p (buffer-file-name))
        (progn
@@ -698,18 +706,8 @@
    ))
 (add-hook 'remember-mode-hook 'org-remember-apply-template)
 
-;; ProofGeneral
-;; (load "/opt/ProofGeneral/generic/proof-site.el") ; trigger use
-;; (eval-after-load "proof-site"
-;;   '(progn
-;;      (load-file "~/coqfinitgroup/branches/release1/src/pg-ssr.el")
-;;      (setq coq-prog-name "~/bin/ssrcoq")
-;;      )
-;; )
-
 (defun ac-indent-or-expand ()
-  "Either indent according to mode, or expand the word preceding
-point using autocomplete."
+  "Either indent according to mode, or expand the word preceding point using autocomplete."
   (interactive "*")
   (if (and
        (or (bobp) (= ?w (char-syntax (char-before))))
@@ -718,6 +716,7 @@ point using autocomplete."
     (indent-according-to-mode)))
 
 (defun my-tab-fix ()
+  "Setup the tab key to our custom auto-complete function."
   (local-set-key [tab] 'ac-indent-or-expand))
 
 (add-hook 'c-mode-hook          'my-tab-fix)
@@ -786,6 +785,12 @@ point using autocomplete."
 ; automatic language detection for flyspell
 ;; (use-package auto-dictionary
 ;;   :hook flyspell-mode)
+
+;; prevent flyspell from finding misspellings in code
+(add-hook 'prog-mode-hook
+          (lambda ()
+            ;; `ispell-comments-and-strings'
+            (flyspell-prog-mode)))
 
 ;; ivy
 (use-package ivy :ensure t
@@ -977,7 +982,7 @@ point using autocomplete."
   )
 ; This fixes bugs of the global-pretty-mode preventing correct composition
 (defadvice font-lock-fontify-syntactically-region (before prettify compile activate)
-  "Make font-lock do pretty-things"
+  "Make font-lock do pretty-things."
   (unless pretty-mode
       (pretty-mode)))
 
@@ -1010,7 +1015,7 @@ point using autocomplete."
 
 ;; EXPERIMENTAL : improved newline
 (defun newline-maybe-indent ()
-  "Like newline-and-indent, but doesn't indent if the previous line is blank"
+  "Like `newline-and-indent`, but doesn't indent if the previous line is blank."
   (interactive "*")
   (if (= (line-beginning-position) (line-end-position))
       (newline)
@@ -1021,9 +1026,7 @@ point using autocomplete."
 
 ;; EXPERIMENTAL : enforced hardcore typing efficiency with emacs
 (defun my-delete-word (arg)
-  "Delete characters forward until encountering the end of a word.
-With argument, do this that many times.
-This command does not push text to `kill-ring'."
+  "Delete characters forward until encountering the end of a word.  With ARG, do this that many times.  This command does not push text to `kill-ring'."
   (interactive "p")
   (delete-region
    (point)
@@ -1032,15 +1035,12 @@ This command does not push text to `kill-ring'."
      (point))))
 
 (defun my-backward-delete-word (arg)
-  "Delete characters backward until encountering the beginning of a word.
-With argument, do this that many times.
-This command does not push text to `kill-ring'."
+  "Delete characters backward until encountering the beginning of a word.  With ARG, do this that many times.  This command does not push text to `kill-ring'."
   (interactive "p")
   (my-delete-word (- arg)))
 
 (defun my-delete-line ()
-  "Delete text from current position to end of line char.
-This command does not push text to `kill-ring'."
+  "Delete text from current position to end of line char.  This command does not push text to `kill-ring'."
   (interactive)
   (delete-region
    (point)
@@ -1048,8 +1048,7 @@ This command does not push text to `kill-ring'."
   (delete-char 1))
 
 (defun my-delete-line-backward ()
-  "Delete text between the beginning of the line to the cursor position.
-This command does not push text to `kill-ring'."
+  "Delete text between the beginning of the line to the cursor position.  This command does not push text to `kill-ring'."
   (interactive)
   (let (p1 p2)
     (setq p1 (point))
@@ -1099,7 +1098,7 @@ This command does not push text to `kill-ring'."
 
 ;; Cleanup
 (defun clean-up-buffer-or-region ()
-  "Untabifies, indents and deletes trailing whitespace from buffer or region."
+  "Untabify, indent and delete trailing whitespace from buffer or region."
   (interactive)
   (save-excursion
     (unless (region-active-p)
@@ -1130,7 +1129,7 @@ This command does not push text to `kill-ring'."
                                     '(("\\<\\(FIX\\|FIXME\\|TODO\\|BUG\\|HACK\\):" 1 font-lock-warning-face t)))))
 
 (defun force-revert-buffer ()
-  "revert-buffer, without confirmation"
+  "`revert-buffer`, without confirmation."
   (interactive) (revert-buffer t t))
 
 (global-set-key [f8] 'force-revert-buffer)
@@ -1157,10 +1156,7 @@ This command does not push text to `kill-ring'."
 ;; Count untexed words
 ;; Bound to C-# in LaTeX-mode.
 (defun wc-latex ()
-  "Count words in a buffer disregarding LaTeX macro names and
-environments etc. Counts the words in the region if the mark is
-active, or in the whole buffer if not. Requires external programs
-wc and untex."
+  "Count words in a buffer disregarding LaTeX macro names and environments etc.  Counts the words in the region if the mark is active, or in the whole buffer if not.  Requires external programs wc and untex."
   (interactive)
   (shell-command-on-region-or-buffer "untex  -e-o - | wc -w"))
 
@@ -1173,14 +1169,23 @@ wc and untex."
 
 ;; Unicode everywhere
   (setq utf-translate-cjk-mode nil) ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
-  (set-language-environment 'utf-8)
-  (set-keyboard-coding-system 'utf-8-mac) ; For old Carbon emacs on OS X only
-  (setq locale-coding-system 'utf-8)
-  (set-default-coding-systems 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (unless (eq system-type 'windows-nt)
-   (set-selection-coding-system 'utf-8))
   (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-keyboard-coding-system 'utf-8-mac) ; For old Carbon emacs on OS X only
+  (set-language-environment 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (setq locale-coding-system 'utf-8)
+  (modify-coding-system-alist 'process "*" 'utf-8)
+  (set-buffer-file-coding-system 'utf-8)
+  (set-clipboard-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-file-name-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (set-selection-coding-system 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (setq ansi-color-for-comint-mode t)
+  (setq default-process-coding-system '(utf-8 . utf-8))
+  (setq-default pathname-coding-system 'utf-8)
 
 ;; EXPERIMENTAL : unicode codepoints
 (use-package unipoint)
@@ -1188,6 +1193,7 @@ wc and untex."
 (setq tramp-default-method "ssh")
 ;; reopen unwritable files as root
 (defun rename-tramp-buffer ()
+  "Reopen unwritable files as root."
   (when (file-remote-p (buffer-file-name))
     (rename-buffer
      (format "%s:%s"
@@ -1243,6 +1249,7 @@ wc and untex."
 
 ;; Ad-hoc flymake for Java
 (defun my-java-flymake-init ()
+  "Ad-hoc flymake for java."
   (list "javac" (list (flymake-init-create-temp-buffer-copy
                        'flymake-create-temp-with-folder-structure))))
 
@@ -1263,7 +1270,7 @@ wc and untex."
               (iedit-done)
             ;; `current-word' can of course be replaced by other
             ;; functions.
-            (iedit-start (current-word)))))))
+            (iedit-start (current-word) (point-min) (point-max)))))))
   :bind
   ("C-;" . iedit-dwim)
   )
@@ -1294,7 +1301,7 @@ wc and untex."
 ;;  )
 
 (defun check-grammar ()
-  "Checks the current buffer with atdtool"
+  "Checks the current buffer with atdtool."
   (interactive)
   (compile (concat "atdtool -s localhost -P 1049 " (shell-quote-argument (buffer-file-name)))))
 
@@ -1303,7 +1310,7 @@ wc and untex."
 
 ;; Centered-window-mode
 (defun center-text ()
-  "Center the text in the middle of the buffer. Works best in full screen"
+  "Center the text in the middle of the buffer.  Works best in full screen."
   (interactive)
   (set-window-margins (car (get-buffer-window-list (current-buffer) nil t))
                         (/ (window-width) 4)
@@ -1425,7 +1432,7 @@ searched. If there is no symbol, empty search box is started."
   ;; Replacements for how KEY is replaced when which-key displays
   ;;   KEY → FUNCTION
   ;; Eg: After "C-c", display "right → winner-redo" as "▶ → winner-redo"
-  (setq which-key-key-replacement-alist
+  (setq which-key-replacement-alist
         '(("<\\([[:alnum:]-]+\\)>" . "\\1")
           ("left"                  . "◀")
           ("right"                 . "▶")
@@ -1443,7 +1450,7 @@ searched. If there is no symbol, empty search box is started."
                                  "SPC" "TAB")
 
         ;; Replacements for how part or whole of FUNCTION is replaced:
-        which-key-description-replacement-alist
+        which-key-replacement-alist
         '(("Prefix Command" . "prefix")
           ("\\`calc-"       . "") ; Hide "calc-" prefixes when listing M-x calc keys
           ("\\`projectile-" . "𝓟/")
@@ -1584,3 +1591,11 @@ searched. If there is no symbol, empty search box is started."
 (require 'popwin)
 (popwin-mode 1)
 (push '("\*cargo*" :regexp t :height 20) popwin:special-display-config)
+
+;; move cursor by camelCase
+(global-subword-mode 1)
+;; 1 for on, 0 for off
+
+;; done!
+(provide '.emacs)
+;;; .emacs ends here
