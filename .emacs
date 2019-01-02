@@ -1596,6 +1596,13 @@ searched. If there is no symbol, empty search box is started."
 (global-subword-mode 1)
 ;; 1 for on, 0 for off
 
+;; string-inflection config
+
+(require 'string-inflection)
+
+;; default
+(global-set-key (kbd "C-c C-u") 'string-inflection-all-cycle)
+
 ;; done!
 (provide '.emacs)
 ;;; .emacs ends here
