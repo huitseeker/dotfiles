@@ -5,7 +5,7 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
+                  (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
   (add-to-list 'package-archives
                (cons "melpa" (concat proto "://melpa.org/packages/")) t))
@@ -36,17 +36,17 @@
 (setq url-http-attempt-keepalives nil)
 
 (defvar prelude-packages '(ack-and-a-half auctex better-defaults
-  clojure-mode coffee-mode deft diminish expand-region flycheck-rust gist haml-mode
-  haskell-mode helm helm-ag helm-projectile inf-ruby magit markdown-mode
-  paredit projectile pymacs python sass-mode rainbow-mode rust-mode
-  scss-mode solarized-theme volatile-highlights yaml-mode yari
-  yasnippet zenburn-theme)
+                                          clojure-mode coffee-mode deft diminish expand-region flycheck-rust gist haml-mode
+                                          haskell-mode helm helm-ag helm-projectile inf-ruby magit markdown-mode
+                                          paredit projectile pymacs python sass-mode rainbow-mode rust-mode
+                                          scss-mode solarized-theme volatile-highlights yaml-mode yari
+                                          yasnippet zenburn-theme)
   "A list of packages to ensure are installed at launch.")
 
 (defun prelude-packages-installed-p ()
   (cl-loop for p in prelude-packages
-        when (not (package-installed-p p)) do (cl-return nil)
-        finally (cl-return t)))
+           when (not (package-installed-p p)) do (cl-return nil)
+           finally (cl-return t)))
 
 (unless (prelude-packages-installed-p)
   ;; check for new packages (package versions)
@@ -181,12 +181,12 @@
 
 (global-set-key (kbd "C-x 4") 'window-split-horizontally-twice)
 
-; It's annoying to have emacs suddenly suspend
+                                        ; It's annoying to have emacs suddenly suspend
 (global-unset-key (kbd "C-z"))
 
 ;; for Kernighan style in braces arrangement
 (fset 'braces-insertion
-   [?{ return tab up ?\C-e return tab])
+      [?{ return tab up ?\C-e return tab])
 
 (global-set-key "\C-x\'" 'braces-insertion)
 
@@ -220,10 +220,10 @@
 
 ;; Flx
 (use-package flx-ido
-   :ensure t
-   :init (setq ido-enable-flex-matching t
-               ido-use-faces nil)
-   :config (flx-ido-mode 1))
+  :ensure t
+  :init (setq ido-enable-flex-matching t
+              ido-use-faces nil)
+  :config (flx-ido-mode 1))
 
 ;; personal key-binding for comfort on my azerty keyboard (when I type french texts):
 ;; C-home deletes the indentation of the current line,
@@ -234,7 +234,7 @@
 
 ;;load abbrevs for automatic completion of words (M-/)
 (condition-case ()
-  (quietly-read-abbrev-file)
+    (quietly-read-abbrev-file)
   (file-error nil))
 
 ;;OCaml: automatically launch the tuareg mode when opening a file ending with .ml, .mli etc.
@@ -247,7 +247,7 @@
 (autoload 'tuareg-imenu-set-imenu "tuareg-imenu" "Configuration of imenu for tuareg" t)
 (add-hook 'tuareg-mode-hook 'tuareg-imenu-set-imenu)
 
-; Indiquer le nom de l'utilisateur@machine ur le cadre de la frame
+                                        ; Indiquer le nom de l'utilisateur@machine ur le cadre de la frame
 (setq frame-title-format
       (list (user-real-login-name)"@"(system-name)":"'buffer-file-name))
 (setq icon-title-format "%f")
@@ -265,7 +265,7 @@
 (setq show-paren-delay 0);Show the matching immediately
 (setq default-indicate-empty-lines t);show me empty lines at the end of the buffer
 
-;automatic text
+                                        ;automatic text
 (defun start-latex ()
   "Adds all that stuff to start a new LaTeX document."
   (interactive)
@@ -297,7 +297,7 @@
   (next-line 2)
   (backward-char 2)
   (LaTeX-mode)
-)
+  )
 ;; Inserting licenses is now covered by yasnippet
 
 ;; The following should make Emacs ask when the buffer encoding is not
@@ -323,7 +323,7 @@
       backup-by-copying-when-linked t
       trim-versions-without-asking t ) ; Copy linked files, don't rename.
 
-; Le curseur ne clignote pas.
+                                        ; Le curseur ne clignote pas.
 (if (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -360,20 +360,20 @@
 ;; predefined generic modes for config files edition
 (require 'generic-x) ; trigger use
 
-; Les lignes sont coupées au bout de 74 caractères dans les modes où
-; l'autofill est activé.
+                                        ; Les lignes sont coupées au bout de 74 caractères dans les modes où
+                                        ; l'autofill est activé.
 (setq-default fill-column 74)
 
 (require 'tex-site)
 (if (featurep 'tex-site)
     (add-hook 'LaTeX-mode-hook
               (lambda()
-             ; On fournit le raccourci C-c f pour la commande de compilation.
+                                        ; On fournit le raccourci C-c f pour la commande de compilation.
                 (local-set-key
                  [(control ?c) ?f]
                  (lambda () (interactive)
                    (TeX-command "LaTeX" 'TeX-master-file)))
-             ; On fournit le raccourci C-c v pour la commande de visualisation.
+                                        ; On fournit le raccourci C-c v pour la commande de visualisation.
                 (local-set-key
                  [(control ?c) ?v]
                  (lambda () (interactive)
@@ -381,7 +381,7 @@
                 (auto-fill-mode 1)
                 (setq comment-auto-fill-only-comments nil)
                 ))
-  ; Si AucTeX n'est pas chargé, on se contente du mode latex de base.
+                                        ; Si AucTeX n'est pas chargé, on se contente du mode latex de base.
   (add-hook 'latex-mode-hook
             (lambda ()
               (setq tex-command
@@ -389,21 +389,21 @@
               (setq tex-dvi-view-command "xdvi")
               (setq comment-auto-fill-only-comments nil))))
 
-; Se placer en mode latex et non tex lors de l'ouverture d'un fichier .tex.
+                                        ; Se placer en mode latex et non tex lors de l'ouverture d'un fichier .tex.
 (setq tex-default-mode 'LaTeX-mode)
 
-; compilation avec Make en mode AucTeX
+                                        ; compilation avec Make en mode AucTeX
 (add-hook 'LaTeX-mode-hook (lambda ()
-  (push
-    '("Make" "make" TeX-run-compile nil t
-      :help "Run make on directory")
-    TeX-command-list)
-  (setq TeX-auto-save t)
-  (setq TeX-parse-self t)
-  (setq TeX-save-query nil)
-  (setq TeX-PDF-mode t)))
+                             (push
+                              '("Make" "make" TeX-run-compile nil t
+                                :help "Run make on directory")
+                              TeX-command-list)
+                             (setq TeX-auto-save t)
+                             (setq TeX-parse-self t)
+                             (setq TeX-save-query nil)
+                             (setq TeX-PDF-mode t)))
 
-; RefTeX
+                                        ; RefTeX
 (autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" t)
 (autoload 'reftex-citation "reftex-cite" "Make citation" t)
 (autoload 'reftex-index-phrase-mode "reftex-index" "Phrase Mode" t)
@@ -414,37 +414,37 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Quelques bindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; « global-set-key » fonctionne comme « local-set-key », mais agit sur la
-; keymap globale, qui a les deux particularités suivantes :
-; - elle est utilisée dans tous les buffers
-; - elle a plus faible priorité que les keymaps locales des buffers.
+                                        ; « global-set-key » fonctionne comme « local-set-key », mais agit sur la
+                                        ; keymap globale, qui a les deux particularités suivantes :
+                                        ; - elle est utilisée dans tous les buffers
+                                        ; - elle a plus faible priorité que les keymaps locales des buffers.
 
-; « compile » permet de lancer une commande, recueille la sortie de la
-; commande dans un buffer, puis, à chaque fois que vous tapez « C-x ` »,
-; avance dans ce buffer jusqu'à tomber sur un message d'erreur indiquant un
-; fichier et une position dans ce fichier (ce que font la plupart des
-; compilateurs lorsqu'il y a une erreur dans un programme), et vous amène
-; à l'endroit en question. C'est très pratique pour débuguer.
+                                        ; « compile » permet de lancer une commande, recueille la sortie de la
+                                        ; commande dans un buffer, puis, à chaque fois que vous tapez « C-x ` »,
+                                        ; avance dans ce buffer jusqu'à tomber sur un message d'erreur indiquant un
+                                        ; fichier et une position dans ce fichier (ce que font la plupart des
+                                        ; compilateurs lorsqu'il y a une erreur dans un programme), et vous amène
+                                        ; à l'endroit en question. C'est très pratique pour débuguer.
 (global-set-key [f9] 'compile)
 (global-set-key [f10] 'recompile)
 
 (global-set-key [(meta ?g)] 'goto-line)
 
-; « C-x u » appelle la fonction d'undo. Lorsque l'on doit le taper un grand
-; nombre de fois, il arrive très souvent que l'on tape « C-x C-u », ce qui
-; casse tout. On corrige :
+                                        ; « C-x u » appelle la fonction d'undo. Lorsque l'on doit le taper un grand
+                                        ; nombre de fois, il arrive très souvent que l'on tape « C-x C-u », ce qui
+                                        ; casse tout. On corrige :
 (global-set-key [(control ?x) (control ?u)] 'advertised-undo)
 (global-set-key [(control ?x) (meta ?u)] 'upcase-region)
 
-; Il parait que :
+                                        ; Il parait que :
 ;; Vous remercierez ces deux bindings quand vous serez en telnet depuis un Mac
-; [.emacs conscrit selon Saint DOM, verset 159]
-; Je ne sais pas quel est le problème, mais pourquoi pas...
+                                        ; [.emacs conscrit selon Saint DOM, verset 159]
+                                        ; Je ne sais pas quel est le problème, mais pourquoi pas...
 (global-set-key [(control ?x) ?s] 'save-buffer)
 (global-set-key [(control ?x) ?c] 'save-buffers-kill-emacs)
 
-; Ces deux commandes sont bindées sur « M-{ » et « M-} », qui sont pénibles
-; à taper sur un azerty.
+                                        ; Ces deux commandes sont bindées sur « M-{ » et « M-} », qui sont pénibles
+                                        ; à taper sur un azerty.
 (global-set-key [(meta ?p)] 'backward-paragraph)
 (global-set-key [(meta ?n)] 'forward-paragraph)
 
@@ -453,37 +453,37 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-; Lorsque l'on demande de compléter le nom d'un fichier, emacs ignorera les
-; fichiers dont le nom se termine par ces suffixes. Vous pouvez y ajouter
-; ou en enlever les extensions qui vous chantent.
+                                        ; Lorsque l'on demande de compléter le nom d'un fichier, emacs ignorera les
+                                        ; fichiers dont le nom se termine par ces suffixes. Vous pouvez y ajouter
+                                        ; ou en enlever les extensions qui vous chantent.
 (setq completion-ignored-extensions
       (append
        '(".zo" ".zi" ".cmo" ".cmi" ".cmx" ".aux" ".bbl" ".blg" ".dvi"
          ".pdf" ".ps" ".log" ".glob" ".annot")
        completion-ignored-extensions))
 
-; Par défaut, on ouvre un fichier en mode texte.
+                                        ; Par défaut, on ouvre un fichier en mode texte.
 (setq major-mode 'text-mode)
 
-; Vous ne voulez pas utiliser rmail!
+                                        ; Vous ne voulez pas utiliser rmail!
 (put 'rmail 'disabled t)
 
-; On réactive ces deux commandes.
+                                        ; On réactive ces deux commandes.
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-; On fait en sorte que tous les fichiers dont le nom contient « makefile »
-; ou « Makefile » soient mis en mode make lorsqu'on les ouvre.
+                                        ; On fait en sorte que tous les fichiers dont le nom contient « makefile »
+                                        ; ou « Makefile » soient mis en mode make lorsqu'on les ouvre.
 
 (setq auto-mode-alist
       (append (list
-                '("[Mm]akefile" . makefile-mode))
+               '("[Mm]akefile" . makefile-mode))
               auto-mode-alist))
 
-; Recursive minibuffers
+                                        ; Recursive minibuffers
 (setq enable-recursive-minibuffers t)
 
-; No tab indentation
+                                        ; No tab indentation
 (setq-default indent-tabs-mode nil)
 
 ;; Fond clair pour les Xterm
@@ -508,27 +508,29 @@
   (global-flycheck-mode t)
   (setq flycheck-disabled-checkers '(python-flake8 python-pylint))
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++11")))
-)
+  )
+
+(with-eval-after-load 'flycheck
+  (add-hook 'flycheck-mode-hook #'global-flycheck-inline-mode))
 
 ;; ===== flycheck-pyflakes ======
 (use-package flycheck-pyflakes)
-
 
 ;; Divers : prompts are bad
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq confirm-nonexistent-file-or-buffer nil)
 ;; If I say kill a buffer, kill its processes too !
 (setq kill-buffer-query-functions
-  (remq 'process-kill-buffer-query-function
-         kill-buffer-query-functions))
+      (remq 'process-kill-buffer-query-function
+            kill-buffer-query-functions))
 
-; Pour naviguer entre les fenetres
+                                        ; Pour naviguer entre les fenetres
 ;; undo-redo window configs
 (when (fboundp 'winner-mode)
-      (winner-mode 1))
+  (winner-mode 1))
 (windmove-default-keybindings)
 
-; extension to mode mapping : csharp-mode, among others
+                                        ; extension to mode mapping : csharp-mode, among others
 (setq auto-mode-alist
       (append '(
                 ("\\.src$" . latex-mode)
@@ -547,8 +549,8 @@
 
 ;; Scala-mode support
 (setq
-  ensime-sbt-command "/home/huitseeker/bin/sbt"
-  sbt:program-name "/home/huitseeker/bin/sbt")
+ ensime-sbt-command "/home/huitseeker/bin/sbt"
+ sbt:program-name "/home/huitseeker/bin/sbt")
 
 (use-package sbt-mode
   :commands sbt-start sbt-command
@@ -575,7 +577,7 @@
 (setq compilation-error-regexp-alist
       (append
        '(;C# Compiler
-         ;t.cs(6,18): error SC1006: Name of constructor must match name of class
+                                        ;t.cs(6,18): error SC1006: Name of constructor must match name of class
          ("\\(\\([a-zA-Z]:\\)?[^:(\t\n]+\\)(\\([0-9]+\\)[,]\\([0-9]+\\)): \\(error\\|warning\\) CS[0-9]+:" 1 3 4))
        compilation-error-regexp-alist))
 ;; compilation tries to find its buffer in other windows
@@ -628,7 +630,7 @@
 
 ;; Coq mode
 (setq auto-mode-alist (cons '("\\.v$" . coq-mode) auto-mode-alist))
-  (autoload 'coq-mode "coq" "Major mode for editing Coq vernacular." t)
+(autoload 'coq-mode "coq" "Major mode for editing Coq vernacular." t)
 
 ;; Lose the UI
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -644,8 +646,8 @@
         buf)
     (while (progn
              (setq bufname (concat "*scratch"
-                                    (if (= n 0) "" (int-to-string n))
-                                    "*"))
+                                   (if (= n 0) "" (int-to-string n))
+                                   "*"))
              (setq n (1+ n))
              (get-buffer bufname)))
     (switch-to-buffer (get-buffer-create bufname))
@@ -681,18 +683,18 @@
 ;; (require 'ox-asciidoc)
 
 (defun org-mode-reftex-setup ()
-  "Setup reftex for org-mode"
+  "Setup reftex for `org-mode`."
   (load-library "reftex")
   (and (buffer-file-name) (file-exists-p (buffer-file-name))
        (progn
-     ;enable auto-revert-mode to update reftex when bibtex file changes on disk
-     (global-auto-revert-mode t)
-     (reftex-parse-all)
-     ;add a custom reftex cite format to insert links
-     (reftex-set-cite-format "** %l: %t \n")
-     ))
+                                        ;enable auto-revert-mode to update reftex when bibtex file changes on disk
+         (global-auto-revert-mode t)
+         (reftex-parse-all)
+                                        ;add a custom reftex cite format to insert links
+         (reftex-set-cite-format "** %l: %t \n")
+         ))
   (define-key org-mode-map (kbd "C-c )") 'reftex-citation)
-)
+  )
 
 (add-hook 'org-mode-hook 'org-mode-reftex-setup)
 
@@ -700,10 +702,10 @@
 ;; Remember mode config ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 (eval-after-load "remember"
-'(progn
-   (setq remember-annotation-functions '(org-remember-annotation))
-   (setq remember-handler-functions '(org-remember-handler))
-   ))
+  '(progn
+     (setq remember-annotation-functions '(org-remember-annotation))
+     (setq remember-handler-functions '(org-remember-handler))
+     ))
 (add-hook 'remember-mode-hook 'org-remember-apply-template)
 
 (defun ac-indent-or-expand ()
@@ -739,15 +741,15 @@
 ;; auto-complete, without interference with the above ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (require 'help-mode)
-; help-mode necessary,see3
-; http://github.com/m2ym/auto-complete/issues#issue/34
+                                        ; help-mode necessary,see3
+                                        ; http://github.com/m2ym/auto-complete/issues#issue/34
 (use-package auto-complete) ; trigger use
-; fuzzy completion/search
+                                        ; fuzzy completion/search
 (use-package fuzzy
   :config
   (turn-on-fuzzy-isearch)
   )
-; complete with tab, except in menus
+                                        ; complete with tab, except in menus
 (setq ac-use-menu-map t)
 (define-key ac-menu-map [return] 'ac-complete)
 (define-key ac-menu-map [tab] 'ac-next)
@@ -755,34 +757,34 @@
 (define-key ac-complete-mode-map [tab] 'ac-complete)
 (define-key ac-complete-mode-map [return] 'ac-complete)
 (define-key ac-complete-mode-map [C-g] 'ac-stop)
-; (setq ac-trigger-key [tab])
-; (when (require 'auto-complete-config nil 'noerror) ;; don't break if not installed
-  (require 'auto-complete-config)
-  (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-  (setq ac-comphist-file  "~/.emacs.d/ac-comphist.dat")
-  (ac-config-default)
-;)
+                                        ; (setq ac-trigger-key [tab])
+                                        ; (when (require 'auto-complete-config nil 'noerror) ;; don't break if not installed
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+(setq ac-comphist-file  "~/.emacs.d/ac-comphist.dat")
+(ac-config-default)
+                                        ;)
 (setq
-     ac-delay 0.5
-     ac-auto-start 2
-     ac-use-quick-help nil
-     ac-menu-height 15
-     ac-show-menu-immediately-on-auto-complete nil
-     ac-use-fuzzy t
-     ac-candidate-limit 20)
+ ac-delay 0.5
+ ac-auto-start 2
+ ac-use-quick-help nil
+ ac-menu-height 15
+ ac-show-menu-immediately-on-auto-complete nil
+ ac-use-fuzzy t
+ ac-candidate-limit 20)
 
-; activate everywhere
+                                        ; activate everywhere
 (define-globalized-minor-mode real-global-auto-complete-mode
   auto-complete-mode (lambda ()
                        (if (not (minibufferp (current-buffer)))
-                         (auto-complete-mode 1))
+                           (auto-complete-mode 1))
                        ))
 (real-global-auto-complete-mode t)
 
-; flyspell compatibility
+                                        ; flyspell compatibility
 (add-hook 'flyspell-mode-hook
           'ac-flyspell-workaround)
-; automatic language detection for flyspell
+                                        ; automatic language detection for flyspell
 ;; (use-package auto-dictionary
 ;;   :hook flyspell-mode)
 
@@ -797,7 +799,7 @@
   :diminish (ivy-mode . "")
   :bind
   (:map ivy-mode-map
-   ("C-'" . ivy-avy))
+        ("C-'" . ivy-avy))
   :config
   (ivy-mode 1)
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
@@ -818,16 +820,16 @@
   :commands (counsel-ag
              counsel-rg
              counsel-git-grep)
-)
+  )
 
-  ;;
+;;
 
 ;;;;;;;;;;;;
 ;; Python ;;
 ;;;;;;;;;;;;
 (use-package python
   :mode ("\\.py\\'" . python-mode)
-        ("\\.wsgi$" . python-mode)
+  ("\\.wsgi$" . python-mode)
   :interpreter ("python" . python-mode)
 
   :init
@@ -841,13 +843,13 @@
 
 (require 'comint)
 (define-key comint-mode-map [(meta p)]
-   'comint-previous-matching-input-from-input)
+  'comint-previous-matching-input-from-input)
 (define-key comint-mode-map [(meta n)]
-   'comint-next-matching-input-from-input)
+  'comint-next-matching-input-from-input)
 (define-key comint-mode-map [(control meta n)]
-    'comint-next-input)
+  'comint-next-input)
 (define-key comint-mode-map [(control meta p)]
-    'comint-previous-input)
+  'comint-previous-input)
 
 (use-package jedi
   :ensure t
@@ -858,31 +860,31 @@
 (setq py-load-pymacs-p nil)
 (require 'pymacs)
 (eval-after-load "python-mode"
-'(progn
-   ;; Initialize Pymacs
-   (autoload 'pymacs-apply "pymacs")
-   (autoload 'pymacs-call "pymacs")
-   (autoload 'pymacs-eval "pymacs" nil t)
-   (autoload 'pymacs-exec "pymacs" nil t)
-   (autoload 'pymacs-load "pymacs" nil t)
-   (setq py-load-pymacs-p nil)
-   ;; ;; Initialize Rope
-   ;; (pymacs-load "ropemacs" "rope-")
-   ;; (setq ropemacs-confirm-saving nil
-   ;;       ropemacs-guess-project t
-   ;;       ropemacs-enable-autoimport t
-   ;;       )
-   ;; (autoload 'anything-ipython-complete "anything-ipython" "" t)
-   ;; (add-hook 'python-mode-hook '(lambda ()
-   ;;                                 (define-key py-mode-map (kbd "M-<tab>") 'anything-ipython-complete)))
-   ;; (add-hook 'ipython-shell-hook '(lambda ()
-   ;;                                   (define-key py-mode-map (kbd "M-<tab>") 'anything-ipython-complete)))
-   ;; ; ac features
-   ;; (ac-ropemacs-initialize)
-   ;; (add-hook 'python-mode-hook
-   ;;           '(lambda ()
-   ;;             (add-to-list 'ac-sources 'ac-source-ropemacs)))
-   ))
+  '(progn
+     ;; Initialize Pymacs
+     (autoload 'pymacs-apply "pymacs")
+     (autoload 'pymacs-call "pymacs")
+     (autoload 'pymacs-eval "pymacs" nil t)
+     (autoload 'pymacs-exec "pymacs" nil t)
+     (autoload 'pymacs-load "pymacs" nil t)
+     (setq py-load-pymacs-p nil)
+     ;; ;; Initialize Rope
+     ;; (pymacs-load "ropemacs" "rope-")
+     ;; (setq ropemacs-confirm-saving nil
+     ;;       ropemacs-guess-project t
+     ;;       ropemacs-enable-autoimport t
+     ;;       )
+     ;; (autoload 'anything-ipython-complete "anything-ipython" "" t)
+     ;; (add-hook 'python-mode-hook '(lambda ()
+     ;;                                 (define-key py-mode-map (kbd "M-<tab>") 'anything-ipython-complete)))
+     ;; (add-hook 'ipython-shell-hook '(lambda ()
+     ;;                                   (define-key py-mode-map (kbd "M-<tab>") 'anything-ipython-complete)))
+     ;; ; ac features
+     ;; (ac-ropemacs-initialize)
+     ;; (add-hook 'python-mode-hook
+     ;;           '(lambda ()
+     ;;             (add-to-list 'ac-sources 'ac-source-ropemacs)))
+     ))
 
 ;; py-autopep8
 (use-package py-autopep8
@@ -891,8 +893,8 @@
   :init
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save))
 
-; Eldoc mode
-; shows you the argument list of the function call you are currently writing
+                                        ; Eldoc mode
+                                        ; shows you the argument list of the function call you are currently writing
 ;; ensure:
 ;;; pip install jedi
 ;;  pip install flake8
@@ -914,7 +916,7 @@
   :ensure t
   :init
   (pyvenv-activate "~/tmp/venv/")
-)
+  )
 
 ;; AG
 (use-package ag
@@ -980,11 +982,11 @@
   :config
   (global-pretty-mode 1)
   )
-; This fixes bugs of the global-pretty-mode preventing correct composition
+                                        ; This fixes bugs of the global-pretty-mode preventing correct composition
 (defadvice font-lock-fontify-syntactically-region (before prettify compile activate)
   "Make font-lock do pretty-things."
   (unless pretty-mode
-      (pretty-mode)))
+    (pretty-mode)))
 
 ;; Point history
 (use-package point-stack
@@ -1008,10 +1010,10 @@
 ;; Create better buffer names. foo.c++:src, foo.c++:extra
 ;; instead of foo.c++ and foo.c++<2>
 ;; This should really be the default behaviour for Emacs!
-  (require 'uniquify)
-  (setq
-   uniquify-buffer-name-style 'reverse
-   uniquify-separator ":")
+(require 'uniquify)
+(setq
+ uniquify-buffer-name-style 'reverse
+ uniquify-separator ":")
 
 ;; EXPERIMENTAL : improved newline
 (defun newline-maybe-indent ()
@@ -1056,7 +1058,7 @@
     (setq p2 (point))
     (delete-region p1 p2)))
 
-; bind them to emacs's default shortcut keys:
+                                        ; bind them to emacs's default shortcut keys:
 (global-set-key (kbd "C-S-k") 'my-delete-line-backward) ; Ctrl+Shift+k
 (global-set-key (kbd "C-k") 'my-delete-line)
 (global-set-key (kbd "M-d") 'my-delete-word)
@@ -1135,6 +1137,7 @@
 (global-set-key [f8] 'force-revert-buffer)
 ;; auto-revert for dropbox
 (defun dropbox-auto-revert ()
+  "Auto-revert mode for Dropbox folder."
   (interactive)
   (when (string-match "Dropbox" buffer-file-name)
     (auto-revert-mode 1)))
@@ -1146,12 +1149,12 @@
 (column-number-mode 1)
 (let ((help-echo "mouse-1: select (drag to resize), mouse-2: delete others, mouse-3: delete"))
   (setq-default mode-line-position
-    `((line-number-mode
-       ((column-number-mode
-         (,(propertize " (%l,%c)" 'help-echo help-echo))
-         (,(propertize " L%l" 'help-echo help-echo))))
-       ((column-number-mode
-         (,(propertize " C%c" 'help-echo help-echo))))))))
+                `((line-number-mode
+                   ((column-number-mode
+                     (,(propertize " (%l,%c)" 'help-echo help-echo))
+                     (,(propertize " L%l" 'help-echo help-echo))))
+                   ((column-number-mode
+                     (,(propertize " C%c" 'help-echo help-echo))))))))
 
 ;; Count untexed words
 ;; Bound to C-# in LaTeX-mode.
@@ -1164,28 +1167,28 @@
   "Run the command CMD on region if mark is active or whole buffer if not."
   (interactive)
   (let* ((begin (if mark-active (region-beginning) (point-min)))
-    (end (if mark-active (region-end) (point-max))))
+         (end (if mark-active (region-end) (point-max))))
     (shell-command-on-region begin end cmd)))
 
 ;; Unicode everywhere
-  (setq utf-translate-cjk-mode nil) ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
-  (prefer-coding-system 'utf-8)
-  (set-default-coding-systems 'utf-8)
-  (set-keyboard-coding-system 'utf-8-mac) ; For old Carbon emacs on OS X only
-  (set-language-environment 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (setq locale-coding-system 'utf-8)
-  (modify-coding-system-alist 'process "*" 'utf-8)
-  (set-buffer-file-coding-system 'utf-8)
-  (set-clipboard-coding-system 'utf-8)
-  (set-default-coding-systems 'utf-8)
-  (set-file-name-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  (set-selection-coding-system 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (setq ansi-color-for-comint-mode t)
-  (setq default-process-coding-system '(utf-8 . utf-8))
-  (setq-default pathname-coding-system 'utf-8)
+(setq utf-translate-cjk-mode nil) ; disable CJK coding/encoding (Chinese/Japanese/Korean characters)
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-keyboard-coding-system 'utf-8-mac) ; For old Carbon emacs on OS X only
+(set-language-environment 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(setq locale-coding-system 'utf-8)
+(modify-coding-system-alist 'process "*" 'utf-8)
+(set-buffer-file-coding-system 'utf-8)
+(set-clipboard-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-file-name-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(setq ansi-color-for-comint-mode t)
+(setq default-process-coding-system '(utf-8 . utf-8))
+(setq-default pathname-coding-system 'utf-8)
 
 ;; EXPERIMENTAL : unicode codepoints
 (use-package unipoint)
@@ -1275,12 +1278,12 @@
   ("C-;" . iedit-dwim)
   )
 
- (use-package solarized-theme
-       :ensure t
-       :no-require t
-       :init
-       (progn
-         (load-theme 'solarized-dark t t)))
+(use-package solarized-theme
+  :ensure t
+  :no-require t
+  :init
+  (progn
+    (load-theme 'solarized-dark t t)))
 
 ;; markdown-mode
 (autoload 'gfm-mode "markdown-mode"
@@ -1301,7 +1304,7 @@
 ;;  )
 
 (defun check-grammar ()
-  "Checks the current buffer with atdtool."
+  "Check the current buffer with atdtool."
   (interactive)
   (compile (concat "atdtool -s localhost -P 1049 " (shell-quote-argument (buffer-file-name)))))
 
@@ -1313,22 +1316,22 @@
   "Center the text in the middle of the buffer.  Works best in full screen."
   (interactive)
   (set-window-margins (car (get-buffer-window-list (current-buffer) nil t))
-                        (/ (window-width) 4)
-                        (/ (window-width) 4)))
+                      (/ (window-width) 4)
+                      (/ (window-width) 4)))
 
 (defun center-text-clear ()
   (interactive)
   (set-window-margins (car (get-buffer-window-list (current-buffer) nil t))
-                        nil
-                        nil))
+                      nil
+                      nil))
 
 (setq centered nil)
 
 (defun center-text-mode ()
   (interactive)
   (if centered
-    (progn (center-text-clear)
-           (setq centered nil))
+      (progn (center-text-clear)
+             (setq centered nil))
     (progn (center-text)
            (setq centered t))))
 
@@ -1412,15 +1415,15 @@ searched. If there is no symbol, empty search box is started."
   (loop for c from ?! to ?~ do (add-keys-to-avy "C-M-s-" c 'word)))
 
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
-    (defun unfill-paragraph (&optional region)
-      "Takes a multi-line paragraph and makes it into a single line of text."
-      (interactive (progn (barf-if-buffer-read-only) '(t)))
-      (let ((fill-column (point-max))
-            ;; This would override `fill-column' if it's an integer.
-            (emacs-lisp-docstring-fill-column t))
-        (fill-paragraph nil region)))
+(defun unfill-paragraph (&optional region)
+  "Take a multi-line paragraph as REGION and make it into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max))
+        ;; This would override `fill-column' if it's an integer.
+        (emacs-lisp-docstring-fill-column t))
+    (fill-paragraph nil region)))
 
-    (define-key global-map "\M-Q" 'unfill-paragraph)
+(define-key global-map "\M-Q" 'unfill-paragraph)
 
 ;; which-key
 (use-package which-key
@@ -1479,7 +1482,7 @@ searched. If there is no symbol, empty search box is started."
 (use-package projectile
   :ensure t
   :diminish projectile-mode
-  :init (projectile-global-mode 1)
+  :init (projectile-mode 1)
   :commands projectile-ag
   :config
   (setq projectile-switch-project-action 'projectile-commander
@@ -1544,12 +1547,12 @@ searched. If there is no symbol, empty search box is started."
       (let ((fb-master-dir-env "LOCAL_ADMIN_SCRIPTS"))
         (or (getenv "LOCAL_ADMIN_SCRIPTS")
             (warn (format "%s: missing environment var"
-                           fb-master-dir-env)))))
+                          fb-master-dir-env)))))
 ;;
 (let ((fb-settings "/usr/facebook/ops/rc/master.emacs"))
- (when (file-exists-p fb-settings)
-   (load-file fb-settings))
-)
+  (when (file-exists-p fb-settings)
+    (load-file fb-settings))
+  )
 
 ;; De-caml-case
 (defun to-underscore()
@@ -1575,8 +1578,6 @@ searched. If there is no symbol, empty search box is started."
     :config
     (define-key rust-mode-map (kbd "M-\"") #'racer-find-definition)
     (add-hook 'racer-mode-hook #'eldoc-mode)
-    (add-hook 'racer-mode-hook #'company-mode)
-    (local-set-key (kbd "TAB") #'company-indent-or-complete-common)
     )
   (defun my-racer-mode-hook()
     (ac-racer-setup))
