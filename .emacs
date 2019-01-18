@@ -40,7 +40,8 @@
                                           haskell-mode helm helm-ag helm-projectile inf-ruby magit markdown-mode
                                           paredit projectile pymacs python sass-mode rainbow-mode rust-mode
                                           scss-mode solarized-theme volatile-highlights yaml-mode yari
-                                          yasnippet zenburn-theme)
+                                          yasnippet zenburn-theme flycheck-inline color-identifiers-mode
+                                          )
   "A list of packages to ensure are installed at launch.")
 
 (defun prelude-packages-installed-p ()
@@ -549,8 +550,8 @@
 
 ;; Scala-mode support
 (setq
- ensime-sbt-command "/home/huitseeker/bin/sbt"
- sbt:program-name "/home/huitseeker/bin/sbt")
+ ensime-sbt-command "~/bin/sbt"
+ sbt:program-name "~/bin/sbt")
 
 (use-package sbt-mode
   :commands sbt-start sbt-command
@@ -1432,50 +1433,6 @@ searched. If there is no symbol, empty search box is started."
   :diminish which-key-mode
   :config
 
-  ;; Replacements for how KEY is replaced when which-key displays
-  ;;   KEY → FUNCTION
-  ;; Eg: After "C-c", display "right → winner-redo" as "▶ → winner-redo"
-  (setq which-key-replacement-alist
-        '(("<\\([[:alnum:]-]+\\)>" . "\\1")
-          ("left"                  . "◀")
-          ("right"                 . "▶")
-          ("up"                    . "▲")
-          ("down"                  . "▼")
-          ("delete"                . "DEL") ; delete key
-          ("\\`DEL\\'"             . "BS") ; backspace key
-          ("next"                  . "PgDn")
-          ("prior"                 . "PgUp"))
-
-        ;; List of "special" keys for which a KEY is displayed as just
-        ;; K but with "inverted video" face... not sure I like this.
-        which-key-special-keys '("RET" "DEL" ; delete key
-                                 "ESC" "BS" ; backspace key
-                                 "SPC" "TAB")
-
-        ;; Replacements for how part or whole of FUNCTION is replaced:
-        which-key-replacement-alist
-        '(("Prefix Command" . "prefix")
-          ("\\`calc-"       . "") ; Hide "calc-" prefixes when listing M-x calc keys
-          ("\\`projectile-" . "𝓟/")
-          ("\\`org-babel-"  . "ob/"))
-
-        ;; Underlines commands to emphasize some functions:
-        which-key-highlighted-command-list
-        '("\\(rectangle-\\)\\|\\(-rectangle\\)"
-          "\\`org-"))
-
-  ;; Change what string to display for a given *complete* key binding
-  ;; Eg: After "C-x", display "8 → +unicode" instead of "8 → +prefix"
-  (which-key-add-key-based-replacements
-    "C-x 8"   "unicode"
-    "C-c T"   "toggles-"
-    "C-c p s" "projectile-search"
-    "C-c p 4" "projectile-other-buffer-"
-    "C-x a"   "abbrev/expand"
-    "C-x r"   "rect/reg"
-    "C-c /"   "engine-mode-map"
-    "C-c C-v" "org-babel")
-
   (which-key-mode 1))
 
 ;; Projectile
@@ -1570,7 +1527,10 @@ searched. If there is no symbol, empty search box is started."
   (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 
   :config
-  (use-package flycheck-rust)
+  (use-package flycheck-rust
+    :config
+    (flycheck-add-next-checker 'rust-cargo 'rust-clippy)
+    )
   (use-package racer
     :ensure t
     :defer t
@@ -1603,6 +1563,9 @@ searched. If there is no symbol, empty search box is started."
 
 ;; default
 (global-set-key (kbd "C-c C-u") 'string-inflection-all-cycle)
+
+;; default color-identifier mode
+(add-hook 'after-init-hook 'global-color-identifiers-mode)
 
 ;; done!
 (provide '.emacs)

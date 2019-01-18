@@ -4,7 +4,7 @@
 [user]
     name = François Garillot
     email = francois@garillot.net
-    signingkey = 5EA2FFD6
+	signingkey = D2044742
 [color]
     ui = true
 [core]
@@ -147,8 +147,10 @@
 [receive]
         fsckobjects = true
 [commit]
-        gpgsign = true
+	gpgsign = true
 [fsck]
         zeroPaddedFilemode = ignore
 [grep]
         extendRegexp = true
+[gpg]
+	program = gpg2
