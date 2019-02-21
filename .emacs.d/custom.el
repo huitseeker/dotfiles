@@ -10,13 +10,7 @@
  '(MidnightBlue ((t (:foreground "red2" :underline t))))
  '(RosyBrown ((t (:foreground "gray56"))))
  '(artbollocks-passive-voice-face ((t (:background "blue" :foreground "Gray"))))
- '(flyspell-duplicate ((t (:foreground "Blue" :underline t :weight bold))))
  '(flyspell-duplicate-face ((t (:foreground "Blue" :underline t :weight bold))) t)
- '(font-lock-function-name-face ((((class color) (background light)) (:foreground "firebrick" :underline t))))
- '(font-lock-string-face ((((class color) (background light)) (:foreground "gray46"))))
- '(font-lock-type-face ((((class color) (background light)) (:foreground "ForestGreen"))))
- '(font-lock-variable-name-face ((((class color) (background light)) (:foreground "Goldenrod" :underline t))))
- '(gnus-signature ((t (:foreground "steel blue" :slant italic))))
  '(gnus-signature-face ((t (:foreground "steel blue" :slant italic))) t)
  '(message-X-header-face ((t (:foreground "magenta" :weight bold))))
  '(mouse ((t (:background "black"))))
@@ -25,9 +19,7 @@
  '(proof-queue-face ((t (:background "peach puff"))))
  '(proof-solve-tactics-face ((t (:foreground "red"))))
  '(proof-tacticals-name-face ((nil (:foreground "violet"))))
- '(proof-tactics-name-face ((t (:foreground "RoyalBlue3"))))
- '(region ((((class color) (background light)) (:background "yellow1"))))
- '(secondary-selection ((((class color) (background light)) (:background "hot pink")))))
+ '(proof-tactics-name-face ((t (:foreground "RoyalBlue3")))))
 
 
 (custom-set-variables
@@ -64,20 +56,17 @@
  '(canlock-password "cf79ea628b8e233a910a70b43cc471b81900ee88")
  '(case-fold-search t)
  '(column-number-mode t)
- '(compilation-message-face (quote default))
+ '(company-quickhelp-color-background "#4F4F4F")
+ '(company-quickhelp-color-foreground "#DCDCCC")
  '(confirm-kill-emacs nil)
  '(coq-compile-file-command "ssrcoq -compile %s")
  '(coq-use-holes nil)
- '(cua-global-mark-cursor-color "#2aa198")
- '(cua-normal-cursor-color "#839496")
- '(cua-overwrite-cursor-color "#b58900")
- '(cua-read-only-cursor-color "#859900")
  '(current-language-environment "UTF-8")
  '(cursor-color nil)
  '(custom-enabled-themes (quote (zenburn)))
  '(custom-safe-themes
    (quote
-    ("ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "3f44e2d33b9deb2da947523e2169031d3707eec0426e78c7b8a646ef773a2077" "89dd0329d536d389753111378f2425bd4e4652f892ae8a170841c3396f5ba2dd" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
+    ("d057f0430ba54f813a5d60c1d18f28cf97d271fd35a36be478e20924ea9451bd" "ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "3f44e2d33b9deb2da947523e2169031d3707eec0426e78c7b8a646ef773a2077" "89dd0329d536d389753111378f2425bd4e4652f892ae8a170841c3396f5ba2dd" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
  '(dabbrev-upcase-means-case-search t)
  '(default-input-method "ucs")
  '(enable-local-variables (quote other))
@@ -145,37 +134,12 @@
  '(gnus-view-pseudos (quote automatic))
  '(gnus-visible-headers nil)
  '(gud-gdb-command-name "gdb --annotate=1")
- '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
- '(highlight-symbol-colors
-   (--map
-    (solarized-color-blend it "#002b36" 0.25)
-    (quote
-     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
- '(highlight-symbol-foreground-color "#93a1a1")
- '(highlight-tail-colors
-   (quote
-    (("#073642" . 0)
-     ("#546E00" . 20)
-     ("#00736F" . 30)
-     ("#00629D" . 50)
-     ("#7B6000" . 60)
-     ("#8B2C02" . 70)
-     ("#93115C" . 85)
-     ("#073642" . 100))))
- '(hl-bg-colors
-   (quote
-    ("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00")))
- '(hl-fg-colors
-   (quote
-    ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
- '(hl-paren-colors (quote ("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900")))
  '(ispell-local-dictionary "american")
  '(ispell-program-name "/usr/local/bin/ispell")
  '(jdee-server-dir "/home/huitseeker/tmp/jdee-server/target/")
  '(kill-ring-max 20)
  '(kill-whole-line t)
  '(large-file-warning-threshold nil)
- '(magit-diff-use-overlays nil)
  '(mail-extr-ignore-single-names nil)
  '(mail-source-delete-incoming 3)
  '(mail-source-delete-old-incoming-confirm nil)
@@ -210,10 +174,9 @@ mouse-3: Remove current window from display")))))))
  '(org-time-stamp-custom-formats (quote ("{%m/%d/%y %a}" . "{%m/%d/%y %a %H:%M}")))
  '(package-selected-packages
    (quote
-    (k8s-mode rust-auto-use iedit edit-server point-stack pretty-mode multiple-cursors visual-regexp-steroids visual-regexp ag py-autopep8 jedi fuzzy flx-ido color-identifiers-mode flycheck-inline string-inflection cider ac-helm popwin cargo company-reftex ac-racer flycheck-rust rust-mode proof-general srefactor direx avy pyenv-mode-auto pyenv-mode wrap-region ace-window anzu darkroom ace-jump-mode unipoint autopair guess-language auto-dictionary adoc-mode flycheck-pyflakes smex bbdb writeroom-mode eclim groovy-mode magithub pcre2el wgrep counsel w3m json-mode gtags java-imports zenburn-theme yari yaml-mode which-key volatile-highlights vc-check-status use-package tuareg tidy solarized-theme scss-mode scala-mode sass-mode redpen-paragraph rainbow-mode python-mode pymacs pylint pycomplete paredit org-ac markdown-mode magit ipython inf-ruby helm-projectile haskell-mode gist fillcode expand-region exec-path-from-shell ess ensime elpy el-get deft coffee-mode clojure-mode better-defaults auto-compile auctex artbollocks-mode adaptive-wrap ack-and-a-half)))
+    (mmm-mode k8s-mode rust-auto-use iedit edit-server point-stack pretty-mode multiple-cursors visual-regexp-steroids visual-regexp ag py-autopep8 jedi fuzzy flx-ido color-identifiers-mode flycheck-inline string-inflection cider ac-helm popwin cargo company-reftex ac-racer flycheck-rust rust-mode proof-general srefactor direx avy pyenv-mode-auto pyenv-mode wrap-region ace-window anzu darkroom ace-jump-mode unipoint autopair guess-language auto-dictionary adoc-mode flycheck-pyflakes smex bbdb writeroom-mode eclim groovy-mode magithub pcre2el wgrep counsel w3m json-mode gtags java-imports zenburn-theme yari yaml-mode which-key volatile-highlights vc-check-status use-package tuareg tidy solarized-theme scss-mode scala-mode sass-mode redpen-paragraph rainbow-mode python-mode pymacs pylint pycomplete paredit org-ac markdown-mode magit ipython inf-ruby helm-projectile haskell-mode gist fillcode expand-region exec-path-from-shell ess ensime elpy el-get deft coffee-mode clojure-mode better-defaults auto-compile auctex artbollocks-mode adaptive-wrap ack-and-a-half)))
+ '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pop-up-frames nil)
- '(pos-tip-background-color "#073642")
- '(pos-tip-foreground-color "#93a1a1")
  '(proof-follow-mode (quote follow))
  '(proof-imenu-enable t)
  '(proof-prog-name "/home/huitseeker/bin/ssrcoq")
@@ -230,10 +193,7 @@ mouse-3: Remove current window from display")))))))
  '(send-mail-function (quote smtpmail-send-it))
  '(show-paren-mode t)
  '(show-paren-style (quote mixed))
- '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
  '(standard-indent 2)
- '(term-default-bg-color "#002b36")
- '(term-default-fg-color "#839496")
  '(tool-bar-mode nil)
  '(transient-mark-mode t)
  '(truncate-partial-width-windows nil)
@@ -242,14 +202,6 @@ mouse-3: Remove current window from display")))))))
  '(ultex-use-color t)
  '(ultex-use-font-latex t)
  '(ultex-use-imenu t)
- '(vc-annotate-background-mode nil)
- '(weechat-color-list
-   (quote
-    (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
  '(whitespace-style
    (quote
-    (face tabs trailing space-before-tab indentation empty space-after-tab tab-mark)))
- '(xterm-color-names
-   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
- '(xterm-color-names-bright
-   ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1" "#fdf6e3"]))
+    (face tabs trailing space-before-tab indentation empty space-after-tab tab-mark))))
