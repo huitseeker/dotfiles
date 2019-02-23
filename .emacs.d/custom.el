@@ -10,7 +10,13 @@
  '(MidnightBlue ((t (:foreground "red2" :underline t))))
  '(RosyBrown ((t (:foreground "gray56"))))
  '(artbollocks-passive-voice-face ((t (:background "blue" :foreground "Gray"))))
+ '(flyspell-duplicate ((((supports :underline (:style wave)) (class color) (min-colors 89)) (:underline (:style wave :color "#b58900") :inherit unspecified)) (((class color) (min-colors 89)) (:foreground "#b58900" :weight bold :underline t))))
  '(flyspell-duplicate-face ((t (:foreground "Blue" :underline t :weight bold))) t)
+ '(font-lock-function-name-face ((((class color) (min-colors 89)) (:foreground "#268bd2"))))
+ '(font-lock-string-face ((((class color) (min-colors 89)) (:foreground "#2aa198"))))
+ '(font-lock-type-face ((((class color) (min-colors 89)) (:foreground "#b58900"))))
+ '(font-lock-variable-name-face ((((class color) (min-colors 89)) (:foreground "#268bd2"))))
+ '(gnus-signature ((((class color) (min-colors 89)) (:foreground "#b58900"))))
  '(gnus-signature-face ((t (:foreground "steel blue" :slant italic))) t)
  '(message-X-header-face ((t (:foreground "magenta" :weight bold))))
  '(mouse ((t (:background "black"))))
@@ -19,7 +25,9 @@
  '(proof-queue-face ((t (:background "peach puff"))))
  '(proof-solve-tactics-face ((t (:foreground "red"))))
  '(proof-tacticals-name-face ((nil (:foreground "violet"))))
- '(proof-tactics-name-face ((t (:foreground "RoyalBlue3")))))
+ '(proof-tactics-name-face ((t (:foreground "RoyalBlue3"))))
+ '(region ((((class color) (min-colors 89)) (:foreground "#002b36" :background "#93a1a1"))))
+ '(secondary-selection ((((class color) (min-colors 89)) (:background "#073642")))))
 
 
 (custom-set-variables
@@ -56,11 +64,14 @@
  '(canlock-password "cf79ea628b8e233a910a70b43cc471b81900ee88")
  '(case-fold-search t)
  '(column-number-mode t)
- '(company-quickhelp-color-background "#4F4F4F")
- '(company-quickhelp-color-foreground "#DCDCCC")
+ '(compilation-message-face (quote default))
  '(confirm-kill-emacs nil)
  '(coq-compile-file-command "ssrcoq -compile %s")
  '(coq-use-holes nil)
+ '(cua-global-mark-cursor-color "#2aa198")
+ '(cua-normal-cursor-color "#839496")
+ '(cua-overwrite-cursor-color "#b58900")
+ '(cua-read-only-cursor-color "#859900")
  '(current-language-environment "UTF-8")
  '(cursor-color nil)
  '(custom-enabled-themes (quote (zenburn)))
@@ -103,7 +114,7 @@
  '(font-lock-global-modes t)
  '(foreground-color nil)
  '(global-font-lock-mode t nil (font-lock))
- '(global-whitespace-mode t)
+ '(global-whitespace-mode nil)
  '(gnus-build-sparse-threads t)
  '(gnus-confirm-mail-reply-to-news t)
  '(gnus-fetch-old-ephemeral-headers t)
@@ -134,12 +145,37 @@
  '(gnus-view-pseudos (quote automatic))
  '(gnus-visible-headers nil)
  '(gud-gdb-command-name "gdb --annotate=1")
+ '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
+ '(highlight-symbol-colors
+   (--map
+    (solarized-color-blend it "#002b36" 0.25)
+    (quote
+     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
+ '(highlight-symbol-foreground-color "#93a1a1")
+ '(highlight-tail-colors
+   (quote
+    (("#073642" . 0)
+     ("#546E00" . 20)
+     ("#00736F" . 30)
+     ("#00629D" . 50)
+     ("#7B6000" . 60)
+     ("#8B2C02" . 70)
+     ("#93115C" . 85)
+     ("#073642" . 100))))
+ '(hl-bg-colors
+   (quote
+    ("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00")))
+ '(hl-fg-colors
+   (quote
+    ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
+ '(hl-paren-colors (quote ("#2aa198" "#b58900" "#268bd2" "#6c71c4" "#859900")))
  '(ispell-local-dictionary "american")
  '(ispell-program-name "/usr/local/bin/ispell")
  '(jdee-server-dir "/home/huitseeker/tmp/jdee-server/target/")
  '(kill-ring-max 20)
  '(kill-whole-line t)
  '(large-file-warning-threshold nil)
+ '(magit-diff-use-overlays nil)
  '(mail-extr-ignore-single-names nil)
  '(mail-source-delete-incoming 3)
  '(mail-source-delete-old-incoming-confirm nil)
@@ -174,9 +210,10 @@ mouse-3: Remove current window from display")))))))
  '(org-time-stamp-custom-formats (quote ("{%m/%d/%y %a}" . "{%m/%d/%y %a %H:%M}")))
  '(package-selected-packages
    (quote
-    (mmm-mode k8s-mode rust-auto-use iedit edit-server point-stack pretty-mode multiple-cursors visual-regexp-steroids visual-regexp ag py-autopep8 jedi fuzzy flx-ido color-identifiers-mode flycheck-inline string-inflection cider ac-helm popwin cargo company-reftex ac-racer flycheck-rust rust-mode proof-general srefactor direx avy pyenv-mode-auto pyenv-mode wrap-region ace-window anzu darkroom ace-jump-mode unipoint autopair guess-language auto-dictionary adoc-mode flycheck-pyflakes smex bbdb writeroom-mode eclim groovy-mode magithub pcre2el wgrep counsel w3m json-mode gtags java-imports zenburn-theme yari yaml-mode which-key volatile-highlights vc-check-status use-package tuareg tidy solarized-theme scss-mode scala-mode sass-mode redpen-paragraph rainbow-mode python-mode pymacs pylint pycomplete paredit org-ac markdown-mode magit ipython inf-ruby helm-projectile haskell-mode gist fillcode expand-region exec-path-from-shell ess ensime elpy el-get deft coffee-mode clojure-mode better-defaults auto-compile auctex artbollocks-mode adaptive-wrap ack-and-a-half)))
- '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
+    (mmm-auto mmm-mode k8s-mode rust-auto-use iedit edit-server point-stack pretty-mode multiple-cursors visual-regexp-steroids visual-regexp ag py-autopep8 jedi fuzzy flx-ido color-identifiers-mode flycheck-inline string-inflection cider ac-helm popwin cargo company-reftex ac-racer flycheck-rust rust-mode proof-general srefactor direx avy pyenv-mode-auto pyenv-mode wrap-region ace-window anzu darkroom ace-jump-mode unipoint autopair guess-language auto-dictionary adoc-mode flycheck-pyflakes smex bbdb writeroom-mode eclim groovy-mode magithub pcre2el wgrep counsel w3m json-mode gtags java-imports zenburn-theme yari yaml-mode which-key volatile-highlights vc-check-status use-package tuareg tidy solarized-theme scss-mode scala-mode sass-mode redpen-paragraph rainbow-mode python-mode pymacs pylint pycomplete paredit org-ac markdown-mode magit ipython inf-ruby helm-projectile haskell-mode gist fillcode expand-region exec-path-from-shell ess ensime elpy el-get deft coffee-mode clojure-mode better-defaults auto-compile auctex artbollocks-mode adaptive-wrap ack-and-a-half)))
  '(pop-up-frames nil)
+ '(pos-tip-background-color "#073642")
+ '(pos-tip-foreground-color "#93a1a1")
  '(proof-follow-mode (quote follow))
  '(proof-imenu-enable t)
  '(proof-prog-name "/home/huitseeker/bin/ssrcoq")
@@ -193,7 +230,10 @@ mouse-3: Remove current window from display")))))))
  '(send-mail-function (quote smtpmail-send-it))
  '(show-paren-mode t)
  '(show-paren-style (quote mixed))
+ '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
  '(standard-indent 2)
+ '(term-default-bg-color "#002b36")
+ '(term-default-fg-color "#839496")
  '(tool-bar-mode nil)
  '(transient-mark-mode t)
  '(truncate-partial-width-windows nil)
@@ -202,6 +242,14 @@ mouse-3: Remove current window from display")))))))
  '(ultex-use-color t)
  '(ultex-use-font-latex t)
  '(ultex-use-imenu t)
+ '(vc-annotate-background-mode nil)
+ '(weechat-color-list
+   (quote
+    (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
  '(whitespace-style
    (quote
-    (face tabs trailing space-before-tab indentation empty space-after-tab tab-mark))))
+    (face tabs trailing space-before-tab indentation empty space-after-tab tab-mark)))
+ '(xterm-color-names
+   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
+ '(xterm-color-names-bright
+   ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1" "#fdf6e3"]))

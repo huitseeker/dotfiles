@@ -268,7 +268,7 @@
 
                                         ;automatic text
 (defun start-latex ()
-  "Adds all that stuff to start a new LaTeX document."
+  "Add all that stuff to start a new LaTeX document."
   (interactive)
   (goto-char (point-min))
   (insert "\\documentclass[a4paper,french]{article}
@@ -535,7 +535,6 @@
 (setq auto-mode-alist
       (append '(
                 ("\\.src$" . latex-mode)
-                ("\\.md$" . emacs-lisp-mode)
                 ("\\.txt$" . text-mode)
                 ("\\.cs$" . csharp-mode)
                 ("\\.xt$" . csharp-mode)
@@ -1113,11 +1112,10 @@
       (delete-trailing-whitespace))))
 
 ;; (add-hook 'before-save-hook 'delete-trailing-whitespace)
-;;(autoload 'whitespace-mode           "whitespace" "Toggle whitespace visualization."        t)
 (global-set-key (kbd "C-c n") 'clean-up-buffer-or-region)
 
 ;; Show trailing spaces globally
-(setq-default show-trailing-whitespace t)
+(setq-default show-trailing-whitespace 0)
 
 ;; nuke whitespaces when writing to a file
 (add-hook 'before-save-hook (lambda ()
@@ -1287,10 +1285,13 @@
     (load-theme 'solarized-dark t t)))
 
 ;; markdown-mode
-(autoload 'gfm-mode "markdown-mode"
-  "Major mode for editing Markdown files" t)
-(setq auto-mode-alist
-      (cons '("\\.md" . gfm-mode) auto-mode-alist))
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
 
 ;; org-mode in text
 ;; (add-hook 'text-mode-hook 'turn-on-orgstruct)
@@ -1525,26 +1526,39 @@ searched. If there is no symbol, empty search box is started."
   :init
   (require 'rust-mode)
   (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
-
+  (progn
+    (add-hook 'rust-mode-hook 'cargo-minor-mode)
+    (add-hook 'toml-mode-hook 'cargo-minor-mode))
   :config
   (use-package flycheck-rust
     :config
     (flycheck-add-next-checker 'rust-cargo 'rust-clippy)
     )
+  (setq rust-format-on-save t)
   (use-package racer
     :ensure t
     :defer t
     :init
+    (progn
+      (setenv "PATH" (concat (getenv "PATH") ":~/.cargo/bin"))
+      (setq exec-path (append exec-path '("~/.cargo/bin")))
+      (unless (getenv "RUST_SRC_PATH")
+        (setenv "RUST_SRC_PATH" (expand-file-name "~/rust/src/")))
+      (setq racer-cmd "~/.cargo/bin/racer")
+      (setq racer-rust-src-path "~/rust/src/")
+      (add-hook 'rust-mode-hook #'racer-mode)
+      (add-hook 'racer-mode-hook #'eldoc-mode)
+      (add-hook 'racer-mode-hook #'company-mode))
     :config
     (define-key rust-mode-map (kbd "M-\"") #'racer-find-definition)
     (add-hook 'racer-mode-hook #'eldoc-mode)
     )
+  (use-package cargo :ensure t)
   (defun my-racer-mode-hook()
     (ac-racer-setup))
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
   (add-hook 'rust-mode-hook #'racer-mode)
   (add-hook 'racer-mode-hook 'my-racer-mode-hook)
-  (add-hook 'rust-mode-hook 'cargo-minor-mode)
   (add-hook 'racer-mode-hook #'eldoc-mode)
   )
 
@@ -1566,6 +1580,27 @@ searched. If there is no symbol, empty search box is started."
 
 ;; default color-identifier mode
 (add-hook 'after-init-hook 'global-color-identifiers-mode)
+
+;; Multiple mode
+(use-package mmm-mode
+  :commands mmm-mode
+  :config
+  (setq
+   mmm-global-mode 'maybe
+   mmm-submode-decoration-level 2
+   mmm-parse-when-idle 't
+   )
+  :init
+  (mmm-add-classes
+   '((markdown-rust
+      :submode rust-mode
+      :front "^```\s*rust$"
+      :back "^```$"
+      :end-not-begin t)))
+  (mmm-add-mode-ext-class 'markdown-mode nil 'markdown-rust)
+  :hook
+  (markdown-mode)
+)
 
 ;; done!
 (provide '.emacs)
