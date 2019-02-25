@@ -487,15 +487,13 @@
                                         ; No tab indentation
 (setq-default indent-tabs-mode nil)
 
-;; Fond clair pour les Xterm
-(unless window-system
-  (setq frame-background-mode (quote light)))
-
 ;; preview-latex
 (autoload 'TeX-preview-setup "preview")
 (add-hook 'LaTeX-mode-hook 'LaTeX-preview-setup)
 ;; flyspell
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'adoc-mode-hook 'flyspell-mode)
+
 
 ;; flycheck
 ;; ==== flycheck ====
