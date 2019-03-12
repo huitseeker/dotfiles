@@ -538,7 +538,7 @@
                 ("\\.xt$" . csharp-mode)
                 ("\\.xti$" . csharp-mode)
                 ("\\.aspx$" . html-mode)
-                ("\\.v$" . proof-mode)
+                ("\\.v$" . coq-mode)
                 ) auto-mode-alist ))
 
 ;;;              C# Mode support
@@ -627,8 +627,52 @@
 (fset 'xml-mode 'nxml-mode)
 
 ;; Coq mode
-(setq auto-mode-alist (cons '("\\.v$" . coq-mode) auto-mode-alist))
 (autoload 'coq-mode "coq" "Major mode for editing Coq vernacular." t)
+(setq auto-mode-alist (cons '("\\.v$" . coq-mode) auto-mode-alist))
+(add-to-list 'load-path (concat (getenv "HOME")
+                           "/.opam/system/share/emacs/site-lisp"))
+
+;;
+;; ProofGeneral
+(use-package proof-general
+  :ensure t
+  :mode ("\\.v\\'" . coq-mode)
+  :init
+  (defvar coq-prog-args)
+  (defvar coq-prog-name)
+
+  (make-variable-buffer-local 'coq-prog-args)
+  (setq-default coq-prog-args nil)
+  ;;
+   (custom-set-variables
+   '(proof-splash-enable nil)
+   '(coq-compile-before-require t)
+   '(proof-disappearing-proofs t)
+   '(coq-prog-name (concat (getenv "HOME")
+                           "/.opam/system/bin/coqtop"))
+   '(coq-compiler (concat (getenv "HOME")
+                          "/.opam/system/bin/coqc"))
+   '(coq-dependency-analyzer (concat (getenv "HOME")
+                                     "/.opam/system/bin/coqdep")))
+
+  :config
+  (add-hook 'proof-mode-hook 'coq-mode)
+  (setq proof-splash-seen t)
+
+
+  ;; Hybrid mode is by far the best.
+  (setq proof-three-window-mode-policy 'hybrid)
+
+  ;; I don't know who wants to evaluate comments
+  ;; one-by-one, but I don't.
+  (setq proof-script-fly-past-comments t)
+
+  )
+
+;; Force never unbinding nav commands
+(progn
+  (bind-key* "M-n" 'forward-paragraph t)
+  (bind-key* "M-p" 'backward-paragraph t))
 
 ;; Lose the UI
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -724,7 +768,7 @@
 (add-hook 'tuareg-mode-hook         'my-tab-fix)
 (add-hook 'emacs-lisp-mode-hook 'my-tab-fix)
 (add-hook 'coq-mode-hook 'my-tab-fix)
-(add-hook 'proof-mode-hook 'my-tab-fix)
+(add-hook 'proofgeneral-hook 'my-tab-fix)
 (add-hook 'mail-mode-hook 'my-tab-fix)
 (add-hook 'LaTeX-mode-hook 'my-tab-fix)
 ;; (add-hook 'python-mode-hook 'my-tab-fix)
