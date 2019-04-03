@@ -1593,8 +1593,6 @@ searched. If there is no symbol, empty search box is started."
       (add-hook 'racer-mode-hook #'company-mode))
     :config
     (define-key rust-mode-map (kbd "M-\"") #'racer-find-definition)
-    (define-key rust-mode-map (kbd "C-w") 'ra-extend-selection)
-    (define-key rust-mode-map (kbd "C-S-w") 'ra-shrink-selection)
     (add-hook 'racer-mode-hook #'eldoc-mode)
     )
   (use-package cargo :ensure t)
