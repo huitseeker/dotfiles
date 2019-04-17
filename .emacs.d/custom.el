@@ -226,8 +226,6 @@ mouse-3: Remove current window from display")))))))
  '(proof-splash-enable nil)
  '(proof-strict-read-only t)
  '(proof-three-window-enable t)
- '(racer-rust-src-path
-   "~/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src" t)
  '(reftex-default-bibliography (quote ("main.bib")))
  '(reftex-plug-into-AUCTeX (quote (t t t t t)))
  '(scroll-bar-mode nil)
