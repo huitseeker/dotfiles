@@ -4,7 +4,7 @@
 [user]
     name = François Garillot
     email = francois@garillot.net
-	signingkey = 7C69FEDBB0E34BA3
+        signingkey = 7C69FEDBB0E34BA3
 [color]
     ui = true
 [core]
@@ -96,6 +96,13 @@
         fixup = !sh -c 'git commit -m \"fixup! $(git log -1 --format='\\''%s'\\'' $@)\"' -
         squash = !sh -c 'git commit -m \"squash! $(git log -1 --format='\\''%s'\\'' $@)\"' -
         wdiff = diff --color-words
+
+        # Progress in commits of the same branch, useful for demos
+        prev = checkout HEAD^1
+        next = "!sh -c 'git log --reverse --pretty=%H master | awk \"/$(git rev-parse HEAD)/{getline;print}\" | xargs git checkout'"
+
+        # Most recent branches
+        rb = for-each-ref --sort=-committerdate --count=10 --format='%(refname:short)' refs/heads/
 [apply]
 
         # Detect whitespace errors when applying a patch
