@@ -102,7 +102,7 @@
         next = "!sh -c 'git log --reverse --pretty=%H master | awk \"/$(git rev-parse HEAD)/{getline;print}\" | xargs git checkout'"
 
         # Most recent branches
-        rb = for-each-ref --sort=-committerdate --count=10 --format='%(refname:short)' refs/heads/
+        rb = "!f() { git for-each-ref --sort=-committerdate --count=$1 --format=\"%(refname:short)\" refs/heads/; }; f"
 [apply]
 
         # Detect whitespace errors when applying a patch
