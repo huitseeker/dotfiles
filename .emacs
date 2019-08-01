@@ -1644,6 +1644,11 @@ searched. If there is no symbol, empty search box is started."
   (markdown-mode)
 )
 
+;; Rainbow
+(use-package rainbow-delimiters)
+(add-hook 'rust-mode-hook #'rainbow-delimiters-mode)
+
+
 ;; done!
 (provide '.emacs)
 ;;; .emacs ends here
