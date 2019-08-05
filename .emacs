@@ -1648,6 +1648,9 @@ searched. If there is no symbol, empty search box is started."
 (use-package rainbow-delimiters)
 (add-hook 'rust-mode-hook #'rainbow-delimiters-mode)
 
+;; Beacon
+(use-package beacon)
+(beacon-mode 1)
 
 ;; done!
 (provide '.emacs)
