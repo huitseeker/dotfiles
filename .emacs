@@ -509,8 +509,9 @@
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++11")))
   )
 
-(with-eval-after-load 'flycheck
-  (add-hook 'flycheck-mode-hook #'global-flycheck-inline-mode))
+;; Obsolete wih lsp-ui
+;; (with-eval-after-load 'flycheck
+;;   (add-hook 'flycheck-mode-hook #'global-flycheck-inline-mode))
 
 ;; ===== flycheck-pyflakes ======
 (use-package flycheck-pyflakes)
@@ -750,18 +751,9 @@
      ))
 (add-hook 'remember-mode-hook 'org-remember-apply-template)
 
-(defun ac-indent-or-expand ()
-  "Either indent according to mode, or expand the word preceding point using autocomplete."
-  (interactive "*")
-  (if (and
-       (or (bobp) (= ?w (char-syntax (char-before))))
-       (or (eobp) (not (= ?w (char-syntax (char-after))))))
-      (ac-start)
-    (indent-according-to-mode)))
-
 (defun my-tab-fix ()
   "Setup the tab key to our custom auto-complete function."
-  (local-set-key [tab] 'ac-indent-or-expand))
+  (local-set-key [tab] 'company-indent-or-complete-common))
 
 (add-hook 'c-mode-hook          'my-tab-fix)
 (add-hook 'sh-mode-hook         'my-tab-fix)
@@ -782,44 +774,37 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; auto-complete, without interference with the above ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(require 'help-mode)
-                                        ; help-mode necessary,see3
-                                        ; http://github.com/m2ym/auto-complete/issues#issue/34
-(use-package auto-complete) ; trigger use
+(use-package flycheck
+  :hook (prog-mode . flycheck-mode))
+
+(use-package company
+  :hook (prog-mode . company-mode)
+  :config (setq company-tooltip-align-annotations t)
+          (setq company-minimum-prefix-length 1))
+
+(use-package lsp-mode
+  :ensure t
+  :init
+  (add-hook 'prog-mode-hook #'lsp))
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode
+  :hook ((lsp-mode . lsp-ui-mode)))
+(use-package company-lsp
+  :ensure t)
+
                                         ; fuzzy completion/search
 (use-package fuzzy
   :config
   (turn-on-fuzzy-isearch)
   )
-                                        ; complete with tab, except in menus
-(setq ac-use-menu-map t)
-(define-key ac-menu-map [return] 'ac-complete)
-(define-key ac-menu-map [tab] 'ac-next)
-(define-key ac-menu-map [S-iso-lefttab] 'ac-previous)
-(define-key ac-complete-mode-map [tab] 'ac-complete)
-(define-key ac-complete-mode-map [return] 'ac-complete)
-(define-key ac-complete-mode-map [C-g] 'ac-stop)
-                                        ; (setq ac-trigger-key [tab])
-                                        ; (when (require 'auto-complete-config nil 'noerror) ;; don't break if not installed
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
-(setq ac-comphist-file  "~/.emacs.d/ac-comphist.dat")
-(ac-config-default)
-                                        ;)
-(setq
- ac-delay 0.5
- ac-auto-start 2
- ac-use-quick-help nil
- ac-menu-height 15
- ac-show-menu-immediately-on-auto-complete nil
- ac-use-fuzzy t
- ac-candidate-limit 20)
 
+                                        ; complete with tab, except in menus
                                         ; activate everywhere
 (define-globalized-minor-mode real-global-auto-complete-mode
-  auto-complete-mode (lambda ()
+  company-mode (lambda ()
                        (if (not (minibufferp (current-buffer)))
-                           (auto-complete-mode 1))
+                           (company-mode 1))
                        ))
 (real-global-auto-complete-mode t)
 
@@ -1319,12 +1304,18 @@
   ("C-;" . iedit-dwim)
   )
 
-(use-package solarized-theme
-  :ensure t
-  :no-require t
-  :init
-  (progn
-    (load-theme 'solarized-dark t t)))
+(require 'color-theme-solarized)
+
+(defun toggle-night-color-theme ()
+    "Switch to/from night color scheme."
+    (interactive)
+    (if (eq frame-background-mode 'dark)
+          (setq frame-background-mode 'light)
+      (setq frame-background-mode  'dark))
+    (load-theme 'solarized)
+    (mapc 'frame-set-background-mode (frame-list)))
+(global-set-key (kbd "C-c l") 'toggle-night-color-theme)
+
 
 ;; markdown-mode
 (use-package markdown-mode
@@ -1562,6 +1553,7 @@ searched. If there is no symbol, empty search box is started."
   )
 
 ;; Rust-mode
+(use-package toml-mode)
 (use-package rust-mode
   :ensure t
   :defer t
@@ -1571,8 +1563,10 @@ searched. If there is no symbol, empty search box is started."
   (progn
     (add-hook 'rust-mode-hook 'cargo-minor-mode)
     (add-hook 'toml-mode-hook 'cargo-minor-mode))
+  (setq rust-format-on-save t)
   :config
   (use-package flycheck-rust
+    :ensure t
     :config
     (flycheck-add-next-checker 'rust-cargo 'rust-clippy)
     )
@@ -1596,11 +1590,11 @@ searched. If there is no symbol, empty search box is started."
     (add-hook 'racer-mode-hook #'eldoc-mode)
     )
   (use-package cargo :ensure t)
-  (defun my-racer-mode-hook()
-    (ac-racer-setup))
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
   (add-hook 'rust-mode-hook #'racer-mode)
-  (add-hook 'racer-mode-hook 'my-racer-mode-hook)
+  (add-hook 'rust-mode-hook #'company-mode)
+  ;;  (add-hook 'rust-mode-hook #'lsp-mode)
+  (add-hook 'rust-mode-hook #'flycheck-mode)
   (add-hook 'racer-mode-hook #'eldoc-mode)
   )
 
