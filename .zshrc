@@ -94,3 +94,7 @@ alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null; ssh"
 
 # OPAM configuration
 . /home/fga/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+# Rust configuration
+export RUSTC_WRAPPER=sccache
+export SCCACHE_CACHE_SIZE=1G

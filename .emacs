@@ -505,7 +505,7 @@
   :ensure t
   :init
   (global-flycheck-mode t)
-  (setq flycheck-disabled-checkers '(python-flake8 python-pylint))
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc python-flake8 python-pylint))
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++11")))
   )
 
@@ -789,7 +789,25 @@
 (use-package lsp-ui
   :ensure t
   :commands lsp-ui-mode
-  :hook ((lsp-mode . lsp-ui-mode)))
+  :hook ((lsp-mode . lsp-ui-mode))
+  :after lsp-mode
+  :commands lsp-ui-mode
+  :bind (:map lsp-ui-mode-map
+              ("M-,"  . lsp-ui-peek-find-definitions)
+              ("M-?"  . lsp-ui-peek-find-references)
+              ("C-c u"   . lsp-ui-imenu)
+              ("C-c C-a" . lsp-ui-sideline-apply-code-actions))
+  :init
+  (setq lsp-ui-doc-position 'at-point
+         lsp-ui-doc-header nil
+         lsp-ui-doc-border "violet"
+         ;; lsp-ui-doc-include-signature t
+         lsp-ui-sideline-update-mode 'point
+         lsp-ui-sideline-delay 1
+         lsp-ui-sideline-ignore-duplicate t
+         lsp-ui-peek-always-show t
+         lsp-ui-flycheck-enable t))
+
 (use-package company-lsp
   :ensure t)
 
@@ -1515,7 +1533,6 @@ searched. If there is no symbol, empty search box is started."
       (cider-jack-in))))
 
 ;; Direx
-
 (use-package direx
   :ensure t
   :bind (("C-c p X" . ha/projectile-direx)
