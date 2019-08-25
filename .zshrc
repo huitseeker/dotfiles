@@ -32,8 +32,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git git-extras git-prompt github mvn archive archlinux rails ruby
-         colorize scala gem docker fasd emoji thefuck)
+plugins=(git git-extras git-prompt github mvn archive archlinux colorize scala docker fasd emoji thefuck)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -96,5 +95,7 @@ alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null; ssh"
 . /home/fga/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 # Rust configuration
-export RUSTC_WRAPPER=sccache
-export SCCACHE_CACHE_SIZE=1G
+[ -f ~/.cargo/bin/sccache ] && export RUSTC_WRAPPER=sccache
+[ -f ~/.cargo/bin/sccache ] && export SCCACHE_CACHE_SIZE=1G
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

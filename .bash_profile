@@ -31,7 +31,7 @@ export JAVA_HOME CLASSPATH
 
 export PATH=/usr/local/sbin:$PATH
 export PATH=/usr/local/bin:$PATH
-export PATH=$RUBYPATHS:$PATH
+# export PATH=$RUBYPATHS:$PATH
 export PATH=/usr/texbin/:$PATH
 
 # if running bash
@@ -49,4 +49,4 @@ export CLICOLOR=1
 export GREP_OPTIONS='--color=auto'
 export XDG_RUNTIME_DIR=/run/user/`id -u`
 
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH=$HOME/.cargo/bin:$PATH
