@@ -14,7 +14,7 @@ set $mod Mod1
 set $alt Mod4
 
 # Work with urxvtc
-# exec --no-startup-id urxvtd -q -o -f
+exec --no-startup-id urxvtd -q -o -f
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
