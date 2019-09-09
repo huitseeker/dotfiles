@@ -631,7 +631,7 @@
 (autoload 'coq-mode "coq" "Major mode for editing Coq vernacular." t)
 (setq auto-mode-alist (cons '("\\.v$" . coq-mode) auto-mode-alist))
 (add-to-list 'load-path (concat (getenv "HOME")
-                           "/.opam/system/share/emacs/site-lisp"))
+                           "/.opam/default/share/emacs/site-lisp"))
 
 ;;
 ;; ProofGeneral
@@ -650,11 +650,11 @@
    '(coq-compile-before-require t)
    '(proof-disappearing-proofs t)
    '(coq-prog-name (concat (getenv "HOME")
-                           "/.opam/system/bin/coqtop"))
+                           "/.opam/default/bin/coqtop"))
    '(coq-compiler (concat (getenv "HOME")
-                          "/.opam/system/bin/coqc"))
+                          "/.opam/default/bin/coqc"))
    '(coq-dependency-analyzer (concat (getenv "HOME")
-                                     "/.opam/system/bin/coqdep")))
+                                     "/.opam/default/bin/coqdep")))
 
   :config
   (add-hook 'proof-mode-hook 'coq-mode)
