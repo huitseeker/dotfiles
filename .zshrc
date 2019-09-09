@@ -98,4 +98,8 @@ alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null; ssh"
 [ -f ~/.cargo/bin/sccache ] && export RUSTC_WRAPPER=sccache
 [ -f ~/.cargo/bin/sccache ] && export SCCACHE_CACHE_SIZE=1G
 
+# Keybindings for fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
+
