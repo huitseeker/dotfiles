@@ -502,6 +502,7 @@
   :bind
   (("C-M-n" . flycheck-next-error)
    ("C-M-p" . flycheck-previous-error))
+  :hook (prog-mode . flycheck-mode)
   :ensure t
   :init
   (global-flycheck-mode t)
@@ -774,9 +775,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; auto-complete, without interference with the above ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package flycheck
-  :hook (prog-mode . flycheck-mode))
-
 (use-package company
   :hook (prog-mode . company-mode)
   :config (setq company-tooltip-align-annotations t)
