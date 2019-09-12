@@ -660,7 +660,8 @@
   :config
   (add-hook 'proof-mode-hook 'coq-mode)
   (setq proof-splash-seen t)
-
+  ;; Overlay arrow is a nightmare in ProofGeneral
+  (setq overlay-arrow-string "")
 
   ;; Hybrid mode is by far the best.
   (setq proof-three-window-mode-policy 'hybrid)
@@ -668,7 +669,6 @@
   ;; I don't know who wants to evaluate comments
   ;; one-by-one, but I don't.
   (setq proof-script-fly-past-comments t)
-
   )
 
 ;; Force never unbinding nav commands
@@ -777,6 +777,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (use-package company
   :hook (prog-mode . company-mode)
+  :hook (coq-mode . company-coq-mode)
   :config (setq company-tooltip-align-annotations t)
           (setq company-minimum-prefix-length 1))
 
@@ -1263,8 +1264,9 @@
   (set-buffer (find-file (concat "/sudo::" file))))
 
 ;; Side-by-side splitting rather than one-above-the-other
-(setq split-height-threshold nil)
+;;(setq split-height-threshold nil)
 (setq split-width-threshold 0)
+
 
 ;; Undo trees !
 ;; (require 'undo-tree)
@@ -1660,6 +1662,9 @@ searched. If there is no symbol, empty search box is started."
 ;; Beacon
 (use-package beacon)
 (beacon-mode 1)
+
+  ;; Overlay arrow is a nightmare in ProofGeneral
+  (setq overlay-arrow-string "")
 
 ;; done!
 (provide '.emacs)

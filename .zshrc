@@ -58,7 +58,7 @@ export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
 export GPG_TTY=$(tty)
 export JAVA_HOME=/usr/lib/jvm/default
-export TERM=xterm-256color
+# export TERM=xterm-256color
 
 # GO config
 export GOPATH=$HOME/golang
@@ -102,4 +102,3 @@ alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null; ssh"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
-
