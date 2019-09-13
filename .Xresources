@@ -1,23 +1,30 @@
 Emacs.FontBackend: xft
-Emacs.font: Inconsolata-10
+Emacs.font: FiraCodeMedium-10
 ! Fonts {{{
 Xft.autohint: 0
 Xft.lcdfilter: lcddefault
 Xft.hinting: 1
 Xft.antialias: 1
-Xft.rgba: rgb
+Xft.rgba: none
 Xft.hintstyle: hintfull
 !Xft.dpi:       80
 Xft.dpi:       96
-! }}}
-xterm*faceName: DejaVu Sans Mono
-xterm*faceSize: 12
-URxvt*font:xft:Inconsolata:pixelsize=14:antialias=true
-!! URxvt*background:grey10
-!! URxvt*foreground:white
-!! URxvt*cursorColor:white
-URxvt*scrollBar:false
-URxvt*savelines:3000
+!! :}}}
+xterm.faceName: DejaVu Sans Mono
+xterm.faceSize: 12
+!URxvt.font:xft:Inconsolata:pixelsize=14:antialias=true
+!URxvt.font:xft:Fira Code Medium:pixelsize=13,xft:Symbola,xft:Noto Emoji
+URxvt.font: xft:Fira Code:size=10,style=medium:antialias=true
+URxvt.boldFont: xft:Fira Code:size=10,style=bold:antialias=true
+URxvt.italicFont: xft:Fira Code:size=10,style=bold:antialias=true
+URxvt.boldItalicFont: xft:Fira Code:size=10,style=bold:antialias=true
+!! URxvt.letterSpace: -1
+!! URxvt.lineSpace: -1
+!! URxvt.background:grey10
+!! URxvt.foreground:white
+!! URxvt.cursorColor:white
+URxvt.scrollBar:false
+URxvt.savelines:3000
 ! Make Alt_R act as Meta+F12
 XTerm.VT100.translations:       #override \
     <Key>Alt_R:  string("\e[24~")
@@ -66,18 +73,18 @@ XTerm.VT100.translations:       #override \
 #define S_green         #859900
 
 *background:            S_base3
-URxvt*background:	grey10
+URxvt.background:	grey10
 *foreground:            S_base0
-URxvt*foreground:            S_base00
+URxvt.foreground:            S_base00
 *fading:                10
 *fadeColor:             S_base3
-URxvt*fadeColor:             S_base03
+URxvt.fadeColor:             S_base03
 *cursorColor:           S_base01
-URxvt*cursorColor:           S_base1
+URxvt.cursorColor:           S_base1
 *pointerColorBackground:S_base1
-URxvt*pointerColorBackground:S_base01
+URxvt.pointerColorBackground:S_base01
 *pointerColorForeground:S_base01
-URxvt*pointerColorForeground:S_base1
+URxvt.pointerColorForeground:S_base1
 
 !! black dark/light
 *color0:                S_base2

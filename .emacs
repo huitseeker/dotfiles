@@ -643,10 +643,11 @@
   (defvar coq-prog-args)
   (defvar coq-prog-name)
 
+  (push ".vE" completion-ignored-extensions)
   (make-variable-buffer-local 'coq-prog-args)
   (setq-default coq-prog-args nil)
   ;;
-   (custom-set-variables
+  (custom-set-variables
    '(proof-splash-enable nil)
    '(coq-compile-before-require t)
    '(proof-disappearing-proofs t)
@@ -657,7 +658,17 @@
    '(coq-dependency-analyzer (concat (getenv "HOME")
                                      "/.opam/default/bin/coqdep")))
 
+  :defines (coq-mode-map
+            proof-prog-name-ask
+            proof-follow-mode
+            proof-sticky-errors
+            proof-splash-seen)
   :config
+  (setq
+   proof-prog-name-ask t
+   proof-follow-mode 'followdown
+   proof-sticky-errors t
+   proof-splash-seen t)
   (add-hook 'proof-mode-hook 'coq-mode)
   (setq proof-splash-seen t)
   ;; Overlay arrow is a nightmare in ProofGeneral
@@ -1663,8 +1674,8 @@ searched. If there is no symbol, empty search box is started."
 (use-package beacon)
 (beacon-mode 1)
 
-  ;; Overlay arrow is a nightmare in ProofGeneral
-  (setq overlay-arrow-string "")
+;; Overlay arrow is a nightmare in ProofGeneral
+(setq overlay-arrow-string "")
 
 ;; done!
 (provide '.emacs)
