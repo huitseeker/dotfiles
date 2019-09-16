@@ -4,6 +4,7 @@
 ;; Install use-package automatically
 (require 'package)
 (setq package-enable-at-startup nil)
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                   (not (gnutls-available-p))))
        (proto (if no-ssl "http" "https")))
@@ -1333,17 +1334,18 @@
   ("C-;" . iedit-dwim)
   )
 
-(require 'color-theme-solarized)
+;; (require 'color-theme-solarized)
+(add-hook 'after-init-hook (lambda () (load-theme 'solarized-dark)))
 
-(defun toggle-night-color-theme ()
-    "Switch to/from night color scheme."
-    (interactive)
-    (if (eq frame-background-mode 'dark)
-          (setq frame-background-mode 'light)
-      (setq frame-background-mode  'dark))
-    (load-theme 'solarized)
-    (mapc 'frame-set-background-mode (frame-list)))
-(global-set-key (kbd "C-c l") 'toggle-night-color-theme)
+;; (defun toggle-night-color-theme ()
+;;     "Switch to/from night color scheme."
+;;     (interactive)
+;;     (if (eq frame-background-mode 'dark)
+;;           (setq frame-background-mode 'light)
+;;       (setq frame-background-mode  'dark))
+;;     (load-theme 'solarized)
+;;     (mapc 'frame-set-background-mode (frame-list)))
+;; (global-set-key (kbd "C-c l") 'toggle-night-color-theme)
 
 
 ;; markdown-mode

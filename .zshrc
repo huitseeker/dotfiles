@@ -103,3 +103,4 @@ alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null; ssh"
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 
 export TERM=rxvt-unicode-256color
+eval $(opam config env)

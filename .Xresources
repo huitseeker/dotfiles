@@ -18,8 +18,8 @@ URxvt.font: xft:Fira Code:size=10,style=medium:antialias=true
 URxvt.boldFont: xft:Fira Code:size=10,style=bold:antialias=true
 URxvt.italicFont: xft:Fira Code:size=10,style=bold:antialias=true
 URxvt.boldItalicFont: xft:Fira Code:size=10,style=bold:antialias=true
-URxvt.letterSpace: -4
-URxvt.lineSpace: -5
+URxvt.letterSpace: -1
+URxvt.lineSpace: -1
 !! URxvt.background:grey10
 !! URxvt.foreground:white
 !! URxvt.cursorColor:white
