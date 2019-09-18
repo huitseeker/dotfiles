@@ -666,10 +666,11 @@
             proof-splash-seen)
   :config
   (setq
-   proof-prog-name-ask t
+   proof-prog-name-ask nil
    proof-follow-mode 'followdown
    proof-sticky-errors t
    proof-splash-seen t)
+  (setq abbrev-mode nil)
   (add-hook 'proof-mode-hook 'coq-mode)
   (setq proof-splash-seen t)
   ;; Overlay arrow is a nightmare in ProofGeneral
@@ -682,6 +683,7 @@
   ;; one-by-one, but I don't.
   (setq proof-script-fly-past-comments t)
   )
+
 
 ;; Force never unbinding nav commands
 (progn
@@ -1334,19 +1336,10 @@
   ("C-;" . iedit-dwim)
   )
 
-;; (require 'color-theme-solarized)
 (add-hook 'after-init-hook (lambda () (load-theme 'solarized-dark)))
 
-;; (defun toggle-night-color-theme ()
-;;     "Switch to/from night color scheme."
-;;     (interactive)
-;;     (if (eq frame-background-mode 'dark)
-;;           (setq frame-background-mode 'light)
-;;       (setq frame-background-mode  'dark))
-;;     (load-theme 'solarized)
-;;     (mapc 'frame-set-background-mode (frame-list)))
-;; (global-set-key (kbd "C-c l") 'toggle-night-color-theme)
-
+;; Don't let emacs detect things
+(let ((frame-background-mode 'light)) (frame-set-background-mode nil))
 
 ;; markdown-mode
 (use-package markdown-mode
