@@ -1339,7 +1339,7 @@
 (add-hook 'after-init-hook (lambda () (load-theme 'solarized-dark)))
 
 ;; Don't let emacs detect things
-(let ((frame-background-mode 'light)) (frame-set-background-mode nil))
+;; (let ((frame-background-mode 'light)) (frame-set-background-mode nil))
 
 ;; markdown-mode
 (use-package markdown-mode
