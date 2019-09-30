@@ -4,5 +4,5 @@ Documentation=man:gpg-agent(1)
 Requires=gpg-agent.socket
 
 [Service]
-ExecStart=/usr/bin/gpg-agent --supervised
+ExecStart=/usr/bin/gpg-agent --supervised --enable-ssh
 ExecReload=/usr/bin/gpgconf --reload gpg-agent
