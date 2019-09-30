@@ -669,10 +669,12 @@
    proof-prog-name-ask nil
    proof-follow-mode 'followdown
    proof-sticky-errors t
-   proof-splash-seen t)
+   proof-splash-seen t
+   proof-delete-empty-windows t
+   proof-shrink-windows-tofit t
+   )
   (setq abbrev-mode nil)
   (add-hook 'proof-mode-hook 'coq-mode)
-  (setq proof-splash-seen t)
   ;; Overlay arrow is a nightmare in ProofGeneral
   (setq overlay-arrow-string "")
 
