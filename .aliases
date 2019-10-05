@@ -1,7 +1,20 @@
 alias cleanup='mv *.tex ~/latex/latex-sources & mv *.pdf ~/latex/latex-pdfs & mv *.aux *.tns ~/latex/latex-compilation-remainings & mv *.log  ~/latex/latex-compilation-remainings & mv *.dvi  ~/latex/latex-precompiled & mv *.ps  ~/latex/latex-precompiled'
 alias mozilla='mozilla-firefox'
 alias xfig='xfig -specialtext -latexfonts -startlatexFont default'
-alias ls='ls -x'
+# Tweak standard commands
+if ls --color=auto --literal > /dev/null 2>&1; then
+    # newer GNU coreutils
+    alias ls='ls --literal --color=auto'
+elif ls --color=auto > /dev/null 2>&1; then
+    # older GNU coreutils and some BSD
+    alias ls='ls --color=auto'
+elif ls -G > /dev/null 2>&1; then
+    # other BSD
+    alias ls='ls -G'
+fi
+if echo x | grep --color=auto x > /dev/null 2>&1; then
+    alias grep='grep --color=auto'
+fi
 alias aterm='aterm -tn xterm -bg black -fg white -cr white -pr grey -tr -sh 50 +sb'
 alias LEMOUV="ogg123 http://ogg.tv-radio.fr:1441/encoderlemouv.ogg"
 alias INTER="ogg123 http://ogg.tv-radio.fr:1441/encoderfinter.ogg"
@@ -9,7 +22,6 @@ alias INFO="ogg123 http://ogg.tv-radio.fr:1441/encoderfinfo.ogg"
 alias FIP="ogg123 http://ogg.tv-radio.fr:1441/encoderfip.ogg"
 alias KCSM="ogg123 http://hifi.kcsm.org:8040/vorbis2.ogg"
 alias KZSU="mpg321 http://171.66.118.51:8200/"
-alias grep="grep --color=auto"
 alias killev="killall evolution evolution-mail evolution-calendar evolution-alarm-notify evolution-wombat evolution-data-server-1.0"
 alias vncs="vncserver -geometry 1024x768"
 alias penncvs="cvs -d :ext:garillot@saul.cis.upenn.edu:/plclub/cvsroot"

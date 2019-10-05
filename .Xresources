@@ -14,10 +14,10 @@ xterm.faceName: DejaVu Sans Mono
 xterm.faceSize: 12
 !!URxvt.font:xft:Inconsolata:pixelsize=14:antialias=true
 !!URxvt.font:xft:Fira Code Medium:pixelsize=13,xft:Symbola,xft:Noto Emoji
-URxvt.font: xft:Fira Code:size=10,style=medium:antialias=true
-URxvt.boldFont: xft:Fira Code:size=10,style=bold:antialias=true
-URxvt.italicFont: xft:Fira Code:size=10,style=bold:antialias=true
-URxvt.boldItalicFont: xft:Fira Code:size=10,style=bold:antialias=true
+URxvt.font: xft:FiraCode:size=10,style=medium:antialias=true
+URxvt.boldFont: xft:FiraCode:size=10,style=bold:antialias=true
+URxvt.italicFont: xft:FiraCode:size=10,style=bold:antialias=true
+URxvt.boldItalicFont: xft:FiraCode:size=10,style=bold:antialias=true
 URxvt.letterSpace: -1
 URxvt.lineSpace: -1
 !! URxvt.background:grey10
