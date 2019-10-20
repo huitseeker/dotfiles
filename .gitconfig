@@ -47,6 +47,8 @@
 
         # Amend the currently staged files to the latest commit
         amend = commit --amend --reuse-message=HEAD
+        # re-date
+        redate = "!f(){ GIT_COMMITTER_DATE=\"$(date)\" git commit --amend --reuse-message=HEAD --date \"$(date)\"; }; f"
 
         # Credit an author on the latest commit
         credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
@@ -107,8 +109,6 @@
 
         # Detect whitespace errors when applying a patch
         whitespace = fix
-[http]
-         sslVerify = false
 [merge]
         tool = mymeld
         conflictStyle = diff3
