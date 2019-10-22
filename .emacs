@@ -167,8 +167,8 @@
 (setq inhibit-startup-echo-area-message t)
 (setq inhibit-startup-message t)
 
-;;Simple bindings for delete and backspace, delete-selection and transient
-;;modes
+;; Simple bindings for delete and backspace, delete-selection and transient
+;; modes
 ;; EMACS-24
 ;;(pc-selection-mode)
 
@@ -183,7 +183,7 @@
 
 (global-set-key (kbd "C-x 4") 'window-split-horizontally-twice)
 
-                                        ; It's annoying to have emacs suddenly suspend
+;; It's annoying to have emacs suddenly suspend
 (global-unset-key (kbd "C-z"))
 
 ;; for Kernighan style in braces arrangement
@@ -249,7 +249,7 @@
 (autoload 'tuareg-imenu-set-imenu "tuareg-imenu" "Configuration of imenu for tuareg" t)
 (add-hook 'tuareg-mode-hook 'tuareg-imenu-set-imenu)
 
-                                        ; Indiquer le nom de l'utilisateur@machine ur le cadre de la frame
+;; Indiquer le nom de l'utilisateur@machine ur le cadre de la frame
 (setq frame-title-format
       (list (user-real-login-name)"@"(system-name)":"'buffer-file-name))
 (setq icon-title-format "%f")
@@ -311,8 +311,8 @@
           (coding-system-base coding)
           (coding-system-base buffer-file-coding-system))))
 
-                                        ; Gestion des backup (fichiers~)
-                                        ; from http://mail.gnu.org/archive/html/help-gnu-emacs/2002-07/msg00117.html
+;; Gestion des backup (fichiers~)
+;; from http://mail.gnu.org/archive/html/help-gnu-emacs/2002-07/msg00117.html
 (setq backup-directory-alist
       '((".+\\.tex$" . "~/backup/tex")
         ("/[^\\./]+\\..+$" . "~/backup/code")
@@ -325,7 +325,7 @@
       backup-by-copying-when-linked t
       trim-versions-without-asking t ) ; Copy linked files, don't rename.
 
-                                        ; Le curseur ne clignote pas.
+;; Le curseur ne clignote pas.
 (if (fboundp 'blink-cursor-mode) (blink-cursor-mode -1))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -362,20 +362,20 @@
 ;; predefined generic modes for config files edition
 (require 'generic-x) ; trigger use
 
-                                        ; Les lignes sont coupées au bout de 74 caractères dans les modes où
-                                        ; l'autofill est activé.
+;; Les lignes sont coupées au bout de 74 caractères dans les modes où
+;; l'autofill est activé.
 (setq-default fill-column 74)
 
 (require 'tex-site)
 (if (featurep 'tex-site)
     (add-hook 'LaTeX-mode-hook
               (lambda()
-                                        ; On fournit le raccourci C-c f pour la commande de compilation.
+                ;; On fournit le raccourci C-c f pour la commande de compilation.
                 (local-set-key
                  [(control ?c) ?f]
                  (lambda () (interactive)
                    (TeX-command "LaTeX" 'TeX-master-file)))
-                                        ; On fournit le raccourci C-c v pour la commande de visualisation.
+                ;; On fournit le raccourci C-c v pour la commande de visualisation.
                 (local-set-key
                  [(control ?c) ?v]
                  (lambda () (interactive)
@@ -383,7 +383,7 @@
                 (auto-fill-mode 1)
                 (setq comment-auto-fill-only-comments nil)
                 ))
-                                        ; Si AucTeX n'est pas chargé, on se contente du mode latex de base.
+  ;; Si AucTeX n'est pas chargé, on se contente du mode latex de base.
   (add-hook 'latex-mode-hook
             (lambda ()
               (setq tex-command
@@ -391,10 +391,10 @@
               (setq tex-dvi-view-command "xdvi")
               (setq comment-auto-fill-only-comments nil))))
 
-                                        ; Se placer en mode latex et non tex lors de l'ouverture d'un fichier .tex.
+;; Se placer en mode latex et non tex lors de l'ouverture d'un fichier .tex.
 (setq tex-default-mode 'LaTeX-mode)
 
-                                        ; compilation avec Make en mode AucTeX
+;; compilation avec Make en mode AucTeX
 (add-hook 'LaTeX-mode-hook (lambda ()
                              (push
                               '("Make" "make" TeX-run-compile nil t
@@ -405,7 +405,7 @@
                              (setq TeX-save-query nil)
                              (setq TeX-PDF-mode t)))
 
-                                        ; RefTeX
+;; RefTeX
 (autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" t)
 (autoload 'reftex-citation "reftex-cite" "Make citation" t)
 (autoload 'reftex-index-phrase-mode "reftex-index" "Phrase Mode" t)
@@ -416,37 +416,37 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Quelques bindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-                                        ; « global-set-key » fonctionne comme « local-set-key », mais agit sur la
-                                        ; keymap globale, qui a les deux particularités suivantes :
-                                        ; - elle est utilisée dans tous les buffers
-                                        ; - elle a plus faible priorité que les keymaps locales des buffers.
+;; « global-set-key » fonctionne comme « local-set-key », mais agit sur la
+;; keymap globale, qui a les deux particularités suivantes :
+;; - elle est utilisée dans tous les buffers
+;; - elle a plus faible priorité que les keymaps locales des buffers.
 
-                                        ; « compile » permet de lancer une commande, recueille la sortie de la
-                                        ; commande dans un buffer, puis, à chaque fois que vous tapez « C-x ` »,
-                                        ; avance dans ce buffer jusqu'à tomber sur un message d'erreur indiquant un
-                                        ; fichier et une position dans ce fichier (ce que font la plupart des
-                                        ; compilateurs lorsqu'il y a une erreur dans un programme), et vous amène
-                                        ; à l'endroit en question. C'est très pratique pour débuguer.
+;; « compile » permet de lancer une commande, recueille la sortie de la
+;; commande dans un buffer, puis, à chaque fois que vous tapez « C-x ` »,
+;; avance dans ce buffer jusqu'à tomber sur un message d'erreur indiquant un
+;; fichier et une position dans ce fichier (ce que font la plupart des
+;; compilateurs lorsqu'il y a une erreur dans un programme), et vous amène
+;; à l'endroit en question. C'est très pratique pour débuguer.
 (global-set-key [f9] 'compile)
 (global-set-key [f10] 'recompile)
 
 (global-set-key [(meta ?g)] 'goto-line)
 
-                                        ; « C-x u » appelle la fonction d'undo. Lorsque l'on doit le taper un grand
-                                        ; nombre de fois, il arrive très souvent que l'on tape « C-x C-u », ce qui
-                                        ; casse tout. On corrige :
+;; « C-x u » appelle la fonction d'undo. Lorsque l'on doit le taper un grand
+;; nombre de fois, il arrive très souvent que l'on tape « C-x C-u », ce qui
+;; casse tout. On corrige :
 (global-set-key [(control ?x) (control ?u)] 'advertised-undo)
 (global-set-key [(control ?x) (meta ?u)] 'upcase-region)
 
-                                        ; Il parait que :
+;; Il parait que :
 ;; Vous remercierez ces deux bindings quand vous serez en telnet depuis un Mac
-                                        ; [.emacs conscrit selon Saint DOM, verset 159]
-                                        ; Je ne sais pas quel est le problème, mais pourquoi pas...
+;; [.emacs conscrit selon Saint DOM, verset 159]
+;; Je ne sais pas quel est le problème, mais pourquoi pas...
 (global-set-key [(control ?x) ?s] 'save-buffer)
 (global-set-key [(control ?x) ?c] 'save-buffers-kill-emacs)
 
-                                        ; Ces deux commandes sont bindées sur « M-{ » et « M-} », qui sont pénibles
-                                        ; à taper sur un azerty.
+;; Ces deux commandes sont bindées sur « M-{ » et « M-} », qui sont pénibles
+;; à taper sur un azerty.
 (global-set-key [(meta ?p)] 'backward-paragraph)
 (global-set-key [(meta ?n)] 'forward-paragraph)
 
@@ -455,37 +455,37 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
-                                        ; Lorsque l'on demande de compléter le nom d'un fichier, emacs ignorera les
-                                        ; fichiers dont le nom se termine par ces suffixes. Vous pouvez y ajouter
-                                        ; ou en enlever les extensions qui vous chantent.
+;; Lorsque l'on demande de compléter le nom d'un fichier, emacs ignorera les
+;; fichiers dont le nom se termine par ces suffixes. Vous pouvez y ajouter
+;; ou en enlever les extensions qui vous chantent.
 (setq completion-ignored-extensions
       (append
        '(".zo" ".zi" ".cmo" ".cmi" ".cmx" ".aux" ".bbl" ".blg" ".dvi"
          ".pdf" ".ps" ".log" ".glob" ".annot")
        completion-ignored-extensions))
 
-                                        ; Par défaut, on ouvre un fichier en mode texte.
+;; Par défaut, on ouvre un fichier en mode texte.
 (setq major-mode 'text-mode)
 
-                                        ; Vous ne voulez pas utiliser rmail!
+;; Vous ne voulez pas utiliser rmail!
 (put 'rmail 'disabled t)
 
-                                        ; On réactive ces deux commandes.
+;; On réactive ces deux commandes.
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
-                                        ; On fait en sorte que tous les fichiers dont le nom contient « makefile »
-                                        ; ou « Makefile » soient mis en mode make lorsqu'on les ouvre.
+;; On fait en sorte que tous les fichiers dont le nom contient « makefile »
+;; ou « Makefile » soient mis en mode make lorsqu'on les ouvre.
 
 (setq auto-mode-alist
       (append (list
                '("[Mm]akefile" . makefile-mode))
               auto-mode-alist))
 
-                                        ; Recursive minibuffers
+;; Recursive minibuffers
 (setq enable-recursive-minibuffers t)
 
-                                        ; No tab indentation
+;; No tab indentation
 (setq-default indent-tabs-mode nil)
 
 ;; preview-latex
@@ -528,13 +528,13 @@
       (remq 'process-kill-buffer-query-function
             kill-buffer-query-functions))
 
-                                        ; Pour naviguer entre les fenetres
+;; Pour naviguer entre les fenetres
 ;; undo-redo window configs
 (when (fboundp 'winner-mode)
   (winner-mode 1))
 (windmove-default-keybindings)
 
-                                        ; extension to mode mapping : csharp-mode, among others
+;; extension to mode mapping : csharp-mode, among others
 (setq auto-mode-alist
       (append '(
                 ("\\.src$" . latex-mode)
@@ -748,13 +748,13 @@
   "Setup reftex for `org-mode`."
   (load-library "reftex")
   (and (buffer-file-name) (file-exists-p (buffer-file-name))
-       (progn
+     (progn
                                         ;enable auto-revert-mode to update reftex when bibtex file changes on disk
-         (global-auto-revert-mode t)
-         (reftex-parse-all)
+       (global-auto-revert-mode t)
+       (reftex-parse-all)
                                         ;add a custom reftex cite format to insert links
-         (reftex-set-cite-format "** %l: %t \n")
-         ))
+       (reftex-set-cite-format "** %l: %t \n")
+       ))
   (define-key org-mode-map (kbd "C-c )") 'reftex-citation)
   )
 
@@ -828,14 +828,14 @@
 (use-package company-lsp
   :ensure t)
 
-                                        ; fuzzy completion/search
+;; fuzzy completion/search
 (use-package fuzzy
   :config
   (turn-on-fuzzy-isearch)
   )
 
-                                        ; complete with tab, except in menus
-                                        ; activate everywhere
+;; complete with tab, except in menus
+;; activate everywhere
 (define-globalized-minor-mode real-global-auto-complete-mode
   company-mode (lambda ()
                  (if (not (minibufferp (current-buffer)))
@@ -843,10 +843,10 @@
                  ))
 (real-global-auto-complete-mode t)
 
-                                        ; flyspell compatibility
+;; flyspell compatibility
 (add-hook 'flyspell-mode-hook
           'ac-flyspell-workaround)
-                                        ; automatic language detection for flyspell
+;; automatic language detection for flyspell
 ;; (use-package auto-dictionary
 ;;   :hook flyspell-mode)
 
@@ -955,8 +955,8 @@
   :init
   (add-hook 'python-mode-hook 'py-autopep8-enable-on-save))
 
-                                        ; Eldoc mode
-                                        ; shows you the argument list of the function call you are currently writing
+;; Eldoc mode
+;; shows you the argument list of the function call you are currently writing
 ;; ensure:
 ;;; pip install jedi
 ;;  pip install flake8
@@ -1044,7 +1044,7 @@
   :config
   (global-pretty-mode 1)
   )
-                                        ; This fixes bugs of the global-pretty-mode preventing correct composition
+;; This fixes bugs of the global-pretty-mode preventing correct composition
 (defadvice font-lock-fontify-syntactically-region (before prettify compile activate)
   "Make font-lock do pretty-things."
   (unless pretty-mode
@@ -1120,7 +1120,7 @@
     (setq p2 (point))
     (delete-region p1 p2)))
 
-                                        ; bind them to emacs's default shortcut keys:
+;; bind them to emacs's default shortcut keys:
 (global-set-key (kbd "C-S-k") 'my-delete-line-backward) ; Ctrl+Shift+k
 (global-set-key (kbd "C-k") 'my-delete-line)
 (global-set-key (kbd "M-d") 'my-delete-word)
