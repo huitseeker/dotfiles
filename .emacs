@@ -311,8 +311,8 @@
           (coding-system-base coding)
           (coding-system-base buffer-file-coding-system))))
 
-; Gestion des backup (fichiers~)
-; from http://mail.gnu.org/archive/html/help-gnu-emacs/2002-07/msg00117.html
+                                        ; Gestion des backup (fichiers~)
+                                        ; from http://mail.gnu.org/archive/html/help-gnu-emacs/2002-07/msg00117.html
 (setq backup-directory-alist
       '((".+\\.tex$" . "~/backup/tex")
         ("/[^\\./]+\\..+$" . "~/backup/code")
@@ -511,9 +511,11 @@
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++11")))
   )
 
-;; Obsolete wih lsp-ui
-;; (with-eval-after-load 'flycheck
-;;   (add-hook 'flycheck-mode-hook #'global-flycheck-inline-mode))
+;; Modeline indicator
+(require 'flycheck-indicator)
+
+(eval-after-load "flycheck"
+  '(add-hook 'flycheck-mode-hook 'flycheck-indicator-mode))
 
 ;; ===== flycheck-pyflakes ======
 (use-package flycheck-pyflakes)
@@ -633,7 +635,7 @@
 (autoload 'coq-mode "coq" "Major mode for editing Coq vernacular." t)
 (setq auto-mode-alist (cons '("\\.v$" . coq-mode) auto-mode-alist))
 (add-to-list 'load-path (concat (getenv "HOME")
-                           "/.opam/default/share/emacs/site-lisp"))
+                                "/.opam/default/share/emacs/site-lisp"))
 
 ;;
 ;; ProofGeneral
@@ -795,7 +797,7 @@
   :hook (prog-mode . company-mode)
   :hook (coq-mode . company-coq-mode)
   :config (setq company-tooltip-align-annotations t)
-          (setq company-minimum-prefix-length 1))
+  (setq company-minimum-prefix-length 1))
 
 (use-package lsp-mode
   :ensure t
@@ -814,14 +816,14 @@
               ("C-c C-a" . lsp-ui-sideline-apply-code-actions))
   :init
   (setq lsp-ui-doc-position 'at-point
-         lsp-ui-doc-header nil
-         lsp-ui-doc-border "violet"
-         ;; lsp-ui-doc-include-signature t
-         lsp-ui-sideline-update-mode 'point
-         lsp-ui-sideline-delay 1
-         lsp-ui-sideline-ignore-duplicate t
-         lsp-ui-peek-always-show t
-         lsp-ui-flycheck-enable t))
+        lsp-ui-doc-header nil
+        lsp-ui-doc-border "violet"
+        ;; lsp-ui-doc-include-signature t
+        lsp-ui-sideline-update-mode 'point
+        lsp-ui-sideline-delay 1
+        lsp-ui-sideline-ignore-duplicate t
+        lsp-ui-peek-always-show t
+        lsp-ui-flycheck-enable t))
 
 (use-package company-lsp
   :ensure t)
@@ -836,9 +838,9 @@
                                         ; activate everywhere
 (define-globalized-minor-mode real-global-auto-complete-mode
   company-mode (lambda ()
-                       (if (not (minibufferp (current-buffer)))
-                           (company-mode 1))
-                       ))
+                 (if (not (minibufferp (current-buffer)))
+                     (company-mode 1))
+                 ))
 (real-global-auto-complete-mode t)
 
                                         ; flyspell compatibility
@@ -1268,9 +1270,9 @@
 (defadvice find-file (around find-file activate)
   "Open FILENAME using tramp's sudo method if it's read-only."
   (if (and (not (file-writable-p (ad-get-arg 0)))
-           (y-or-n-p (concat "File "
-                             (ad-get-arg 0)
-                             " is read-only.  Open it as root? ")))
+         (y-or-n-p (concat "File "
+                           (ad-get-arg 0)
+                           " is read-only.  Open it as root? ")))
       (find-file-sudo (ad-get-arg 0))
     ad-do-it))
 
@@ -1301,11 +1303,6 @@
 
 ;; Experimental : darkroom-mode
 (use-package darkroom)
-
-;; edit server for chrome
-(use-package edit-server
-  :init
-  (edit-server-start))
 
 ;; cycle through buffers with Ctrl-Tab (like Firefox)
 (global-set-key (kbd "<C-tab>") 'bury-buffer)
@@ -1353,8 +1350,8 @@
   :init (setq markdown-command "multimarkdown"))
 
 ;; org-mode in text
-;; (add-hook 'text-mode-hook 'turn-on-orgstruct)
-;; (add-hook 'text-mode-hook 'turn-on-orgstruct++)
+(add-hook 'text-mode-hook 'turn-on-orgstruct)
+(add-hook 'text-mode-hook 'turn-on-orgstruct++)
 
 ;; VC-check-status
 ;; (use-package vc-check-status
@@ -1562,8 +1559,8 @@ searched. If there is no symbol, empty search box is started."
 (setq master-dir
       (let ((fb-master-dir-env "LOCAL_ADMIN_SCRIPTS"))
         (or (getenv "LOCAL_ADMIN_SCRIPTS")
-            (warn (format "%s: missing environment var"
-                          fb-master-dir-env)))))
+           (warn (format "%s: missing environment var"
+                         fb-master-dir-env)))))
 ;;
 (let ((fb-settings "/usr/facebook/ops/rc/master.emacs"))
   (when (file-exists-p fb-settings)
@@ -1606,7 +1603,6 @@ searched. If there is no symbol, empty search box is started."
       ;; (unless (getenv "RUST_SRC_PATH")
       ;;   (setenv "RUST_SRC_PATH" (shell-command-to-string "echo -n `rustc --print sysroot`/lib/rustlib/src/rust/src/")))
       (setq racer-cmd "~/.cargo/bin/racer")
-      ;; (setq racer-rust-src-path (shell-command-to-string "echo -n `rustc --print sysroot`/lib/rustlib/src/rust/src/"))
       (add-hook 'rust-mode-hook #'racer-mode)
       (add-hook 'racer-mode-hook #'eldoc-mode)
       (add-hook 'racer-mode-hook #'company-mode))
@@ -1661,7 +1657,7 @@ searched. If there is no symbol, empty search box is started."
   (mmm-add-mode-ext-class 'markdown-mode nil 'markdown-rust)
   :hook
   (markdown-mode)
-)
+  )
 
 ;; Rainbow
 (use-package rainbow-delimiters)
