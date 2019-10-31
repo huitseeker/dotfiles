@@ -82,10 +82,8 @@ export GPG_TTY
 # Set SSH to use gpg-agent
 unset SSH_AGENT_PID
 
-if [[ -z "$SSH_AUTH_SOCK" ]] || [[ "$SSH_AUTH_SOCK" == *"apple.launchd"* ]]; then
-       SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-       export SSH_AUTH_SOCK
-fi
+SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+export SSH_AUTH_SOCK
 
 # add alias for ssh to update the tty
 alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null; ssh"
