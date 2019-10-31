@@ -651,6 +651,17 @@
   (setq-default coq-prog-args nil)
   ;;
   (custom-set-variables
+   '(proof-prog-name-guess t)
+   '(proof-auto-raise-buffers nil)
+   '(proof-delete-empty-windows nil)
+   '(proof-disappearing-proofs t)
+   '(proof-follow-mode (quote follow))
+   '(proof-imenu-enable t)
+   '(proof-shrink-windows-tofit t)
+   '(proof-splash-enable nil)
+   '(proof-strict-read-only t)
+   '(proof-three-window-enable t)
+   '(proof-three-window-mode-policy (quote smart))
    '(proof-splash-enable nil)
    '(coq-compile-before-require t)
    '(proof-disappearing-proofs t)
@@ -672,20 +683,12 @@
    proof-follow-mode 'followdown
    proof-sticky-errors t
    proof-splash-seen t
-   proof-delete-empty-windows t
-   proof-shrink-windows-tofit t
    )
   (setq abbrev-mode nil)
   (add-hook 'proof-mode-hook 'coq-mode)
   ;; Overlay arrow is a nightmare in ProofGeneral
   (setq overlay-arrow-string "")
 
-  ;; Hybrid mode is by far the best.
-  (setq proof-three-window-mode-policy 'hybrid)
-
-  ;; I don't know who wants to evaluate comments
-  ;; one-by-one, but I don't.
-  (setq proof-script-fly-past-comments t)
   )
 
 
