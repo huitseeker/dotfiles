@@ -586,6 +586,7 @@
 ;; compilation tries to find its buffer in other windows
 (setq-default display-buffer-reuse-frames t)
 (setq pop-up-windows nil)
+(setq switch-visible-buffer nil)
 
 ;; UI
 
@@ -650,7 +651,7 @@
   (make-variable-buffer-local 'coq-prog-args)
   (setq-default coq-prog-args nil)
   ;;
-  (custom-set-variables
+  (setq
    '(proof-prog-name-guess t)
    '(proof-auto-raise-buffers nil)
    '(proof-delete-empty-windows nil)
@@ -679,6 +680,7 @@
             proof-splash-seen)
   :config
   (setq
+   display-buffer-reuse-frames nil
    proof-prog-name-ask nil
    proof-follow-mode 'followdown
    proof-sticky-errors t
@@ -689,6 +691,13 @@
   ;; Overlay arrow is a nightmare in ProofGeneral
   (setq overlay-arrow-string "")
 
+  ;; Hybrid mode is by far the best.
+  (setq proof-three-window-enable nil)
+  (setq proof-three-window-mode-policy 'hybrid)
+
+  ;; I don't know who wants to evaluate comments
+  ;; one-by-one, but I don't.
+  (setq proof-script-fly-past-comments t)
   )
 
 

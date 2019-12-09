@@ -97,8 +97,8 @@ alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null; ssh"
 
 # Keybindings for fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f /usr/share/fzf/shell/key-bindings.zsh ] && source /usr/share/fzf/shell/key-bindings.zsh
-[ -f /usr/share/fzf/ompletion.zsh ] && source /usr/share/fzf/completion.zsh
+[ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
+[ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 
 # really important or emacs will freak out
 export TERM=xterm
@@ -107,6 +107,5 @@ export TERMINFO="$HOME/.terminfo"
 infocmp -I -r -T rxvt-unicode-256color > $TERMINFO
 export TERMCAP="$HOME/.termcap"
 infocmp -C -r -T rxvt-unicode-256color > $TERMCAP
-
 
 eval $(opam config env)
