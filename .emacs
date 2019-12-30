@@ -652,26 +652,26 @@
   (setq-default coq-prog-args nil)
   ;;
   (setq
-   '(proof-prog-name-guess t)
-   '(proof-auto-raise-buffers nil)
-   '(proof-delete-empty-windows nil)
-   '(proof-disappearing-proofs t)
-   '(proof-follow-mode (quote follow))
-   '(proof-imenu-enable t)
-   '(proof-shrink-windows-tofit t)
-   '(proof-splash-enable nil)
-   '(proof-strict-read-only t)
-   '(proof-three-window-enable t)
-   '(proof-three-window-mode-policy (quote smart))
-   '(proof-splash-enable nil)
-   '(coq-compile-before-require t)
-   '(proof-disappearing-proofs t)
-   '(coq-prog-name (concat (getenv "HOME")
-                           "/.opam/default/bin/coqtop"))
-   '(coq-compiler (concat (getenv "HOME")
-                          "/.opam/default/bin/coqc"))
-   '(coq-dependency-analyzer (concat (getenv "HOME")
-                                     "/.opam/default/bin/coqdep")))
+   proof-prog-name-guess t
+   proof-auto-raise-buffers nil
+   proof-delete-empty-windows nil
+   proof-disappearing-proofs t
+   proof-follow-mode (quote follow)
+   proof-imenu-enable t
+   proof-shrink-windows-tofit t
+   proof-splash-enable nil
+   proof-strict-read-only t
+   proof-three-window-enable t
+   proof-three-window-mode-policy (quote smart)
+   proof-splash-enable nil
+   coq-compile-before-require t
+   proof-disappearing-proofs t
+   coq-prog-name (concat (getenv "HOME")
+                           "/.opam/default/bin/coqtop")
+   coq-compiler (concat (getenv "HOME")
+                          "/.opam/default/bin/coqc")
+   coq-dependency-analyzer (concat (getenv "HOME")
+                                     "/.opam/default/bin/coqdep"))
 
   :defines (coq-mode-map
             proof-prog-name-ask
