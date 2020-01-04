@@ -1,0 +1,12 @@
+[Unit]
+ Description=Automatic Rustup Update
+
+[Service]
+ Type=simple
+ ExecStart=/bin/rustup update
+ TimeoutStopSec=600
+ KillMode=process
+ KillSignal=SIGINT
+
+[Install]
+ WantedBy=default.target
