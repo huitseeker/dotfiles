@@ -161,6 +161,8 @@
   (auto-fill-mode 1))
 
 (add-hook 'prog-mode-hook 'comment-auto-fill)
+(add-hook 'prog-mode-hook 'which-function-mode)
+(add-hook 'prog-mode-hook 'toggle-truncate-lines)
 
 ;; Less confirmations
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -195,9 +197,14 @@
 ;; IDO : better minibuffer completion
 (use-package ido
   :ensure t
-  :init  (setq ido-enable-flex-matching t
-               ido-ignore-extensions t
+  :init  (setq ido-ignore-extensions t
+               ido-enable-prefix nil
+               ido-enable-flex-matching t ;; enable fuzzy matching
+               ido-create-new-buffer 'always
+               ido-use-filename-at-point 'guess
+               ;; ido-default-file-method 'select-window
                ido-use-virtual-buffers t
+               ido-max-prospects 10
                ;; Don't be case sensitive
                ido-case-fold t
                ;; If the file at point exists, use that
@@ -210,9 +217,7 @@
                ;; If the input does not exist,
                ;; don't look in unnexpected places.
                ;; I probably want a new file.
-               ido-auto-merge-work-directories-length -1
-               ido-enable-flex-matching t
-               ido-create-new-buffer 'always
+               ido-auto-merge-work-directories-length nil
                ido-everywhere t
                ido-max-dir-file-cache 20
                ido-max-work-directory-list 10)
@@ -265,6 +270,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; from http://www-rocq.inria.fr/~fleuret
 (setq show-paren-delay 0);Show the matching immediately
+(setq show-paren-style 'expression)
+(show-paren-mode 1)
 (setq default-indicate-empty-lines t);show me empty lines at the end of the buffer
 
                                         ;automatic text
@@ -1026,6 +1033,7 @@
             :bind ("C-c m" . vr/mc-mark)))
 
 ;; Helm
+;; TODO : redo this with use-package
 (require 'helm) ; immediate use
 (require 'helm-config)
 (defvar helm-source-emacs-commands
@@ -1038,8 +1046,7 @@
     :coerce #'intern-soft
     :action #'command-execute)
   "A simple helm source for Emacs commands.")
-
-(setq helm-mini-default-sources '(helm-source-buffers-list
+(setq helm-sources '(helm-source-buffers-list
                                   helm-source-recentf
                                   helm-source-dired-recent-dirs
                                   helm-chrome-source
@@ -1048,8 +1055,16 @@
                                   hgs/helm-c-source-search
                                   helm-source-emacs-commands
                                   helm-source-buffer-not-found))
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
 
-(global-set-key (kbd "\M-X") 'helm)
+;; Anzu
+(use-package anzu
+  :ensure t
+  :bind (("M-%" . anzu-query-replace)
+         ("C-M-%" . anzu-query-replace-regexp))
+  :config
+  (global-anzu-mode))
 
 ;; Redisplaying parts of the buffer as pretty symbols
 (use-package pretty-mode
@@ -1364,6 +1379,9 @@
 ;; org-mode in text
 (add-hook 'text-mode-hook 'turn-on-orgstruct)
 (add-hook 'text-mode-hook 'turn-on-orgstruct++)
+(require 'outline)
+(add-hook 'prog-mode-hook 'outline-minor-mode)
+(add-hook 'compilation-mode-hook 'outline-minor-mode)
 
 ;; VC-check-status
 ;; (use-package vc-check-status
@@ -1673,7 +1691,7 @@ searched. If there is no symbol, empty search box is started."
 
 ;; Rainbow
 (use-package rainbow-delimiters)
-(add-hook 'rust-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 ;; Beacon
 (use-package beacon)
