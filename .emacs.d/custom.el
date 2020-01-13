@@ -51,10 +51,10 @@
  '(company-quickhelp-color-foreground "#DCDCCC")
  '(compilation-message-face (quote default))
  '(confirm-kill-emacs nil)
- '(coq-compile-before-require t)
- '(coq-compiler (concat (getenv "HOME") "/.opam/default/bin/coqc"))
- '(coq-dependency-analyzer (concat (getenv "HOME") "/.opam/default/bin/coqdep"))
- '(coq-prog-name (concat (getenv "HOME") "/.opam/default/bin/coqtop"))
+ '(coq-compile-before-require t t)
+ '(coq-compiler (concat (getenv "HOME") "/.opam/default/bin/coqc") t)
+ '(coq-dependency-analyzer (concat (getenv "HOME") "/.opam/default/bin/coqdep") t)
+ '(coq-prog-name (concat (getenv "HOME") "/.opam/default/bin/coqtop") t)
  '(coq-script-indent nil)
  '(coq-use-holes nil)
  '(cua-global-mark-cursor-color "#2aa198")
@@ -66,7 +66,7 @@
  '(custom-enabled-themes nil)
  '(custom-safe-themes
    (quote
-    ("d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "a7051d761a713aaf5b893c90eaba27463c791cd75d7257d3a8e66b0c8c346e77" "d057f0430ba54f813a5d60c1d18f28cf97d271fd35a36be478e20924ea9451bd" "ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "3f44e2d33b9deb2da947523e2169031d3707eec0426e78c7b8a646ef773a2077" "89dd0329d536d389753111378f2425bd4e4652f892ae8a170841c3396f5ba2dd" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
+    ("2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" "0598c6a29e13e7112cfbc2f523e31927ab7dce56ebb2016b567e1eff6dc1fd4f" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "a7051d761a713aaf5b893c90eaba27463c791cd75d7257d3a8e66b0c8c346e77" "d057f0430ba54f813a5d60c1d18f28cf97d271fd35a36be478e20924ea9451bd" "ec5f697561eaf87b1d3b087dd28e61a2fc9860e4c862ea8e6b0b77bd4967d0ba" "3f44e2d33b9deb2da947523e2169031d3707eec0426e78c7b8a646ef773a2077" "89dd0329d536d389753111378f2425bd4e4652f892ae8a170841c3396f5ba2dd" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" "e11569fd7e31321a33358ee4b232c2d3cf05caccd90f896e1df6cab228191109" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "1e7e097ec8cb1f8c3a912d7e1e0331caeed49fef6cff220be63bd2a6ba4cc365" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
  '(dabbrev-upcase-means-case-search t)
  '(default-input-method "ucs")
  '(enable-local-variables (quote other))
@@ -203,7 +203,7 @@ mouse-3: Remove current window from display")))))))
  '(org-time-stamp-custom-formats (quote ("{%m/%d/%y %a}" . "{%m/%d/%y %a %H:%M}")))
  '(package-selected-packages
    (quote
-    (dockerfile-mode rustic flycheck-indicator protobuf-mode color-theme-modern company-coq coq-commenter lsp-mode rainbow-delimiters company-lsp company company-racer lsp-ui toml beacon toml-mode wgrep-ag racer mmm-auto mmm-mode k8s-mode rust-auto-use iedit edit-server point-stack pretty-mode multiple-cursors visual-regexp-steroids visual-regexp ag py-autopep8 jedi fuzzy flx-ido color-identifiers-mode flycheck-inline string-inflection cider ac-helm popwin cargo company-reftex ac-racer flycheck-rust rust-mode proof-general srefactor direx avy pyenv-mode-auto pyenv-mode wrap-region ace-window anzu darkroom ace-jump-mode unipoint autopair guess-language auto-dictionary adoc-mode flycheck-pyflakes smex bbdb writeroom-mode eclim groovy-mode magithub pcre2el wgrep counsel w3m json-mode gtags java-imports zenburn-theme yari yaml-mode which-key volatile-highlights vc-check-status use-package tuareg tidy scss-mode scala-mode sass-mode redpen-paragraph python-mode pymacs pylint pycomplete paredit org-ac markdown-mode magit ipython inf-ruby helm-projectile haskell-mode gist fillcode expand-region exec-path-from-shell ess ensime elpy el-get deft coffee-mode clojure-mode better-defaults auto-compile auctex artbollocks-mode adaptive-wrap ack-and-a-half)))
+    (lean-mode yasnippet-lean dockerfile-mode rustic flycheck-indicator protobuf-mode color-theme-modern company-coq coq-commenter lsp-mode rainbow-delimiters company-lsp company company-racer lsp-ui toml beacon toml-mode wgrep-ag racer mmm-auto mmm-mode k8s-mode rust-auto-use iedit edit-server point-stack pretty-mode multiple-cursors visual-regexp-steroids visual-regexp ag py-autopep8 jedi fuzzy flx-ido color-identifiers-mode flycheck-inline string-inflection cider ac-helm popwin cargo company-reftex ac-racer flycheck-rust rust-mode proof-general srefactor direx avy pyenv-mode-auto pyenv-mode wrap-region ace-window anzu darkroom ace-jump-mode unipoint autopair guess-language auto-dictionary adoc-mode flycheck-pyflakes smex bbdb writeroom-mode eclim groovy-mode magithub pcre2el wgrep counsel w3m json-mode gtags java-imports zenburn-theme yari yaml-mode which-key volatile-highlights vc-check-status use-package tuareg tidy scss-mode scala-mode sass-mode redpen-paragraph python-mode pymacs pylint pycomplete paredit org-ac markdown-mode magit ipython inf-ruby helm-projectile haskell-mode gist fillcode expand-region exec-path-from-shell ess ensime elpy el-get deft coffee-mode clojure-mode better-defaults auto-compile auctex artbollocks-mode adaptive-wrap ack-and-a-half)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pop-up-frames nil)
  '(pos-tip-background-color "#073642")

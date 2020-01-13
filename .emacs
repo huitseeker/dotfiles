@@ -1616,6 +1616,9 @@ searched. If there is no symbol, empty search box is started."
     (add-hook 'rust-mode-hook 'cargo-minor-mode)
     (add-hook 'toml-mode-hook 'cargo-minor-mode))
   (setq rust-format-on-save t)
+  :bind
+  (("C-M-n" . flymake-goto-next-error)
+   ("C-M-p" . flymake-goto-prev-error))
   :config
   (use-package flycheck-rust
     :ensure t
@@ -1699,6 +1702,9 @@ searched. If there is no symbol, empty search box is started."
 
 ;; Overlay arrow is a nightmare in ProofGeneral
 (setq overlay-arrow-string "")
+
+;; Highlight the current line
+(global-hl-line-mode +1)
 
 ;; done!
 (provide '.emacs)
