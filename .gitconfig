@@ -163,3 +163,5 @@
         program = gpg2
 [submodule]
         recurse = true
+[github]
+	user = huitseeker

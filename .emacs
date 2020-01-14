@@ -41,7 +41,7 @@
                                           haskell-mode helm helm-ag helm-projectile inf-ruby magit markdown-mode
                                           paredit projectile pymacs python sass-mode rainbow-mode rust-mode
                                           scss-mode solarized-theme volatile-highlights yaml-mode yari
-                                          yasnippet zenburn-theme flycheck-inline color-identifiers-mode
+                                          zenburn-theme flycheck-inline color-identifiers-mode
                                           )
   "A list of packages to ensure are installed at launch.")
 
@@ -307,7 +307,6 @@
   (backward-char 2)
   (LaTeX-mode)
   )
-;; Inserting licenses is now covered by yasnippet
 
 ;; The following should make Emacs ask when the buffer encoding is not
 ;; that with which emacs is set up to save the file. Emacs will then
@@ -505,7 +504,6 @@
 
 ;; flycheck
 ;; ==== flycheck ====
-
 (use-package flycheck
   :bind
   (("C-M-n" . flycheck-next-error)
@@ -517,7 +515,6 @@
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc python-flake8 python-pylint))
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++11")))
   )
-
 ;; Modeline indicator
 (require 'flycheck-indicator)
 
@@ -611,24 +608,28 @@
 (setq whizzytex-semantic-filtering 0)
 
 ;; Magit
-;; == magit ==
+(use-package with-editor)
+
+(use-package git-commit)
+
 (use-package magit
-  :ensure t
-  :defer t
-  :bind ("C-x g" . magit-status)
+  :commands magit-status magit-blame
   :init
-  (setq magit-diff-options (quote ("--word-diff")))
-  (setq magit-diff-refine-hunk 'all)
-  (setq magit-process-connection-type nil)
-  ;; https://github.com/philjackson/magit/issues#issue/18
-  ;; Infamous 'v' keypress suffices to revert by default !
-  (setq magit-revert-item-confirm t)
-  )
+  (setq magit-auto-revert-mode nil)
+  (setq magit-last-seen-setup-instructions "1.4.0")
+  :bind (("C-x g" . magit-status)
+         ("C-x b" . magit-blame)))
 
 (use-package magithub
   :after magit
   :config (magithub-feature-autoinject t))
 
+(use-package magit-find-file
+  :bind (("C-x f" . magit-find-file-completing-read)))
+
+;; invoke M-x git-timemachine in a git versioned file to enable moving
+;; through version space.
+(use-package git-timemachine)
 
 
 ;; NXml-mode support
