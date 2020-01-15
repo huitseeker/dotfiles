@@ -618,7 +618,7 @@
   (setq magit-auto-revert-mode nil)
   (setq magit-last-seen-setup-instructions "1.4.0")
   :bind (("C-x g" . magit-status)
-         ("C-x b" . magit-blame)))
+         ("C-x l" . magit-blame)))
 
 (use-package magithub
   :after magit
@@ -903,7 +903,11 @@
              counsel-rg
              counsel-git-grep)
   )
+(use-package expand-region
+  :commands 'er/expand-region
+  :bind ("C-=" . er/expand-region))
 
+(use-package counsel-projectile)
 ;;
 
 ;;;;;;;;;;;;
