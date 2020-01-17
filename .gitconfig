@@ -4,7 +4,7 @@
 [user]
     name = François Garillot
     email = francois@garillot.net
-	signingkey = A6EFBA9E3F33E320
+        signingkey = A6EFBA9E3F33E320
 [color]
     ui = true
 [core]
@@ -33,6 +33,9 @@
 
         # Commit all changes
         ca = !git add -A && git commit -av
+
+        # add changes w/o whitespace
+        addnw=!sh -c 'git diff -U0 -w --no-color "$@" | git apply --cached --ignore-whitespace --unidiff-zero -'
 
         # Switch to a branch, creating it if necessary
         go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
@@ -164,4 +167,4 @@
 [submodule]
         recurse = true
 [github]
-	user = huitseeker
+        user = huitseeker
