@@ -521,6 +521,17 @@
 (eval-after-load "flycheck"
   '(add-hook 'flycheck-mode-hook 'flycheck-indicator-mode))
 
+(flycheck-define-checker proselint
+  "A linter for prose."
+  :command ("proselint" source-inplace)
+  :error-patterns
+  ((warning line-start (file-name) ":" line ":" column ": "
+            (id (one-or-more (not (any " "))))
+            (message) line-end))
+  :modes (text-mode markdown-mode gfm-mode))
+
+(add-to-list 'flycheck-checkers 'proselint)
+
 ;; ===== flycheck-pyflakes ======
 (use-package flycheck-pyflakes)
 
@@ -1038,30 +1049,40 @@
             :bind ("C-c m" . vr/mc-mark)))
 
 ;; Helm
-;; TODO : redo this with use-package
-(require 'helm) ; immediate use
-(require 'helm-config)
-(defvar helm-source-emacs-commands
-  (helm-build-sync-source "Emacs commands"
-    :candidates (lambda ()
-                  (let ((cmds))
-                    (mapatoms
-                     (lambda (elt) (when (commandp elt) (push elt cmds))))
-                    cmds))
-    :coerce #'intern-soft
-    :action #'command-execute)
-  "A simple helm source for Emacs commands.")
-(setq helm-sources '(helm-source-buffers-list
-                                  helm-source-recentf
-                                  helm-source-dired-recent-dirs
-                                  helm-chrome-source
-                                  hgs/helm-c-source-stars
-                                  hgs/helm-c-source-repos
-                                  hgs/helm-c-source-search
-                                  helm-source-emacs-commands
-                                  helm-source-buffer-not-found))
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(use-package helm
+  :ensure t
+  :init (require 'helm-config)
+  :config
+  (setq-default helm-M-x-fuzzy-match t)
+  (defvar helm-source-emacs-commands
+    (helm-build-sync-source "Emacs commands"
+      :candidates (lambda ()
+                    (let ((cmds))
+                      (mapatoms
+                       (lambda (elt) (when (commandp elt) (push elt cmds))))
+                      cmds))
+      :coerce #'intern-soft
+      :action #'command-execute)
+    "A simple helm source for Emacs commands.")
+  (setq helm-sources '(helm-source-buffers-list
+                       helm-source-recentf
+                       helm-source-dired-recent-dirs
+                       helm-chrome-source
+                       hgs/helm-c-source-stars
+                       hgs/helm-c-source-repos
+                       hgs/helm-c-source-search
+                       helm-source-emacs-commands
+                       helm-source-buffer-not-found))
+  :bind
+  (("M-x" . helm-M-x)
+   ("C-x C-f" . helm-find-files)))
+
+(use-package helm-projectile
+  :ensure t
+  :hook prog-mode
+  :bind
+  (("C-z g" . helm-projectile-grep)
+   ("C-z f" . helm-projectile-find-file)))
 
 ;; Anzu
 (use-package anzu
@@ -1383,7 +1404,7 @@
 
 ;; org-mode in text
 (add-hook 'text-mode-hook 'turn-on-orgstruct)
-(add-hook 'text-mode-hook 'turn-on-orgstruct++)
+;; (add-hook 'text-mode-hook 'turn-on-orgstruct++)
 (require 'outline)
 (add-hook 'prog-mode-hook 'outline-minor-mode)
 (add-hook 'compilation-mode-hook 'outline-minor-mode)
@@ -1683,13 +1704,13 @@ searched. If there is no symbol, empty search box is started."
   (setq
    mmm-global-mode 'maybe
    mmm-submode-decoration-level 2
-   mmm-parse-when-idle 't
+   ;; mmm-parse-when-idle 't
    )
   :init
   (mmm-add-classes
    '((markdown-rust
       :submode rust-mode
-      :front "^```\s*rust$"
+      :front "^```rust$"
       :back "^```$"
       :end-not-begin t)))
   (mmm-add-mode-ext-class 'markdown-mode nil 'markdown-rust)
