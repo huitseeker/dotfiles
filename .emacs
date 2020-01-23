@@ -562,7 +562,6 @@
                 ) auto-mode-alist ))
 
 ;;;              C# Mode support
-;;;
 (autoload 'csharp-mode "csharp-mode")
 
 ;; Scala-mode support
@@ -604,7 +603,6 @@
 (setq switch-visible-buffer nil)
 
 ;; UI
-
 (use-package anzu
   :ensure    anzu
   :config    (global-anzu-mode t)
@@ -918,9 +916,6 @@
   :commands 'er/expand-region
   :bind ("C-=" . er/expand-region))
 
-(use-package counsel-projectile)
-;;
-
 ;;;;;;;;;;;;
 ;; Python ;;
 ;;;;;;;;;;;;
@@ -1083,6 +1078,8 @@
   :bind
   (("C-z g" . helm-projectile-grep)
    ("C-z f" . helm-projectile-find-file)))
+(use-package counsel-projectile
+  :ensure t)
 
 ;; Anzu
 (use-package anzu
@@ -1608,8 +1605,8 @@ searched. If there is no symbol, empty search box is started."
 
 
 ;; Writeroom
-(use-package writeroom-mode)
-
+(use-package writeroom-mode
+  :ensure t)
 
 ;; FB setup
 (setq master-dir
@@ -1719,8 +1716,9 @@ searched. If there is no symbol, empty search box is started."
   )
 
 ;; Rainbow
-(use-package rainbow-delimiters)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(use-package rainbow-delimiters
+  :ensure t
+  :hook prog-mode)
 
 ;; Beacon
 (use-package beacon)
