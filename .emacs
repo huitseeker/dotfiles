@@ -1072,12 +1072,6 @@
   (("M-x" . helm-M-x)
    ("C-x C-f" . helm-find-files)))
 
-(use-package helm-projectile
-  :ensure t
-  :hook prog-mode
-  :bind
-  (("C-z g" . helm-projectile-grep)
-   ("C-z f" . helm-projectile-find-file)))
 (use-package counsel-projectile
   :ensure t)
 
@@ -1574,21 +1568,7 @@ searched. If there is no symbol, empty search box is started."
     (magit-status)
     (call-interactively #'magit-fetch-current))
 
-  (def-projectile-commander-method ?j
-    "Jack-in with Cider."
-    (let* ((opts (projectile-current-project-files))
-           (file (ido-completing-read
-                  "Find file: "
-                  opts
-                  nil nil nil nil
-                  (car (cl-member-if
-                        (lambda (f)
-                          (string-match "core\\.clj\\'" f))
-                        opts)))))
-      (find-file (expand-file-name
-                  file (projectile-project-root)))
-      (run-hooks 'projectile-find-file-hook)
-      (cider-jack-in))))
+  )
 
 ;; Direx
 (use-package direx
