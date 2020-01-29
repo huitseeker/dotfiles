@@ -602,12 +602,6 @@
 (setq pop-up-windows nil)
 (setq switch-visible-buffer nil)
 
-;; UI
-(use-package anzu
-  :ensure    anzu
-  :config    (global-anzu-mode t)
-  :diminish  anzu-mode)
-
 (use-package wrap-region
   :ensure    wrap-region
   :config    (wrap-region-global-mode t)
@@ -1081,7 +1075,8 @@
   :bind (("M-%" . anzu-query-replace)
          ("C-M-%" . anzu-query-replace-regexp))
   :config
-  (global-anzu-mode))
+  (global-anzu-mode)
+  :diminish anzu-mode)
 
 ;; Redisplaying parts of the buffer as pretty symbols
 (use-package pretty-mode
@@ -1132,7 +1127,6 @@
 (global-set-key "\r" 'newline-maybe-indent)
 (global-set-key "\C-j" 'newline)
 
-;; EXPERIMENTAL : enforced hardcore typing efficiency with emacs
 (defun my-delete-word (arg)
   "Delete characters forward until encountering the end of a word.  With ARG, do this that many times.  This command does not push text to `kill-ring'."
   (interactive "p")
