@@ -1696,19 +1696,7 @@ searched. If there is no symbol, empty search box is started."
   ;; (rainbow-identifiers-mode 1) doesn't work. have to set it up as a hoook
   (progn
     (add-hook 'prog-mode-hook 'rainbow-identifiers-mode)
-    (setq rainbow-identifiers-choose-face-function 'rainbow-identifiers-cie-l*a*b*-choose-face
-          rainbow-identifiers-cie-l*a*b*-lightness 70
-          rainbow-identifiers-cie-l*a*b*-saturation 30
-          rainbow-identifiers-cie-l*a*b*-color-count 20
-          ;; override theme faces
-          rainbow-identifiers-faces-to-override '(highlight-quoted-symbol
-                                                  font-lock-variable-name-face
-                                                  font-lock-function-name-face
-                                                  font-lock-type-face
-                                                  js2-function-param
-                                                  js2-external-variable
-                                                  js2-instance-member
-                                                  js2-private-function-call))))
+    ))
 
 (use-package rainbow-delimiters
   :ensure t
