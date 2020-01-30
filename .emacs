@@ -825,6 +825,10 @@
 (use-package lsp-mode
   :ensure t
   :init
+  ;; Experimental!
+  ;; (setq lsp-rust-server 'rust-analyzer
+  ;;       debug-on-error nil
+  ;;       lsp-rust-analyzer-inlay-hints-mode t)
   (add-hook 'prog-mode-hook #'lsp))
 (use-package lsp-ui
   :ensure t
