@@ -819,8 +819,13 @@
 (use-package company
   :hook (prog-mode . company-mode)
   :hook (coq-mode . company-coq-mode)
-  :config (setq company-tooltip-align-annotations t)
-  (setq company-minimum-prefix-length 1))
+  :config
+  (setq company-tooltip-align-annotations t)
+  (setq company-minimum-prefix-length 1)
+  ;; global activation of the unicode symbol completion
+  (add-to-list 'company-backends 'company-math-symbols-unicode)
+)
+
 
 (use-package lsp-mode
   :ensure t
