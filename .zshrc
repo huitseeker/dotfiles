@@ -92,9 +92,9 @@ alias ssh="gpg-connect-agent updatestartuptty /bye >/dev/null; ssh"
 . $HOME/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 # Rust configuration
+SSL_CERT_DIR=/etc/ssl/certs/
 [ -f ~/.cargo/bin/sccache ] && export RUSTC_WRAPPER=sccache
-[ -f ~/.cargo/bin/sccache ] && export SCCACHE_CACHE_SIZE=1G
-[ -f ~/.config/sccache-on-cloud-72444eaf2975.json ] && export SCCACHE_GCS_KEY_PATH="$HOME/.config/sccache-on-cloud-72444eaf2975.json" && export SCCACHE_GCS_BUCKET="sccache-70o2856kybk2rch2" && SCCACHE_CACHE_SIZE=5G
+[ -f ~/.cargo/bin/sccache ] && [ -z SCCACHE_GCS_BUCKET ] && export SCCACHE_CACHE_SIZE=2G
 
 # Keybindings for fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
