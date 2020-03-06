@@ -820,8 +820,13 @@
   :hook (prog-mode . company-mode)
   :hook (coq-mode . company-coq-mode)
   :config
-  (setq company-tooltip-align-annotations t)
-  (setq company-minimum-prefix-length 1)
+  (setq company-tooltip-limit 20
+        company-minimum-prefix-length 3
+        company-idle-delay .3
+        company-echo-delay 0
+        company-begin-commands '(self-insert-command)
+        company-dabbrev-downcase nil
+        company-tooltip-align-annotations t)
   ;; global activation of the unicode symbol completion
   (add-to-list 'company-backends 'company-math-symbols-unicode)
 )
@@ -831,9 +836,9 @@
   :ensure t
   :init
   ;; Experimental!
-  ;; (setq lsp-rust-server 'rust-analyzer
-  ;;       debug-on-error nil
-  ;;       lsp-rust-analyzer-inlay-hints-mode t)
+  (setq lsp-rust-server 'rust-analyzer
+        debug-on-error nil
+        lsp-rust-analyzer-inlay-hints-mode t)
   (add-hook 'prog-mode-hook #'lsp))
 (use-package lsp-ui
   :ensure t
@@ -1622,9 +1627,9 @@ searched. If there is no symbol, empty search box is started."
     (add-hook 'rust-mode-hook 'cargo-minor-mode)
     (add-hook 'toml-mode-hook 'cargo-minor-mode))
   (setq rust-format-on-save t)
-  :bind
-  (("C-M-n" . flymake-goto-next-error)
-   ("C-M-p" . flymake-goto-prev-error))
+  ;; :bind
+  ;; (("C-M-n" . flymake-goto-next-error)
+  ;;  ("C-M-p" . flymake-goto-prev-error))
   :config
   (use-package flycheck-rust
     :ensure t
