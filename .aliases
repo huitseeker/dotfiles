@@ -52,7 +52,7 @@ alias gcall='find ./ -type d -name .git -execdir git gc \;'
 alias rupall='find ./ -type d -name .git -execdir git rup \;'
 alias list-branches='for k in $(git branch -r | perl -pe "s/^..(.*?)( ->.*)?$/\1/"); do echo -e $(git show --pretty=format:"%Cgreen%ci %Cblue%cr%Creset" $k -- | head -n 1); done | sort -r'
 alias gpg=gpg2
-alias bat='upower -d /org/freedesktop/UPower/devices/battery_BAT0|grep -E "state|empty|time"|uniq'
+alias batt='upower -d /org/freedesktop/UPower/devices/battery_BAT0|grep -E "state|empty|time"|uniq'
 alias pipupgrade="pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U"
 alias scalafmt="java -jar /home/huitseeker/tmp/scalafmt/cli/target/scala-2.11/scalafmt.jar"
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'

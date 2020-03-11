@@ -809,6 +809,7 @@
 (add-hook 'scala-mode-hook 'my-tab-fix)
 (add-hook 'adoc-mode-hook 'my-tab-fix)
 (add-hook 'text-mode-hook 'my-tab-fix)
+(add-hook 'rust-mode-hook 'my-tab-fix)
 
 ;; Just as a failsafe
 (setq tab-always-indent 'complete)
