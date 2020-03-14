@@ -952,11 +952,22 @@
 (define-key comint-mode-map [(control meta p)]
   'comint-previous-input)
 
-(use-package jedi
-  :ensure t
+(use-package jedi-core
+  :ensure
   :init
   (add-hook 'python-mode-hook 'jedi:setup)
-  (add-hook 'python-mode-hook 'jedi:ac-setup))
+  (add-hook 'python-mode-hook 'jedi:ac-setup)
+  :config
+  (setq jedi:use-shortcuts t) ; M-. and M-,
+  (setq jedi:environment-virtualenv
+        (append python-environment-virtualenv
+                '("--python" "/usr/bin/python3")))
+  (use-package company-jedi
+    :ensure
+    :config
+    (add-hook 'python-mode-hook
+              (lambda () (add-to-list 'company-backends
+                                      'company-jedi)))))
 
 (setq py-load-pymacs-p nil)
 (require 'pymacs)
