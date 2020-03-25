@@ -70,7 +70,7 @@
 (setq gnutls-min-prime-bits 4096)
 
 ;; modernize Emacs Lisp
-(require 'cl)
+(require 'cl-lib)
 
 (use-package dash
   :ensure t
@@ -269,9 +269,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; from http://www-rocq.inria.fr/~fleuret
-(setq show-paren-delay 0);Show the matching immediately
-(setq show-paren-style 'expression)
 (show-paren-mode 1)
+(setq show-paren-delay 0) ;Show the matching immediately
+(setq show-paren-style 'expression)
 (setq default-indicate-empty-lines t);show me empty lines at the end of the buffer
 
                                         ;automatic text
@@ -497,9 +497,6 @@
 ;; preview-latex
 (autoload 'TeX-preview-setup "preview")
 (add-hook 'LaTeX-mode-hook 'LaTeX-preview-setup)
-;; flyspell
-(add-hook 'LaTeX-mode-hook 'flyspell-mode)
-(add-hook 'adoc-mode-hook 'flyspell-mode)
 
 
 ;; flycheck
@@ -657,6 +654,7 @@
   :init
   (defvar coq-prog-args)
   (defvar coq-prog-name)
+  (setq proof-assistants (quote (coq)))
 
   (push ".vE" completion-ignored-extensions)
   (make-variable-buffer-local 'coq-prog-args)
@@ -881,12 +879,15 @@
                  ))
 (real-global-auto-complete-mode t)
 
+;; automatic language detection for flyspell
+(use-package auto-dictionary
+  :hook flyspell-mode)
+;; flyspell
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'adoc-mode-hook 'flyspell-mode)
 ;; flyspell compatibility
 (add-hook 'flyspell-mode-hook
           'ac-flyspell-workaround)
-;; automatic language detection for flyspell
-;; (use-package auto-dictionary
-;;   :hook flyspell-mode)
 
 ;; prevent flyspell from finding misspellings in code
 (add-hook 'prog-mode-hook
