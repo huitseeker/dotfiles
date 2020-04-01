@@ -499,6 +499,10 @@
 (add-hook 'LaTeX-mode-hook 'LaTeX-preview-setup)
 
 
+;; flymake
+(use-package flymake
+  :commands flymake-mode)
+
 ;; flycheck
 ;; ==== flycheck ====
 (use-package flycheck
@@ -513,10 +517,10 @@
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++11")))
   )
 ;; Modeline indicator
-(require 'flycheck-indicator)
-
-(eval-after-load "flycheck"
-  '(add-hook 'flycheck-mode-hook 'flycheck-indicator-mode))
+(use-package flycheck-indicator
+  :ensure t
+  :after flycheck
+  :hook (flycheck-mode . flycheck-indicator-mode))
 
 (flycheck-define-checker proselint
   "A linter for prose."
