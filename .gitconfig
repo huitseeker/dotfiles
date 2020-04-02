@@ -168,3 +168,5 @@
         recurse = true
 [github]
         user = huitseeker
+[pull]
+	rebase = true

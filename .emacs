@@ -832,6 +832,8 @@
         company-tooltip-align-annotations t)
   ;; global activation of the unicode symbol completion
   (add-to-list 'company-backends 'company-math-symbols-unicode)
+  :init
+  (company-quickhelp-mode)
 )
 
 
@@ -1644,9 +1646,9 @@ searched. If there is no symbol, empty search box is started."
     (add-hook 'rust-mode-hook 'cargo-minor-mode)
     (add-hook 'toml-mode-hook 'cargo-minor-mode))
   (setq rust-format-on-save t)
-  ;; :bind
-  ;; (("C-M-n" . flymake-goto-next-error)
-  ;;  ("C-M-p" . flymake-goto-prev-error))
+  :bind ( :map rust-mode-map
+               (("C-c C-t" . racer-describe)
+                ([?\t] .  company-indent-or-complete-common)))
   :config
   (use-package flycheck-rust
     :ensure t
