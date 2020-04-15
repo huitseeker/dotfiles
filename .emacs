@@ -885,15 +885,9 @@
                  ))
 (real-global-auto-complete-mode t)
 
-;; automatic language detection for flyspell
-(use-package auto-dictionary
-  :hook flyspell-mode)
 ;; flyspell
 (add-hook 'LaTeX-mode-hook 'flyspell-mode)
 (add-hook 'adoc-mode-hook 'flyspell-mode)
-;; flyspell compatibility
-(add-hook 'flyspell-mode-hook
-          'ac-flyspell-workaround)
 
 ;; prevent flyspell from finding misspellings in code
 (add-hook 'prog-mode-hook
