@@ -133,7 +133,7 @@
                                    \\\"$BASE\\\" nil \\\"$MERGED\\\"))\"
 [push]
         default = simple
-	followTags = true
+        followTags = true
 [alias]
         rtrack = rev-parse --symbolic-full-name --abbrev-ref @{u}
         exclude = !sh -c 'echo "$1" >> .git/info/exclude' -
@@ -170,4 +170,4 @@
 [github]
         user = huitseeker
 [pull]
-	rebase = true
+        rebase = true

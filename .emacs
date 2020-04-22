@@ -559,7 +559,6 @@
                 ("\\.xt$" . csharp-mode)
                 ("\\.xti$" . csharp-mode)
                 ("\\.aspx$" . html-mode)
-                ("\\.v$" . coq-mode)
                 ) auto-mode-alist ))
 
 ;;;              C# Mode support
@@ -866,7 +865,8 @@
         lsp-ui-sideline-delay 1
         lsp-ui-sideline-ignore-duplicate t
         lsp-ui-peek-always-show t
-        lsp-ui-flycheck-enable t))
+        lsp-ui-flycheck-enable t
+        lsp-ui-doc-use-childframe nil))
 
 (use-package company-lsp
   :ensure t)
