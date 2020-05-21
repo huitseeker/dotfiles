@@ -666,7 +666,7 @@
   (setq
    proof-prog-name-guess t
    proof-auto-raise-buffers nil
-   proof-delete-empty-windows t
+   proof-delete-empty-windows nil
    proof-disappearing-proofs t
    proof-follow-mode (quote follow)
    proof-imenu-enable t
