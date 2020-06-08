@@ -4,7 +4,7 @@
 [user]
     name = François Garillot
     email = francois@garillot.net
-	signingkey = A6EFBA9E3F33E320
+        signingkey = A6EFBA9E3F33E320
 [color]
     ui = true
 [core]
@@ -52,6 +52,8 @@
         amend = commit --amend --reuse-message=HEAD
         # re-date
         redate = "!f(){ GIT_COMMITTER_DATE=\"$(date)\" git commit --amend --reuse-message=HEAD --date \"$(date)\"; }; f"
+        # clean-date
+        cleandate = "!f(){ eval $($HOME/bin/gitdate) && git commit --amend --reuse-message=HEAD; }; f"
 
         # Credit an author on the latest commit
         credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
@@ -155,7 +157,7 @@
         fsckObjects = true
 [fetch]
         fsckobjects = false
-	recurseSubmodules = on-demand
+        recurseSubmodules = on-demand
 [receive]
         fsckobjects = true
 [commit]
