@@ -210,6 +210,7 @@ focus_follows_mouse on
 for_window [title="unibrow"] floating enable
 for_window [title="SpiderOakONE"] floating enable
 for_window [title="pinentry*"] floating enable
+for_window [title="gnuradio*"] floating enable
 
 # Quick toggle between two most recent workspaces
 bindsym $mod+Tab workspace back_and_forth
