@@ -29,12 +29,14 @@ mute()   { adjust_muteness "$1" 1; }
 unmute() { adjust_muteness "$1" 0; }
 
 adjust_muteness() {
-    local index=$(get_index "$1")
+    local index
+    index=$(get_index "$1")
     [[ "$index" ]] && pacmd set-sink-input-mute "$index" $2 >/dev/null
 }
 
 get_index() {
-    local pid=$(pidof "$1")
+    local pid
+    pid=$(pidof "$1")
     if [[ -z "$pid" ]]; then
         echo "error: no running processes for: $1" >&2
     else
