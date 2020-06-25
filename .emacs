@@ -136,12 +136,6 @@
   adoc-mode
   )
 
-;; barebone Develock modes for Python and ProofGeneral
-(eval-after-load "develock"
-  '(progn
-     (load "~/.emacs.d/packages/develock-py")
-     (load "~/.emacs.d/packages/develock-proof")))
-
 ;;customization of a few major modes
 (remove-hook 'text-mode-hook #'turn-on-auto-fill)
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
@@ -172,7 +166,7 @@
 ;; Simple bindings for delete and backspace, delete-selection and transient
 ;; modes
 ;; EMACS-24
-;;(pc-selection-mode)
+;; (pc-selection-mode)
 
 ;;Window-splitting enhancement for WideScreen
 (defun window-split-horizontally-twice ()
@@ -187,12 +181,6 @@
 
 ;; It's annoying to have emacs suddenly suspend
 (global-unset-key (kbd "C-z"))
-
-;; for Kernighan style in braces arrangement
-(fset 'braces-insertion
-      [?{ return tab up ?\C-e return tab])
-
-(global-set-key "\C-x\'" 'braces-insertion)
 
 ;; IDO : better minibuffer completion
 (use-package ido
@@ -232,7 +220,7 @@
               ido-use-faces nil)
   :config (flx-ido-mode 1))
 
-;; personal key-binding for comfort on my azerty keyboard (when I type french texts):
+;; personal key-binding for comfort:
 ;; C-home deletes the indentation of the current line,
 ;; then merges it with the preceding line.
 ;; useful when programming
@@ -254,7 +242,7 @@
 (autoload 'tuareg-imenu-set-imenu "tuareg-imenu" "Configuration of imenu for tuareg" t)
 (add-hook 'tuareg-mode-hook 'tuareg-imenu-set-imenu)
 
-;; Indiquer le nom de l'utilisateur@machine ur le cadre de la frame
+;; Indiquer le nom de l'utilisateur@machine sur le cadre de la frame
 (setq frame-title-format
       (list (user-real-login-name)"@"(system-name)":"'buffer-file-name))
 (setq icon-title-format "%f")
@@ -273,40 +261,6 @@
 (setq show-paren-delay 0) ;Show the matching immediately
 (setq show-paren-style 'expression)
 (setq default-indicate-empty-lines t);show me empty lines at the end of the buffer
-
-                                        ;automatic text
-(defun start-latex ()
-  "Add all that stuff to start a new LaTeX document."
-  (interactive)
-  (goto-char (point-min))
-  (insert "\\documentclass[a4paper,french]{article}
-\\title{}
-\\author{}
-\\date{}
-
-\\usepackage[french]{babel}    %pour la typographie et le texte automatique en français
-\\usepackage{indentfirst}      %pour les paragraphes à la française
-\\usepackage[utf8x]{inputenc} %pour les accents
-\\usepackage[T1]{fontenc}      %pour la césure des mots accentués
-\\usepackage{xspace}           %pour les commandes genre \cad -> c'est-à-dire
-
-
-
-\\begin{document}
-
-\\maketitle
-
-
-")
-  (goto-char (point-max))
-  (insert "
-\\end{document}
-")
-  (goto-char (point-min))
-  (next-line 2)
-  (backward-char 2)
-  (LaTeX-mode)
-  )
 
 ;; The following should make Emacs ask when the buffer encoding is not
 ;; that with which emacs is set up to save the file. Emacs will then
@@ -338,23 +292,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;; Configuration de divers modes ;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;(add-hook 'vc-mode-hook
-;;          (if (string= (vc-backend (buffer-file-name)) "Git")
-;;              (progn (local-unset-key "\C-x v a")
-;;                     (local-set-key "\C-x v a" 'add-change-log-entry-other-window))
-;;            ))
-
 ;; VC-mode is evolving disruptively in emacs-24,
 ;; which troubles auto-revert settings based on it.
 ;; we brutally activate auto-revert everywhere.
 (global-auto-revert-mode t)
-
-;; Check modeline for adds from vc
-;; (defadvice vc-mode-line (after auto-revert-vc activate)
-;;  "Make vc-mode turn on autorevert"
-;;  (unless (boundp 'auto-revert-mode)
-;;    (turn-on-auto-revert-mode)))
-;; (setq auto-revert-check-vc-info t)
 
 (add-hook 'text-mode-hook
           (lambda ()
@@ -795,6 +736,8 @@
      ))
 (add-hook 'remember-mode-hook 'org-remember-apply-template)
 
+;;; Auto-complete with tab
+
 (defun my-tab-fix ()
   "Setup the tab key to our custom auto-complete function."
   (local-set-key [tab] 'company-indent-or-complete-common))
@@ -836,6 +779,7 @@
   (company-quickhelp-mode)
 )
 
+;;; Language server Setup
 
 (use-package lsp-mode
   :ensure t
@@ -1434,9 +1378,6 @@
   "Check the current buffer with atdtool."
   (interactive)
   (compile (concat "atdtool -s localhost -P 1049 " (shell-quote-argument (buffer-file-name)))))
-
-;; (add-to-list 'load-path "~/.emacs.d/jdc/")
-;; (require 'jdc)
 
 ;; Centered-window-mode
 (defun center-text ()
