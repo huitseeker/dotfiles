@@ -596,8 +596,6 @@
   :ensure t
   :mode ("\\.v\\'" . coq-mode)
   :init
-  (defvar coq-prog-args)
-  (defvar coq-prog-name)
   (setq proof-assistants (quote (coq)))
 
   (push ".vE" completion-ignored-extensions)
@@ -1682,6 +1680,30 @@ searched. If there is no symbol, empty search box is started."
 
 ;; Highlight the current line
 (global-hl-line-mode +1)
+
+;; Helm-swoop
+(use-package helm-swoop
+ :bind
+ (("C-S-s" . helm-swoop)
+  ("M-i" . helm-swoop)
+  ("M-s s" . helm-swoop)
+  ("M-s M-s" . helm-swoop)
+  ("M-I" . helm-swoop-back-to-last-point)
+  ("C-c M-i" . helm-multi-swoop)
+  ("C-x M-i" . helm-multi-swoop-all)
+  )
+ :config
+ (progn
+   (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
+   (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop))
+)
+
+;; Prescient
+;; https://github.com/raxod502/prescient.el
+(use-package company-prescient
+   :config
+   (company-prescient-mode 1)
+   (prescient-persist-mode 1))
 
 ;; done!
 (provide '.emacs)
