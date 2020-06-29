@@ -1582,6 +1582,7 @@ searched. If there is no symbol, empty search box is started."
     (add-hook 'rust-mode-hook 'cargo-minor-mode)
     (add-hook 'toml-mode-hook 'cargo-minor-mode))
   (setq rust-format-on-save t)
+  (setq cargo-process--command-check "check --all-targets")
   :bind ( :map rust-mode-map
                (("C-c C-t" . racer-describe)
                 ([?\t] .  company-indent-or-complete-common)))
