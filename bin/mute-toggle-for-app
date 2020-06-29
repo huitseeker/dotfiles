@@ -22,7 +22,7 @@ usage() {
     [[ "$2" ]] && echo "error: $2"
     echo "usage: $0 [-h] [-u] appname"
     echo "where: -u = ummute application (default action is to mute)"
-    exit $1
+    exit "$1"
 }
 
 mute()   { adjust_muteness "$1" 1; }
@@ -31,7 +31,7 @@ unmute() { adjust_muteness "$1" 0; }
 adjust_muteness() {
     local index
     index=$(get_index "$1")
-    [[ "$index" ]] && pacmd set-sink-input-mute "$index" $2 >/dev/null
+    [[ "$index" ]] && pacmd set-sink-input-mute "$index" "$2" >/dev/null
 }
 
 get_index() {
@@ -41,7 +41,7 @@ get_index() {
         echo "error: no running processes for: $1" >&2
     else
         pacmd list-sink-inputs |
-        awk -v pid=$pid '
+        awk -v pid="$pid" '
             $1 == "index:" {idx = $2}
             $1 == "application.process.id" && $3 == "\"" pid "\"" {print idx; exit}
         '

@@ -539,7 +539,9 @@
          ("\\(\\([a-zA-Z]:\\)?[^:(\t\n]+\\)(\\([0-9]+\\)[,]\\([0-9]+\\)): \\(error\\|warning\\) CS[0-9]+:" 1 3 4))
        compilation-error-regexp-alist))
 ;; compilation tries to find its buffer in other windows
-(setq-default display-buffer-reuse-frames t)
+;; (setq-default display-buffer-reuse-frames t)
+(setq display-buffer-alist
+      '(("*" . (nil . (reusable-frames 0)))))
 (setq pop-up-windows nil)
 (setq switch-visible-buffer nil)
 
@@ -1617,16 +1619,23 @@ searched. If there is no symbol, empty search box is started."
   )
 
 ;; Popwin
-(require 'popwin)
-(popwin-mode 1)
-(push '("\*cargo*" :regexp t :height 20) popwin:special-display-config)
+(use-package popwin
+  :ensure t
+  :init
+  (popwin-mode 1)
+  (push '("*cargo*" :regexp t :tail t :height 20) popwin:special-display-config)
+  (defadvice popwin:popup-buffer (after popwin-one-window activate)
+    (save-selected-window
+      (set-window-point popwin:popup-window (point-max))
+          (recenter -2))
+        )
+  )
 
 ;; move cursor by camelCase
 (global-subword-mode 1)
 ;; 1 for on, 0 for off
 
 ;; string-inflection config
-
 (require 'string-inflection)
 
 ;; default
