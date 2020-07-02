@@ -1506,7 +1506,9 @@ searched. If there is no symbol, empty search box is started."
 (use-package projectile
   :ensure t
   :diminish projectile-mode
-  :init (projectile-mode 1)
+  :init
+  (projectile-mode 1)
+  (require 'helm-projectile)
   :commands projectile-ag
   :config
   (setq projectile-switch-project-action 'projectile-commander
@@ -1714,6 +1716,18 @@ searched. If there is no symbol, empty search box is started."
    :config
    (company-prescient-mode 1)
    (prescient-persist-mode 1))
+
+;; For ediff in git merges
+(defadvice server-save-buffers-kill-terminal (after server-save-buffers-kill-terminal-after-hack activate)
+  ;; kill all buffers, so new ediff panel is re-created and `ediff-startup-hook-setup' is called again
+  ;; besides, remove the buffers whose binding files are alredy merged in `buffer-list'
+  (mapc 'kill-buffer (buffer-list)))
+
+;; highlight changes
+(use-package git-gutter-fringe
+  :ensure t
+  :diminish git-gutter-mode
+  :config (global-git-gutter-mode))
 
 ;; done!
 (provide '.emacs)

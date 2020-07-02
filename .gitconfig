@@ -118,21 +118,9 @@
         tool = mymeld
         conflictStyle = diff3
 [mergetool "mymeld"]
-           cmd = meld $LOCAL $BASE $REMOTE -o $MERGED --diff $BASE $LOCAL --diff $BASE $REMOTE --auto-merge
+        cmd = meld $LOCAL $BASE $REMOTE -o $MERGED --diff $BASE $LOCAL --diff $BASE $REMOTE --auto-merge
 [mergetool.ediff]
-    cmd = emacs -nw --eval \"\
-(progn\
-  (defun ediff-write-merge-buffer ()\
-    (let ((file ediff-merge-store-file))\
-      (set-buffer ediff-buffer-C)\
-      (write-region (point-min) (point-max) file)\
-      (message \\\"Merge buffer saved in: %s\\\" file)\
-      (set-buffer-modified-p nil)\
-      (sit-for 1)))\
-  (setq ediff-quit-hook 'kill-emacs\
-        ediff-quit-merge-hook 'ediff-write-merge-buffer)\
-  (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\"\
-                                   \\\"$BASE\\\" nil \\\"$MERGED\\\"))\"
+        cmd = emacsclient -nw --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \\\"$BASE\\\") (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\") (ediff-merge-files \\\"$LOCAL\\\" \\\"$REMOTE\\\" nil \\\"$MERGED\\\")))\"
 [push]
         default = simple
         followTags = true
