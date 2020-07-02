@@ -1727,7 +1727,7 @@ searched. If there is no symbol, empty search box is started."
 (use-package git-gutter-fringe
   :ensure t
   :diminish git-gutter-mode
-  :config (global-git-gutter-mode))
+  :init (global-git-gutter-mode))
 
 ;; done!
 (provide '.emacs)
