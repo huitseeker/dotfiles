@@ -38,7 +38,13 @@
      (109 "\\mail{" "}"))))
  '(LaTeX-math-abbrev-prefix "!")
  '(LaTeX-math-list (quote ((113 "quad" nil))))
+ '(TeX-after-compilation-finished-functions (quote TeX-revert-document-buffer) t)
+ '(TeX-auto-save t t)
  '(TeX-force-default-mode t)
+ '(TeX-master nil t)
+ '(TeX-parse-self t t)
+ '(TeX-view-program-list (quote (("pdf-tools" "TeX-pdf-tools-sync-view"))) t)
+ '(TeX-view-program-selection (quote ((output-pdf "pdf-tools"))) t)
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
