@@ -790,6 +790,44 @@
         lsp-ui-flycheck-enable t
         lsp-ui-doc-use-childframe nil))
 
+(with-eval-after-load 'lsp-mode
+  ;; enable log only for debug
+  (setq lsp-log-io nil)
+
+  ;; use `evil-matchit' instead
+  (setq lsp-enable-folding nil)
+
+  ;; handle yasnippet by myself
+  (setq lsp-enable-snippet nil)
+
+  ;; turn off for better performance
+  (setq lsp-enable-symbol-highlighting nil)
+
+  ;; auto restart lsp
+  (setq lsp-restart 'auto-restart)
+
+  ;; don't ping LSP lanaguage server too frequently
+  (defvar lsp-on-touch-time 0)
+  (defadvice lsp-on-change (around lsp-on-change-hack activate)
+    ;; don't run `lsp-on-change' too frequently
+    (when (> (- (float-time (current-time))
+                lsp-on-touch-time) 20) ;; 20 seconds
+      (setq lsp-on-touch-time (float-time (current-time)))
+      ad-do-it)))
+
+(defun my-connect-lsp (&optional no-reconnect)
+  "Connect lsp server.  If NO-RECONNECT is t, don't shutdown existing lsp connection."
+  (interactive "P")
+  (when (and (not no-reconnect)
+             (fboundp 'lsp-disconnect))
+    (lsp-disconnect))
+  (when (and buffer-file-name
+             (not (member (file-name-extension buffer-file-name)
+                          '("json"))))
+    (unless (and (boundp 'lsp-mode) lsp-mode)
+      (if (derived-mode-p 'js2-mode) (setq-local lsp-enable-imenu nil))
+      (lsp-deferred))))
+
 (use-package company-lsp
   :ensure t)
 
