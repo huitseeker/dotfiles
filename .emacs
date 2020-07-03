@@ -316,51 +316,29 @@
 ;; l'autofill est activé.
 (setq-default fill-column 74)
 
-(require 'tex-site)
-(if (featurep 'tex-site)
-    (add-hook 'LaTeX-mode-hook
-              (lambda()
-                ;; On fournit le raccourci C-c f pour la commande de compilation.
-                (local-set-key
-                 [(control ?c) ?f]
-                 (lambda () (interactive)
-                   (TeX-command "LaTeX" 'TeX-master-file)))
-                ;; On fournit le raccourci C-c v pour la commande de visualisation.
-                (local-set-key
-                 [(control ?c) ?v]
-                 (lambda () (interactive)
-                   (TeX-command "View" 'TeX-master-file)))
-                (auto-fill-mode 1)
-                (setq comment-auto-fill-only-comments nil)
-                ))
-  ;; Si AucTeX n'est pas chargé, on se contente du mode latex de base.
-  (add-hook 'latex-mode-hook
-            (lambda ()
-              (setq tex-command
-                    "latex \\\\nonstopmode\\\\input `basename * .tex`")
-              (setq tex-dvi-view-command "xdvi")
-              (setq comment-auto-fill-only-comments nil))))
-
-;; Se placer en mode latex et non tex lors de l'ouverture d'un fichier .tex.
-(setq tex-default-mode 'LaTeX-mode)
-
-;; compilation avec Make en mode AucTeX
-(add-hook 'LaTeX-mode-hook (lambda ()
-                             (push
-                              '("Make" "make" TeX-run-compile nil t
-                                :help "Run make on directory")
-                              TeX-command-list)
-                             (setq TeX-auto-save t)
-                             (setq TeX-parse-self t)
-                             (setq TeX-save-query nil)
-                             (setq TeX-PDF-mode t)))
-
-;; RefTeX
-(autoload 'turn-on-reftex "reftex" "RefTeX Minor Mode" t)
-(autoload 'reftex-citation "reftex-cite" "Make citation" t)
-(autoload 'reftex-index-phrase-mode "reftex-index" "Phrase Mode" t)
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex) ; with Emacs latex mode
-
+(use-package tex
+  :ensure auctex
+  :defer t
+  :custom
+  (TeX-auto-save t)
+  (TeX-parse-self t)
+  (TeX-master nil)
+  ;; to use pdfview with auctex
+  (TeX-view-program-selection '((output-pdf "pdf-tools"))
+                              TeX-source-correlate-start-server t)
+  (TeX-view-program-list '(("pdf-tools" "TeX-pdf-tools-sync-view")))
+  (TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
+  :hook
+  (LaTeX-mode . (lambda ()
+                  (turn-on-reftex)
+                  (setq reftex-plug-into-AUCTeX t)
+                  (reftex-isearch-minor-mode)
+                  (setq TeX-PDF-mode t)
+                  (setq TeX-source-correlate-method 'synctex)
+                  (setq TeX-source-correlate-start-server t)))
+  :config
+  (when (version< emacs-version "26")
+    (add-hook LaTeX-mode-hook #'display-line-numbers-mode)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Quelques bindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -438,11 +416,6 @@
 ;; No tab indentation
 (setq-default indent-tabs-mode nil)
 
-;; preview-latex
-(autoload 'TeX-preview-setup "preview")
-(add-hook 'LaTeX-mode-hook 'LaTeX-preview-setup)
-
-
 ;; flymake
 (use-package flymake
   :commands flymake-mode)
@@ -459,7 +432,9 @@
   (global-flycheck-mode t)
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc python-flake8 python-pylint))
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++11")))
-  )
+  (use-package flycheck-grammarly :defer t)
+)
+
 ;; Modeline indicator
 (use-package flycheck-indicator
   :ensure t
@@ -1298,11 +1273,6 @@
 ;;(setq split-height-threshold nil)
 (setq split-width-threshold 0)
 
-
-;; Undo trees !
-;; (require 'undo-tree)
-;; (global-undo-tree-mode)
-
 ;; correctly wrapped comments
 (require 'newcomment)
 (setq comment-auto-fill-only-comments 1)
@@ -1505,10 +1475,16 @@ searched. If there is no symbol, empty search box is started."
 
   (which-key-mode 1))
 
+;; discovers key bindings and their meaning for the current Emacs major mode
+(use-package discover-my-major
+  :bind ("C-h C-m" . discover-my-major))
+
 ;; Projectile
 (use-package projectile
   :ensure t
   :diminish projectile-mode
+  :bind
+  ("C-c p" . projectile-command-map)
   :init
   (projectile-mode 1)
   (require 'helm-projectile)
