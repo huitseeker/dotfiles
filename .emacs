@@ -1370,9 +1370,6 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 
-;; org-mode in text
-(add-hook 'text-mode-hook 'turn-on-orgstruct)
-;; (add-hook 'text-mode-hook 'turn-on-orgstruct++)
 (require 'outline)
 (add-hook 'prog-mode-hook 'outline-minor-mode)
 (add-hook 'compilation-mode-hook 'outline-minor-mode)
