@@ -65,6 +65,7 @@ export GOROOT=
 export PATH=$GOPATH/bin:$PATH
 export PATH=$GOROOT/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
+export PATH="$HOME/.local/share/ponyup/bin:$PATH"
 
 [[ -d '/usr/facebook/ops/rc' ]] && export LOCAL_ADMIN_SCRIPTS='/usr/facebook/ops/rc'
 

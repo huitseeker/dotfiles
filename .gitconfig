@@ -8,7 +8,9 @@
 [color]
     ui = true
 [core]
-        pager = less -FRSX
+        pager = ~/.cargo/bin/diffr|less -FRSX
+[interactive]
+    diffFilter = ~/.cargo/bin/diffr
 [alias]
         # View abbreviated SHA, description, and history graph of the latest 20 commits
         l = log --pretty=oneline -n 20 --graph --abbrev-commit

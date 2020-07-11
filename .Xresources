@@ -8,7 +8,7 @@ Xft.antialias: 1
 Xft.rgba: none
 Xft.hintstyle: hintfull
 !Xft.dpi:       80
-Xft.dpi:       96
+Xft.dpi:       150
 !! :}}}
 xterm.faceName: DejaVu Sans Mono
 xterm.faceSize: 12
