@@ -164,3 +164,5 @@
         user = huitseeker
 [pull]
         rebase = true
+[init]
+	defaultBranch = trunk
