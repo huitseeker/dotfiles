@@ -1597,11 +1597,15 @@ searched. If there is no symbol, empty search box is started."
   (progn
     (add-hook 'rust-mode-hook 'cargo-minor-mode)
     (add-hook 'toml-mode-hook 'cargo-minor-mode))
+  (progn
+      (setenv "PATH" (concat (getenv "PATH") ":~/.cargo/bin"))
+      (setq exec-path (append exec-path '("~/.cargo/bin")))
+      (add-hook 'racer-mode-hook #'eldoc-mode)
+      (add-hook 'racer-mode-hook #'company-mode))
   (setq rust-format-on-save t)
   (setq cargo-process--command-check "check --all-targets")
   :bind ( :map rust-mode-map
-               (("C-c C-t" . racer-describe)
-                ([?\t] .  company-indent-or-complete-common)))
+                ([?\t] .  company-indent-or-complete-common))
   :config
   (use-package flycheck-rust
     :ensure t
@@ -1609,23 +1613,6 @@ searched. If there is no symbol, empty search box is started."
     (flycheck-add-next-checker 'rust-cargo 'rust-clippy)
     )
   (setq rust-format-on-save t)
-  (use-package racer
-    :ensure t
-    :defer t
-    :init
-    (progn
-      (setenv "PATH" (concat (getenv "PATH") ":~/.cargo/bin"))
-      (setq exec-path (append exec-path '("~/.cargo/bin")))
-      ;; (unless (getenv "RUST_SRC_PATH")
-      ;;   (setenv "RUST_SRC_PATH" (shell-command-to-string "echo -n `rustc --print sysroot`/lib/rustlib/src/rust/src/")))
-      (setq racer-cmd "~/.cargo/bin/racer")
-      (add-hook 'rust-mode-hook #'racer-mode)
-      (add-hook 'racer-mode-hook #'eldoc-mode)
-      (add-hook 'racer-mode-hook #'company-mode))
-    :config
-    (define-key rust-mode-map (kbd "M-\"") #'racer-find-definition)
-    (add-hook 'racer-mode-hook #'eldoc-mode)
-    )
   (use-package cargo :ensure t)
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
   (add-hook 'rust-mode-hook #'racer-mode)
@@ -1633,7 +1620,7 @@ searched. If there is no symbol, empty search box is started."
   ;;  (add-hook 'rust-mode-hook #'lsp-mode)
   (add-hook 'rust-mode-hook #'flycheck-mode)
   (add-hook 'racer-mode-hook #'eldoc-mode)
-  )
+ )
 
 ;; Popwin
 (use-package popwin
