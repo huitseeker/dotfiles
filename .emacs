@@ -338,7 +338,35 @@
                   (setq TeX-source-correlate-start-server t)))
   :config
   (when (version< emacs-version "26")
-    (add-hook LaTeX-mode-hook #'display-line-numbers-mode)))
+    (add-hook LaTeX-mode-hook #'display-line-numbers-mode))
+  ;; Use pdf-tools to open PDF files
+  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
+        TeX-source-correlate-start-server t)
+
+  ;;Eliminates the necessity for the save command before compilation is completed
+  (setq TeX-save-query nil)
+
+  ;;Function that combines two commands 1. revert pdfoutput buffer 2. pdf-outline
+  (defun my-TeX-revert-document-buffer (file)
+    (TeX-revert-document-buffer file)
+    (pdf-outline))
+
+  ;; Add custom function to the TeX compilation hook
+  (add-hook 'TeX-after-compilation-finished-functions #'my-TeX-revert-document-buffer)
+
+  )
+
+(use-package pdf-tools
+  :pin manual ;; manually update
+  :config
+  ;; initialise
+  (pdf-tools-install)
+  ;; open pdfs scaled to fit page
+  (setq-default pdf-view-display-size 'fit-page)
+  ;; automatically annotate highlights
+  (setq pdf-annot-activate-created-annotations t)
+  ;; use normal isearch
+  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Quelques bindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
