@@ -1,3 +1,6 @@
+;;; .emacs --- Emacs Initialization -*- lexical-binding: t; -*-
+
+;; URL: https://github.com/huitseeker/dotfiles
 (setq debug-on-error t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -778,7 +781,8 @@
         company-echo-delay 0
         company-begin-commands '(self-insert-command)
         company-dabbrev-downcase nil
-        company-tooltip-align-annotations t)
+        company-tooltip-align-annotations t
+        company-show-numbers t)
   ;; global activation of the unicode symbol completion
   (add-to-list 'company-backends 'company-math-symbols-unicode)
   :init
@@ -903,7 +907,19 @@
   ;; configure regexp engine.
   (setq ivy-re-builders-alist
         ;; allow input not in order
-        '((t   . ivy--regex-ignore-order))))
+        '((t  . ivy--regex-ignore-order)))
+  (setq;; Allow selecting the prompt as a candidate (e.g for creating a new
+   ;; file)
+   ivy-hooks-alist '((t . hl-line-mode))
+   ivy-wrap t
+   ivy-on-del-error-function #'ignore
+   ivy-use-virtual-buffers t
+   ivy-use-selectable-prompt t
+   ivy-fixed-height-minibuffer t
+   ;; Don't use ^ as initial input.
+   ivy-initial-inputs-alist nil
+  )
+)
 
 ;;;  counsel.el
 (use-package counsel
@@ -911,6 +927,10 @@
              counsel-rg
              counsel-git-grep)
   )
+(use-package counsel-projectile
+  :ensure t)
+
+
 (use-package expand-region
   :commands 'er/expand-region
   :bind ("C-=" . er/expand-region))
@@ -1082,8 +1102,27 @@
   (("M-x" . helm-M-x)
    ("C-x C-f" . helm-find-files)))
 
-(use-package counsel-projectile
-  :ensure t)
+;; Selectrum
+(use-package selectrum
+  :hook
+  (after-init . selectrum-mode)
+)
+
+(use-package selectrum-prescient
+  :hook
+  (selectrum-mode . selectrum-prescient-mode))
+
+(use-package prescient
+  :hook
+  (after-init . prescient-persist-mode)
+  (company-mode . company-prescient-mode))
+
+;; Prescient
+;; https://github.com/raxod502/prescient.el
+(use-package company-prescient
+   :config
+   (company-prescient-mode 1)
+   (prescient-persist-mode 1))
 
 ;; Anzu
 (use-package anzu
@@ -1614,6 +1653,23 @@ searched. If there is no symbol, empty search box is started."
          (downcase-region (region-beginning) (region-end)))
   )
 
+;; Source-peek
+(use-package quick-peek)
+(use-package dumb-jump
+  :custom
+  (dumb-jump-default-project user-emacs-directory))
+(use-package smart-jump
+  :defer 2
+  :custom
+  (smart-jump-default-mode-list
+   '(rust-mode
+     elisp-mode
+     lisp-mode
+     python))
+  :config
+  (smart-jump-setup-default-registers))
+
+
 ;; Rust-mode
 (use-package toml-mode)
 (use-package rust-mode
@@ -1628,7 +1684,7 @@ searched. If there is no symbol, empty search box is started."
   (setq racer-rust-src-path
               (concat (string-trim
                        (shell-command-to-string "rustc --print sysroot"))
-                      "/lib/rustlib/src/rust/library"))
+                      "/lib/rustlib/src/rust/src"))
   (progn
       (setenv "PATH" (concat (getenv "PATH") ":~/.cargo/bin"))
       (setq exec-path (append exec-path '("~/.cargo/bin")))
@@ -1742,13 +1798,6 @@ searched. If there is no symbol, empty search box is started."
    (define-key isearch-mode-map (kbd "M-i") 'helm-swoop-from-isearch)
    (define-key helm-swoop-map (kbd "M-i") 'helm-multi-swoop-all-from-helm-swoop))
 )
-
-;; Prescient
-;; https://github.com/raxod502/prescient.el
-(use-package company-prescient
-   :config
-   (company-prescient-mode 1)
-   (prescient-persist-mode 1))
 
 ;; For ediff in git merges
 (defadvice server-save-buffers-kill-terminal (after server-save-buffers-kill-terminal-after-hack activate)
