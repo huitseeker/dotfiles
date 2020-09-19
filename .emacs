@@ -1706,6 +1706,9 @@ searched. If there is no symbol, empty search box is started."
   (progn
     (add-hook 'rust-mode-hook 'cargo-minor-mode)
     (add-hook 'toml-mode-hook 'cargo-minor-mode))
+  (setq racer-rust-src-path
+              (concat "~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/"
+                      "/lib/rustlib/src/rust/src"))
   (progn
       (setenv "PATH" (concat (getenv "PATH") ":~/.cargo/bin"))
       (setq exec-path (append exec-path '("~/.cargo/bin")))
