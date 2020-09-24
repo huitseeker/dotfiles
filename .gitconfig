@@ -112,6 +112,16 @@
 
         # Most recent branches
         rb = "!f() { git for-each-ref --sort=-committerdate --count=$1 --format=\"%(refname:short)\" refs/heads/; }; f"
+        #
+        rtrack = rev-parse --symbolic-full-name --abbrev-ref @{u}
+        exclude = !sh -c 'echo "$1" >> .git/info/exclude' -
+        ignore = update-index --assume-unchanged
+        unignore = update-index --no-assume-unchanged
+        ignored = !git ls-files -v | grep "^[[:lower:]]"
+        lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
+        rup = remote update
+        rom = reset --hard origin/HEAD
+        hubpush = push huitseeker HEAD
 [apply]
 
         # Detect whitespace errors when applying a patch
@@ -126,16 +136,6 @@
 [push]
         default = simple
         followTags = true
-[alias]
-        rtrack = rev-parse --symbolic-full-name --abbrev-ref @{u}
-        exclude = !sh -c 'echo "$1" >> .git/info/exclude' -
-        ignore = update-index --assume-unchanged
-        unignore = update-index --no-assume-unchanged
-        ignored = !git ls-files -v | grep "^[[:lower:]]"
-        lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
-        rup = remote update
-        rom = reset --hard origin/HEAD
-        hubpush = push huitseeker HEAD
 [filter "media"]
         clean = git-media-clean %f
         smudge = git-media-smudge %f
@@ -165,4 +165,7 @@
 [pull]
         rebase = true
 [init]
-	defaultBranch = trunk
+        defaultBranch = trunk
+[rebase]
+  autostash = true
+  autosquash = true

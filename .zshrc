@@ -54,8 +54,6 @@ source $HOME/.aliases
 autoload bashcompinit
 bashcompinit
 
-# export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
-
 export GPG_TTY=$(tty)
 export JAVA_HOME=/usr/lib/jvm/default
 
