@@ -55,7 +55,7 @@
         # re-date
         redate = "!f(){ GIT_COMMITTER_DATE=\"$(date)\" git commit --amend --reuse-message=HEAD --date \"$(date)\"; }; f"
         # clean-date
-        cleandate = "!f(){ eval $($HOME/bin/gitdate) && git commit --amend --reuse-message=HEAD; }; f"
+        cleandate = "!f(){ eval $($HOME/bin/gitdate) && git commit --amend --reuse-message=HEAD --date \"$GIT_COMMITTER_DATE\"; }; f"
 
         # Credit an author on the latest commit
         credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
