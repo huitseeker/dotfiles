@@ -49,11 +49,11 @@
 #_____________________________________________________________________________
 
 ## Uncomment for debugging:
-#DEBUG=true
+# DEBUG=true
 
 ## Uncomment for really verbose debugging, and be sure to uncomment the
 ## the corresponding line at the end
-#set -x -
+# set -x -
 
 ## Git uses the system time settings through mktime().  Do a "$ git log" to see
 ## the timezone offset for your system.  This script gets your timezone offset
@@ -308,4 +308,4 @@ unset TIMEZONE
 
 ## If debugging was enabled at the top, make sure it's off when we return
 ## to a normal shell:
-#set +x
+# set +x

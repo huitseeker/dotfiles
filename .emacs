@@ -327,7 +327,7 @@
 ;;(add-hook 'text-mode-hook 'turn-on-filladapt-mode)
 
 ;; predefined generic modes for config files edition
-(require 'generic-x) ; trigger use
+(use-package generic-x :ensure nil)
 
 ;; Les lignes sont coupées au bout de 74 caractères dans les modes où
 ;; l'autofill est activé.
