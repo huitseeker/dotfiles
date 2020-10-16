@@ -593,16 +593,28 @@
 
 ;; Magit
 (use-package with-editor)
-
 (use-package git-commit)
 
 (use-package magit
-  :commands magit-status magit-blame
+  :commands magit-status magit-blame magit-log-all-branches
+  :bind ("C-c g". hydra-magit/body)
+  :after hydra
   :init
   (setq magit-auto-revert-mode nil)
   (setq magit-last-seen-setup-instructions "1.4.0")
-  :bind (("C-x g" . magit-status)
-         ("C-x l" . magit-blame)))
+  :hydra (hydra-magit (:color blue
+                           :columns 4)
+      "Magit"
+      ("g" magit-status "status")
+      ("s" magit-status "status")
+      ("l" magit-log-all-branches "log")
+      ("b" magit-branch "branch")
+      ("r" magit-rebase "rebase")
+      ("f" magit-fetch "fetch")
+      ("P" magit-push "push")
+      ("F" magit-pull "pull")
+      ("W" magit-format-patch "format patch")
+      ("$" magit-process "process")))
 
 (use-package magithub
   :after magit
