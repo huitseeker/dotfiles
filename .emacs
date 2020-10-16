@@ -99,6 +99,9 @@
 (use-package f
   :ensure t)
 
+(use-package use-package-hydra
+  :ensure t)
+
 ;; Remove some minor modes from the mode line
 (use-package diminish)
 
@@ -277,9 +280,9 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; from http://www-rocq.inria.fr/~fleuret
-(show-paren-mode 1)
-(setq show-paren-delay 0) ;Show the matching immediately
-(setq show-paren-style 'expression)
+;; (show-paren-mode 1)
+;; (setq show-paren-delay 0) ;Show the matching immediately
+;; (setq show-paren-style 'expression)
 (setq default-indicate-empty-lines t);show me empty lines at the end of the buffer
 
 ;; The following should make Emacs ask when the buffer encoding is not
