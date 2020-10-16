@@ -471,17 +471,29 @@
 ;; flycheck
 ;; ==== flycheck ====
 (use-package flycheck
-  :bind
-  (("C-M-n" . flycheck-next-error)
-   ("C-M-p" . flycheck-previous-error))
+  :defer 2
   :hook (prog-mode . flycheck-mode)
   :ensure t
   :init
-  (global-flycheck-mode t)
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc python-flake8 python-pylint))
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++11")))
   (use-package flycheck-grammarly :defer t)
-)
+  :bind
+  (:map flycheck-mode-map ("C-c !" . hydra-flycheck/body))
+  ("M-g l" . flycheck-list-errors)
+  :config
+  (global-flycheck-mode)
+  (setq-default flycheck-global-modes '(not org-mode))
+  ;; hydra
+  (defhydra hydra-flycheck
+    (:pre (progn (setq hydra-lv t) (flycheck-list-errors))
+          :post (progn (setq hydra-lv nil) (quit-windows-on "*Flycheck errors*"))
+          :hint nil)
+    "Errors"
+    ("f"  flycheck-error-list-set-filter  "Filter")
+    ("n"  flycheck-next-error             "Next")
+    ("p"  flycheck-previous-error         "Previous")
+    ("q"  nil                             "Quit")))
 
 ;; Modeline indicator
 (use-package flycheck-indicator
