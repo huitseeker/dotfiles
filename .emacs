@@ -478,9 +478,11 @@
   (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc python-flake8 python-pylint))
   (add-hook 'c++-mode-hook (lambda () (setq flycheck-gcc-language-standard "c++11")))
   (use-package flycheck-grammarly :defer t)
+  :config
+  (flycheck-add-next-checker 'tex-chktex 'textlint)
   :bind
   (:map flycheck-mode-map ("C-c !" . hydra-flycheck/body))
-  ("M-g l" . flycheck-list-errors)
+  ("M-s" . flycheck-list-errors)
   :config
   (global-flycheck-mode)
   (setq-default flycheck-global-modes '(not org-mode))
@@ -1490,11 +1492,6 @@
 ;;    (vc-check-status-activate 1))
 ;;  )
 
-(defun check-grammar ()
-  "Check the current buffer with atdtool."
-  (interactive)
-  (compile (concat "atdtool -s localhost -P 1049 " (shell-quote-argument (buffer-file-name)))))
-
 ;; Centered-window-mode
 (defun center-text ()
   "Center the text in the middle of the buffer.  Works best in full screen."
@@ -1873,6 +1870,7 @@ searched. If there is no symbol, empty search box is started."
                ("C-c n g" . org-roam-graph))
               :map org-mode-map
               (("C-c n i" . org-roam-insert))))
+
 
 ;; done!
 (provide '.emacs)
