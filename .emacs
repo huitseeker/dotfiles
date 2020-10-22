@@ -1624,7 +1624,7 @@ searched. If there is no symbol, empty search box is started."
   :ensure t
   :diminish projectile-mode
   :bind
-  ("C-c p" . projectile-command-map)
+  (("C-c C-p" . hydra-projectile/body))
   :init
   (projectile-mode 1)
   (require 'helm-projectile)
@@ -1651,7 +1651,29 @@ searched. If there is no symbol, empty search box is started."
     "Git fetch."
     (magit-status)
     (call-interactively #'magit-fetch-current))
-
+  :hydra hydra-projectile (:color blue)
+  "
+  ^
+  ^Projectile^        ^Buffers^           ^Find^              ^Search^
+  ^──────────^────────^───────^───────────^────^──────────────^──────^────────────
+  _q_ quit            _b_ list            _d_ directory       _r_ replace
+  _i_ reset cache     _k_ kill all        _D_ root            _R_ regexp replace
+  ^^                  _S_ save all        _f_ file            _s_ search
+  ^^                  ^^                  _p_ project         ^^
+  ^^                  ^^                  ^^                  ^^
+  "
+  ("q" nil)
+  ("b" counsel-projectile-switch-to-buffer)
+  ("d" counsel-projectile-find-dir)
+  ("D" projectile-dired)
+  ("f" counsel-projectile-find-file)
+  ("i" projectile-invalidate-cache :color red)
+  ("k" projectile-kill-buffers)
+  ("p" counsel-projectile-switch-project)
+  ("r" projectile-replace)
+  ("R" projectile-replace-regexp)
+  ("s" counsel-rg)
+  ("S" projectile-save-project-buffers)
   )
 
 ;; Direx
@@ -1845,12 +1867,38 @@ searched. If there is no symbol, empty search box is started."
   :diminish git-gutter-mode
   :init (global-git-gutter-mode))
 
-;; Experimental too
-(defun atd-compile ()
-  (interactive)
-  (when (executable-find "atdtool")
-      (compile (format "atdtool --lang en --server=localhost --port=1049 %s"
-                       (shell-quote-argument buffer-file-name)))))
+;; Experimental - textlint
+(require 'flycheck)
+(flycheck-define-checker textlint
+  "A linter for textlint."
+  :command ("npx" "textlint"
+            "--config" "/home/huitseeker/.emacs.d/.textlintrc"
+            "--format" "unix"
+            "--rule" "write-good"
+            "--rule" "no-start-duplicated-conjunction"
+            "--rule" "max-comma"
+            "--rule" "terminology"
+            "--rule" "period-in-list-item"
+            "--rule" "abbr-within-parentheses"
+            "--rule" "alex"
+            "--rule" "common-misspellings"
+            "--rule" "en-max-word-count"
+            "--rule" "diacritics"
+            "--rule" "stop-words"
+            "--plugin"
+            (eval
+             (if (derived-mode-p 'tex-mode)
+                 "latex"
+               "@textlint/text"))
+            source-inplace)
+  :error-patterns
+  ((warning line-start (file-name) ":" line ":" column ": "
+            (message (one-or-more not-newline)
+                     (zero-or-more "\n" (any " ") (one-or-more not-newline)))
+            line-end))
+  :modes (text-mode latex-mode org-mode markdown-mode)
+  )
+(add-to-list 'flycheck-checkers 'textlint)
 
 ;; Experimental - tabnine
 (use-package company-tabnine :ensure t)
