@@ -1740,7 +1740,7 @@ searched. If there is no symbol, empty search box is started."
   :config
   (smart-jump-setup-default-registers))
 
-
+(require 'subr-x)
 ;; Rust-mode
 (use-package toml-mode)
 (use-package rust-mode
@@ -1753,8 +1753,12 @@ searched. If there is no symbol, empty search box is started."
     (add-hook 'rust-mode-hook 'cargo-minor-mode)
     (add-hook 'toml-mode-hook 'cargo-minor-mode))
   (setq racer-rust-src-path
-              (concat "~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/"
-                      "/lib/rustlib/src/rust/src"))
+        (let* ((sysroot (string-trim
+                         (shell-command-to-string "rustc --print sysroot")))
+               (lib-path (concat sysroot "/lib/rustlib/src/rust/library"))
+               (src-path (concat sysroot "/lib/rustlib/src/rust/src")))
+          (or (when (file-exists-p lib-path) lib-path)
+             (when (file-exists-p src-path) src-path))))
   (progn
       (setenv "PATH" (concat (getenv "PATH") ":~/.cargo/bin"))
       (setq exec-path (append exec-path '("~/.cargo/bin")))
