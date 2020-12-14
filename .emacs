@@ -14,17 +14,17 @@
   (add-to-list 'package-archives
                (cons "melpa" (concat proto "://melpa.org/packages/")) t))
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+;; (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives '("elpy" . "https://jorgenschaefer.github.io/packages/"))
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
-  (package-refresh-contents)
+  (package-refresh-contents t)
   (package-install 'use-package))
 
 (when (not package-archive-contents)
-  (package-refresh-contents)
+  (package-refresh-contents t)
   (package-install 'use-package))
 (setq use-package-verbose t)
 (setq use-package-always-ensure t)
@@ -40,12 +40,12 @@
 (setq url-http-attempt-keepalives nil)
 
 (defvar prelude-packages '(ack-and-a-half auctex better-defaults
-                                          clojure-mode coffee-mode deft diminish expand-region flycheck-rust gist haml-mode
-                                          haskell-mode helm helm-ag helm-projectile inf-ruby magit markdown-mode
-                                          paredit projectile pymacs python sass-mode rainbow-mode rust-mode
-                                          scss-mode solarized-theme volatile-highlights yaml-mode yari
-                                          zenburn-theme flycheck-inline color-identifiers-mode
-                                          )
+                          clojure-mode coffee-mode company company-quickhelp deft diminish expand-region flycheck-rust gist haml-mode
+                          haskell-mode helm helm-ag helm-projectile hydra inf-ruby magit markdown-mode
+                          paredit projectile pymacs python sass-mode rainbow-mode rust-mode
+                          scss-mode solarized-theme volatile-highlights yaml-mode yari
+                          zenburn-theme flycheck-inline color-identifiers-mode
+                          )
   "A list of packages to ensure are installed at launch.")
 
 (defun prelude-packages-installed-p ()
