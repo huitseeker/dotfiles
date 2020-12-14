@@ -110,3 +110,5 @@ export TERMCAP="$HOME/.termcap"
 infocmp -C -r -T rxvt-unicode-256color > $TERMCAP
 
 eval $(opam config env)
+
+source /home/huitseeker/.config/broot/launcher/bash/br
