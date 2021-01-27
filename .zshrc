@@ -1,3 +1,9 @@
+export ZSH_DISABLE_COMPFIX=true
+# Mac M1
+if [ -d "/opt/homebrew" ]; then
+   export PATH="/opt/homebrew/bin:$PATH"
+fi
+
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 
@@ -32,7 +38,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git git-extras git-prompt github mvn archive archlinux colorize scala docker fasd emoji thefuck)
+plugins=(git git-extras git-prompt github mvn archlinux colorize scala docker fasd emoji thefuck)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -105,10 +111,11 @@ SSL_CERT_DIR=/etc/ssl/certs/
 export TERM=xterm
 
 export TERMINFO="$HOME/.terminfo"
-infocmp -I -r -T rxvt-unicode-256color > $TERMINFO
 export TERMCAP="$HOME/.termcap"
-infocmp -C -r -T rxvt-unicode-256color > $TERMCAP
 
-eval $(opam config env)
+if [ "$(uname)" != "Darwin" ]; then
+    infocmp -I -r -T rxvt-unicode-256color > $TERMINFO
+    infocmp -C -r -T rxvt-unicode-256color > $TERMCAP
+fi
 
-source /home/huitseeker/.config/broot/launcher/bash/br
+[ -x /bin/opam ] && eval $(opam config env)
