@@ -4,7 +4,7 @@
 [user]
     name = François Garillot
     email = francois@garillot.net
-        signingkey = A6EFBA9E3F33E320
+    signingkey = 5EA2FFD6
 [color]
     ui = true
 [core]
