@@ -39,10 +39,10 @@
 ;; Setup a few default packages
 (setq url-http-attempt-keepalives nil)
 
-(defvar prelude-packages '(ack-and-a-half auctex better-defaults
-                          clojure-mode coffee-mode company company-quickhelp deft diminish expand-region flycheck-rust gist haml-mode
+(defvar prelude-packages '(auctex better-defaults prescient company-prescient ivy-prescient gist haml-mode
+                          clojure-mode coffee-mode company company-quickhelp deft diminish expand-region flycheck-rust
                           haskell-mode helm helm-ag helm-projectile hydra inf-ruby magit markdown-mode
-                          paredit projectile pymacs python sass-mode rainbow-mode rust-mode
+                          paredit projectile python sass-mode rainbow-mode rust-mode
                           scss-mode solarized-theme volatile-highlights yaml-mode yari
                           zenburn-theme flycheck-inline color-identifiers-mode
                           )
@@ -376,17 +376,20 @@
 
   )
 
-(use-package pdf-tools
-  :pin manual ;; manually update
-  :config
-  ;; initialise
-  (pdf-tools-install)
-  ;; open pdfs scaled to fit page
-  (setq-default pdf-view-display-size 'fit-page)
-  ;; automatically annotate highlights
-  (setq pdf-annot-activate-created-annotations t)
-  ;; use normal isearch
-  (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward))
+;; pdf-tools on Mac not working so well
+(if (not (eq system-type 'darwin))
+    (use-package pdf-tools
+      :pin manual ;; manually update
+      :config
+      ;; initialise
+      (pdf-tools-install)
+      ;; open pdfs scaled to fit page
+      (setq-default pdf-view-display-size 'fit-page)
+      ;; automatically annotate highlights
+      (setq pdf-annot-activate-created-annotations t)
+      ;; use normal isearch
+      (define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward))
+    )
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Quelques bindings ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -564,8 +567,11 @@
   :interpreter
   ("scala" . scala-mode))
 
-(use-package ensime
-  :commands ensime ensime-mode)
+;; Ensime on Mac not working so well
+(if (not (eq system-type 'darwin))
+    (use-package ensime
+      :commands ensime ensime-mode)
+    )
 
 (push "/usr/bin/" exec-path)
 ;; essential on osx
@@ -970,8 +976,11 @@
              counsel-rg
              counsel-git-grep)
   )
-(use-package counsel-projectile
-  :ensure t)
+;; is this available on Mac?
+(if (not (eq system-type 'darwin))
+    (use-package counsel-projectile
+      :ensure t)
+  )
 
 
 (use-package expand-region
@@ -1021,35 +1030,6 @@
     (add-hook 'python-mode-hook
               (lambda () (add-to-list 'company-backends
                                       'company-jedi)))))
-
-(setq py-load-pymacs-p nil)
-(require 'pymacs)
-(eval-after-load "python-mode"
-  '(progn
-     ;; Initialize Pymacs
-     (autoload 'pymacs-apply "pymacs")
-     (autoload 'pymacs-call "pymacs")
-     (autoload 'pymacs-eval "pymacs" nil t)
-     (autoload 'pymacs-exec "pymacs" nil t)
-     (autoload 'pymacs-load "pymacs" nil t)
-     (setq py-load-pymacs-p nil)
-     ;; ;; Initialize Rope
-     ;; (pymacs-load "ropemacs" "rope-")
-     ;; (setq ropemacs-confirm-saving nil
-     ;;       ropemacs-guess-project t
-     ;;       ropemacs-enable-autoimport t
-     ;;       )
-     ;; (autoload 'anything-ipython-complete "anything-ipython" "" t)
-     ;; (add-hook 'python-mode-hook '(lambda ()
-     ;;                                 (define-key py-mode-map (kbd "M-<tab>") 'anything-ipython-complete)))
-     ;; (add-hook 'ipython-shell-hook '(lambda ()
-     ;;                                   (define-key py-mode-map (kbd "M-<tab>") 'anything-ipython-complete)))
-     ;; ; ac features
-     ;; (ac-ropemacs-initialize)
-     ;; (add-hook 'python-mode-hook
-     ;;           '(lambda ()
-     ;;             (add-to-list 'ac-sources 'ac-source-ropemacs)))
-     ))
 
 ;; py-autopep8
 (use-package py-autopep8
