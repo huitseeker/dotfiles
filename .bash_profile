@@ -51,4 +51,4 @@ export XDG_RUNTIME_DIR=/run/user/`id -u`
 
 export PATH=$HOME/.cargo/bin:$PATH
 
-source /home/huitseeker/.config/broot/launcher/bash/br
+
