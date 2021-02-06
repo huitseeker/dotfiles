@@ -49,6 +49,7 @@
  '(ansi-color-names-vector
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#657b83"])
  '(browse-url-browser-function 'browse-url-firefox)
+ '(auth-source-save-behavior nil)
  '(canlock-password "cf79ea628b8e233a910a70b43cc471b81900ee88")
  '(case-fold-search t)
  '(column-number-mode t)
