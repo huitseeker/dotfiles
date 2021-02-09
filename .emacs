@@ -381,8 +381,8 @@
     (use-package pdf-tools
       :pin manual ;; manually update
       :config
-      ;; initialise
-      (pdf-tools-install)
+      ;; initialise FIXME: very annoying ask
+      ;; (pdf-tools-install)
       ;; open pdfs scaled to fit page
       (setq-default pdf-view-display-size 'fit-page)
       ;; automatically annotate highlights
