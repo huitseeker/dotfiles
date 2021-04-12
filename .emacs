@@ -117,7 +117,8 @@
  'command-switch-alist
  '("server-start" . (lambda (&rest ignore)
                       (add-hook 'emacs-startup-hook 'server-start t))))
-
+(server-start)
+(setq server-socket-dir "~/.emacs.d/server")
 
 ;; Package repo
 (use-package exec-path-from-shell)
@@ -576,6 +577,10 @@
 (push "/usr/bin/" exec-path)
 ;; essential on osx
 (push "/usr/local/bin/" exec-path)
+
+;; Some mac-bindings interfere with Emacs bindings.
+(when (boundp 'mac-pass-command-to-system)
+  (setq mac-pass-command-to-system nil))
 
 (require 'compile);; TOFIX
 (setq compilation-error-regexp-alist

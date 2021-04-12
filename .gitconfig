@@ -167,3 +167,5 @@
 [rebase]
   autostash = true
   autosquash = true
+[hub]
+	protocol = https

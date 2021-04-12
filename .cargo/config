@@ -3,3 +3,5 @@ build.pipelining = true
 rustflags = [
     "-C", "link-arg=-fuse-ld=lld",
 ]
+
+rustdocflags = ["--document-private-items"]

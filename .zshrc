@@ -1,7 +1,7 @@
 export ZSH_DISABLE_COMPFIX=true
 # Mac M1
 if [ -d "/opt/homebrew" ]; then
-   export PATH="/opt/homebrew/bin:$PATH"
+   export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 fi
 
 # Path to your oh-my-zsh configuration.
