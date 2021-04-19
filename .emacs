@@ -377,6 +377,11 @@
 
   )
 
+(add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
+(add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
+(setq TeX-source-correlate-method 'synctex)
+(setq TeX-source-correlate-start-server t)
+
 ;; pdf-tools on Mac not working so well
 (if (not (eq system-type 'darwin))
     (use-package pdf-tools
