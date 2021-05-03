@@ -641,6 +641,12 @@
 (use-package magit-find-file
   :bind (("C-x f" . magit-find-file-completing-read)))
 
+;; fast file find in git repository
+ (use-package find-file-in-repository :ensure t
+   :bind (("C-x C-f" . find-file-in-repository))
+   )
+
+
 ;; invoke M-x git-timemachine in a git versioned file to enable moving
 ;; through version space.
 (use-package git-timemachine)
@@ -841,11 +847,13 @@
         company-begin-commands '(self-insert-command)
         company-dabbrev-downcase nil
         company-tooltip-align-annotations t
+        ;; Number the candidates (use M-1, M-2 etc to select completions).
         company-show-numbers t)
   ;; global activation of the unicode symbol completion
   (add-to-list 'company-backends 'company-math-symbols-unicode)
   :init
   (company-quickhelp-mode)
+  (add-hook 'after-init-hook 'global-company-mode)
 )
 
 ;;; Language server Setup
