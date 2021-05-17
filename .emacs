@@ -1869,6 +1869,26 @@ searched. If there is no symbol, empty search box is started."
   :diminish git-gutter-mode
   :init (global-git-gutter-mode))
 
+;; Go modes
+(use-package go-mode
+  :ensure)
+
+(use-package company-go
+  :ensure)
+
+(use-package go-eldoc
+  :ensure)
+
+(use-package go-guru
+  :ensure)
+
+(use-package go-rename
+  :ensure)
+
+(use-package gorepl-mode
+  :ensure)
+
+
 ;; Experimental - textlint
 (require 'flycheck)
 (flycheck-define-checker textlint
