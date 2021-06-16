@@ -63,6 +63,8 @@ bashcompinit
 export GPG_TTY=$(tty)
 export JAVA_HOME=/usr/lib/jvm/default
 
+# home scripts
+export PATH=$HOME/bin:$PATH
 # GO config
 export GOPATH=$HOME/golang
 export GOROOT=

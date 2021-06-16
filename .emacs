@@ -113,11 +113,9 @@
 (setq font-use-system-font t)
 
 ;; Server setup
-(add-to-list
- 'command-switch-alist
- '("server-start" . (lambda (&rest ignore)
-                      (add-hook 'emacs-startup-hook 'server-start t))))
-(server-start)
+(require 'server)
+(or (server-running-p)
+    (server-start))
 (setq server-socket-dir "~/.emacs.d/server")
 
 ;; Package repo
