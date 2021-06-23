@@ -1,17 +1,6 @@
 alias cleanup='mv *.tex ~/latex/latex-sources & mv *.pdf ~/latex/latex-pdfs & mv *.aux *.tns ~/latex/latex-compilation-remainings & mv *.log  ~/latex/latex-compilation-remainings & mv *.dvi  ~/latex/latex-precompiled & mv *.ps  ~/latex/latex-precompiled'
 alias mozilla='mozilla-firefox'
 alias xfig='xfig -specialtext -latexfonts -startlatexFont default'
-# Tweak standard commands
-if ls --color=auto --literal > /dev/null 2>&1; then
-    # newer GNU coreutils
-    alias ls='ls --literal --color=auto'
-elif ls --color=auto > /dev/null 2>&1; then
-    # older GNU coreutils and some BSD
-    alias ls='ls --color=auto'
-elif ls -G > /dev/null 2>&1; then
-    # other BSD
-    alias ls='ls -G'
-fi
 if echo x | grep --color=auto x > /dev/null 2>&1; then
     alias grep='grep --color=auto'
 fi
