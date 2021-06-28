@@ -113,10 +113,14 @@
 (setq font-use-system-font t)
 
 ;; Server setup
-(require 'server)
-(or (server-running-p)
+;; This messes up on M1
+(if (not (eq system-type 'darwin))
+    (require 'server)
+  (unless (and (fboundp 'server-running-p)
+             (server-running-p))
     (server-start))
-(setq server-socket-dir "~/.emacs.d/server")
+  (setq server-socket-dir "~/.emacs.d/server")
+  )
 
 ;; Package repo
 (use-package exec-path-from-shell)
