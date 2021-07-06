@@ -168,4 +168,4 @@
   autostash = true
   autosquash = true
 [hub]
-	protocol = https
+	protocol = ssh
