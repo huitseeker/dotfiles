@@ -1741,6 +1741,12 @@ searched. If there is no symbol, empty search box is started."
   (smart-jump-setup-default-registers))
 
 (require 'subr-x)
+;; go mode
+(add-hook 'go-mode-hook
+          (lambda ()
+            (setq indent-tabs-mode 1)
+            (setq tab-width 2)))
+
 ;; Rust-mode
 (use-package toml-mode)
 (use-package rust-mode
