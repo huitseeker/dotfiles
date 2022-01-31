@@ -9,6 +9,7 @@
     ui = true
 [core]
         pager = ~/.cargo/bin/diffr|less -FRSX
+	excludesfile = ~/.gitignore_global
 [interactive]
     diffFilter = ~/.cargo/bin/diffr
 [alias]
