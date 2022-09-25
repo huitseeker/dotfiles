@@ -1,0 +1,10 @@
+[Unit]
+ Description=Automatic Cargo sweep when booted up after 5 minutes then check the system for updates every day
+
+[Timer]
+ OnBootSec=5min
+ OnCalendar=daily
+ Unit=cargo-sweep.service
+
+[Install]
+ WantedBy=multi-user.target
