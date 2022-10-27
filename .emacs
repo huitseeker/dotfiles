@@ -114,13 +114,13 @@
 
 ;; Server setup
 ;; This messes up on M1
-(if (not (eq system-type 'darwin))
-    (require 'server)
+;; (if (not (eq system-type 'darwin))
+  (require 'server)
   (unless (and (fboundp 'server-running-p)
              (server-running-p))
     (server-start))
   (setq server-socket-dir "~/.emacs.d/server")
-  )
+;;  )
 
 ;; Package repo
 (use-package exec-path-from-shell)
@@ -463,7 +463,6 @@
 
 ;; On fait en sorte que tous les fichiers dont le nom contient « makefile »
 ;; ou « Makefile » soient mis en mode make lorsqu'on les ouvre.
-
 (setq auto-mode-alist
       (append (list
                '("[Mm]akefile" . makefile-mode))
@@ -826,7 +825,6 @@
 (add-hook 'proofgeneral-hook 'my-tab-fix)
 (add-hook 'mail-mode-hook 'my-tab-fix)
 (add-hook 'LaTeX-mode-hook 'my-tab-fix)
-;; (add-hook 'python-mode-hook 'my-tab-fix)
 (add-hook 'scala-mode-hook 'my-tab-fix)
 (add-hook 'adoc-mode-hook 'my-tab-fix)
 (add-hook 'text-mode-hook 'my-tab-fix)

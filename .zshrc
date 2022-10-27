@@ -122,3 +122,6 @@ if [ "$(uname)" != "Darwin" ]; then
 fi
 
 [ -x /bin/opam ] && eval $(opam config env)
+
+LESSOPEN="|/opt/homebrew/bin/lesspipe.sh %s"
+export LESSOPEN
