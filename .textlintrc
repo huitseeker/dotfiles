@@ -1,5 +1,19 @@
 {
     "plugins": [
-        "latex"
+        "latex2e"
+    ]
+    "rules": [
+        "write-good",
+        "no-start-duplicated-conjunction",
+         "max-comma",
+         "terminology",
+         "period-in-list-item",
+         "abbr-within-parentheses",
+         "alex",
+         "common-misspellings",
+         "en-max-word-count",
+         "diacritics",
+         "stop-words"
+
     ]
 }

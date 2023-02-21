@@ -457,12 +457,12 @@
 ;; Vous ne voulez pas utiliser rmail!
 (put 'rmail 'disabled t)
 
-;; On réactive ces deux commandes.
+;; On réactive ces deux commands.
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
 
 ;; On fait en sorte que tous les fichiers dont le nom contient « makefile »
-;; ou « Makefile » soient mis en mode make lorsqu'on les ouvre.
+;; ou « Makefile » soient miss en mode make lorsqu'on les ouvre.
 (setq auto-mode-alist
       (append (list
                '("[Mm]akefile" . makefile-mode))
@@ -1588,7 +1588,7 @@ searched. If there is no symbol, empty search box is started."
                    (t                  #'avy-goto-char))
                   ,c))))
   ;;
-  ;; Assing key bindings for all characters
+  ;; Assign key bindings for all characters
   (loop for c from ?! to ?~ do (add-keys-to-avy "M-s-" c))
   (loop for c from ?! to ?~ do (add-keys-to-avy "H-" c))
   (loop for c from ?! to ?~ do (add-keys-to-avy "C-M-s-" c 'word)))
@@ -1825,7 +1825,7 @@ searched. If there is no symbol, empty search box is started."
 (use-package rainbow-identifiers
   :ensure t
   :init
-  ;; (rainbow-identifiers-mode 1) doesn't work. have to set it up as a hoook
+  ;; (rainbow-identifiers-mode 1) doesn't work. have to set it up as a hook
   (progn
     (add-hook 'prog-mode-hook 'rainbow-identifiers-mode)
     ))
@@ -1866,7 +1866,7 @@ searched. If there is no symbol, empty search box is started."
 ;; For ediff in git merges
 (defadvice server-save-buffers-kill-terminal (after server-save-buffers-kill-terminal-after-hack activate)
   ;; kill all buffers, so new ediff panel is re-created and `ediff-startup-hook-setup' is called again
-  ;; besides, remove the buffers whose binding files are alredy merged in `buffer-list'
+  ;; besides, remove the buffers whose binding files are already merged in `buffer-list'
   (mapc 'kill-buffer (buffer-list)))
 
 ;; highlight changes
@@ -1900,7 +1900,7 @@ searched. If there is no symbol, empty search box is started."
 (flycheck-define-checker textlint
   "A linter for textlint."
   :command ("npx" "textlint"
-            "--config" "/home/huitseeker/.emacs.d/.textlintrc"
+            "--config" "$HOME/.textlintrc"
             "--format" "unix"
             "--rule" "write-good"
             "--rule" "no-start-duplicated-conjunction"
@@ -1916,7 +1916,7 @@ searched. If there is no symbol, empty search box is started."
             "--plugin"
             (eval
              (if (derived-mode-p 'tex-mode)
-                 "latex"
+                 "latex2e"
                "@textlint/text"))
             source-inplace)
   :error-patterns
