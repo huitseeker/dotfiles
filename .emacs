@@ -42,7 +42,7 @@
 (defvar prelude-packages '(auctex better-defaults prescient company-prescient ivy-prescient gist haml-mode
                           clojure-mode coffee-mode company company-quickhelp deft diminish expand-region flycheck-rust
                           haskell-mode helm helm-ag helm-projectile hydra inf-ruby magit markdown-mode
-                          paredit projectile python sass-mode rainbow-mode rust-mode
+                          paredit projectile python sass-mode rainbow-mode rustic
                           scss-mode solarized-theme volatile-highlights yaml-mode yari
                           zenburn-theme flycheck-inline color-identifiers-mode
                           )
@@ -828,7 +828,7 @@
 (add-hook 'scala-mode-hook 'my-tab-fix)
 (add-hook 'adoc-mode-hook 'my-tab-fix)
 (add-hook 'text-mode-hook 'my-tab-fix)
-(add-hook 'rust-mode-hook 'my-tab-fix)
+(add-hook 'rustic-hook 'my-tab-fix)
 
 ;; Just as a failsafe
 (setq tab-always-indent 'complete)
@@ -860,8 +860,24 @@
 
 (use-package lsp-mode
   :ensure t
+  :commands lsp
+  :custom
+    ;; what to use when checking on-save. "check" is default, I prefer
+  ;; clippy
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-eldoc-render-all t)
+  (lsp-idle-delay 0.6)
+  ;; enable / disable the hints as you prefer:
+  (lsp-rust-analyzer-server-display-inlay-hints t)
+  (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
+  (lsp-rust-analyzer-display-chaining-hints t)
+  (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
+  (lsp-rust-analyzer-display-closure-return-type-hints t)
+  (lsp-rust-analyzer-display-parameter-hints nil)
+  (lsp-rust-analyzer-display-reborrow-hints nil)
+  :config
+    (add-hook 'lsp-mode-hook 'lsp-ui-mode)
   :init
-  ;; Experimental!
   (setq lsp-rust-server 'rust-analyzer
         debug-on-error nil
         lsp-rust-analyzer-inlay-hints-mode t)
@@ -871,7 +887,6 @@
   :commands lsp-ui-mode
   :hook ((lsp-mode . lsp-ui-mode))
   :after lsp-mode
-  :commands lsp-ui-mode
   :bind (:map lsp-ui-mode-map
               ("M-,"  . lsp-ui-peek-find-definitions)
               ("M-?"  . lsp-ui-peek-find-references)
@@ -1731,7 +1746,7 @@ searched. If there is no symbol, empty search box is started."
   :defer 2
   :custom
   (smart-jump-default-mode-list
-   '(rust-mode
+   '(rustic-mode
      elisp-mode
      lisp-mode
      python))
@@ -1745,14 +1760,12 @@ searched. If there is no symbol, empty search box is started."
             (setq indent-tabs-mode 1)
             (setq tab-width 2)))
 
-;; Rust-mode
-(use-package toml-mode)
-(use-package rust-mode
+(use-package rustic
   :ensure t
   :defer t
   :init
-  (require 'rust-mode)
-  (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+  (require 'rustic)
+  (add-to-list 'auto-mode-alist '("\\.rs\\'" . rustic-mode))
   (progn
     (add-hook 'rust-mode-hook 'cargo-minor-mode)
     (add-hook 'toml-mode-hook 'cargo-minor-mode))
@@ -1777,8 +1790,16 @@ searched. If there is no symbol, empty search box is started."
       (setq separedit-default-mode 'markdown-mode)))
   (setq rust-format-on-save t)
   (setq cargo-process--command-check "check --all-targets")
-  :bind ( :map rust-mode-map
-                ([?\t] .  company-indent-or-complete-common))
+  :bind (:map rustic-mode-map
+              ("M-j" . lsp-ui-imenu)
+              ("M-?" . lsp-find-references)
+              ("C-c C-c l" . flycheck-list-errors)
+              ("C-c C-c a" . lsp-execute-code-action)
+              ("C-c C-c r" . lsp-rename)
+              ("C-c C-c q" . lsp-workspace-restart)
+              ("C-c C-c Q" . lsp-workspace-shutdown)
+              ("C-c C-c s" . lsp-rust-analyzer-status)
+              ([?\t] .  company-indent-or-complete-common))
   :config
   (use-package flycheck-rust
     :ensure t
@@ -1787,11 +1808,11 @@ searched. If there is no symbol, empty search box is started."
     )
   (setq rust-format-on-save t)
   (use-package cargo :ensure t)
-  (add-hook 'rust-mode-hook #'racer-mode)
-  (add-hook 'rust-mode-hook #'company-mode)
-  ;;  (add-hook 'rust-mode-hook #'lsp-mode)
-  (add-hook 'rust-mode-hook #'flycheck-mode)
-  (add-hook 'racer-mode-hook #'eldoc-mode)
+  (add-hook 'rustic-hook #'racer-mode)
+  (add-hook 'rustic-hook #'company-mode)
+  ;;  (add-hook 'rustic-hook #'lsp-mode)
+  (add-hook 'rustic-hook #'flycheck-mode)
+  (add-hook 'racer-hook #'eldoc-mode)
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
  )
 
