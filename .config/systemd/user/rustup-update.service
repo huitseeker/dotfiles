@@ -3,7 +3,7 @@
 
 [Service]
  Type=simple
- ExecStart=/bin/rustup update
+ ExecStart=$HOME/.cargo/bin/rustup update
  TimeoutStopSec=600
  KillMode=process
  KillSignal=SIGINT

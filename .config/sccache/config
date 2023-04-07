@@ -1,4 +1,0 @@
-[cache.gcs]
-rw_mode = "READ_WRITE"
-cred_path = "$HOME/.config/gcloud/application_default_credentials.json"
-bucket = "sccache-huitseeker"
