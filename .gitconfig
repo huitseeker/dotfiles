@@ -149,6 +149,7 @@
 [fetch]
         fsckobjects = false
         recurseSubmodules = on-demand
+	prune = true
 [receive]
         fsckobjects = true
 [commit]
@@ -181,3 +182,5 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+[diff]
+	colorMoved = zebra
