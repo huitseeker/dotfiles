@@ -3,4 +3,9 @@ cargo-features = ["workspace-inheritance"]
 rustflags = [
     "-C", "link-arg=-fuse-ld=lld",
 ]
+[registries.crates-io]
+protocol = "sparse"
 
+[build]
+rustc-wrapper = "/opt/homebrew/bin/sccache"
+pipelining = true

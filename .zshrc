@@ -125,5 +125,5 @@ fi
 
 [ -x /bin/opam ] && eval $(opam config env)
 
-LESSOPEN="|/opt/homebrew/bin/lesspipe.sh %s"
+LESSOPEN="|$(which lesspipe.sh) %s"
 export LESSOPEN
