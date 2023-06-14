@@ -127,3 +127,6 @@ fi
 
 LESSOPEN="|$(which lesspipe.sh) %s"
 export LESSOPEN
+
+highest_ruby_version=$(ls -1 ~/.gem/ruby | sort -V | tail -n 1)
+export PATH="$HOME/.gem/ruby/$highest_ruby_version/bin:$PATH"
