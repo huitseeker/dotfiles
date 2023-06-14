@@ -31,8 +31,7 @@
 
 (eval-when-compile
   (require 'use-package))
-(use-package auto-compile
-  :config (auto-compile-on-load-mode))
+
 (setq load-prefer-newer t)
 (require 'bind-key)
 
@@ -66,18 +65,31 @@
 (provide 'prelude-packages)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+;; Check if native compilation is available
+(when (boundp 'comp-native-compiling)
+  ;; bootstrap straight.el
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+         (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+        (bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+          (url-retrieve-synchronously
+           "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+           'silent 'inhibit-cookies)
+        (goto-char (point-max))
+        (eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+
+  ;; Install use-package using straight.el
+  (straight-use-package 'use-package)
+
+  ;; Tell use-package to use straight.el by default
+  (setq straight-use-package-by-default t)
+
+  ;; Enable auto-compile-on-load-mode
+  (use-package auto-compile
+    :config (auto-compile-on-load-mode)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq custom-file "~/.emacs.d/custom.el")
@@ -1707,18 +1719,6 @@ searched. If there is no symbol, empty search box is started."
 (use-package writeroom-mode
   :ensure t)
 
-;; FB setup
-(setq master-dir
-      (let ((fb-master-dir-env "LOCAL_ADMIN_SCRIPTS"))
-        (or (getenv "LOCAL_ADMIN_SCRIPTS")
-           (warn (format "%s: missing environment var"
-                         fb-master-dir-env)))))
-;;
-(let ((fb-settings "/usr/facebook/ops/rc/master.emacs"))
-  (when (file-exists-p fb-settings)
-    (load-file fb-settings))
-  )
-
 ;; De-caml-case
 (defun to-underscore()
   (interactive)
@@ -1734,10 +1734,6 @@ searched. If there is no symbol, empty search box is started."
   :ensure t)
 
 (use-package quick-peek)
-(use-package source-peek
-      :straight (source-peek :type git :host github :repo "iqbalansari/emacs-source-peek")
-)
-
 
 (use-package dumb-jump
   :custom
@@ -1782,12 +1778,12 @@ searched. If there is no symbol, empty search box is started."
       (add-hook 'racer-mode-hook #'eldoc-mode)
       (add-hook 'racer-mode-hook #'company-mode))
    ;;; separedit ;; via https://github.com/twlz0ne/separedit.el
-  (use-package separedit
-    :straight (separedit :type git :host github :repo "idcrook/separedit.el")
-    :config
-    (progn
-      (define-key prog-mode-map (kbd "C-c '") #'separedit)
-      (setq separedit-default-mode 'markdown-mode)))
+(use-package separedit
+  :ensure t
+  :config
+  (progn
+    (define-key prog-mode-map (kbd "C-c '") #'separedit)
+    (setq separedit-default-mode 'markdown-mode)))
   (setq rust-format-on-save t)
   (setq cargo-process--command-check "check --all-targets")
   :bind (:map rustic-mode-map
