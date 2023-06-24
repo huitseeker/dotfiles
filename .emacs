@@ -1520,51 +1520,19 @@ searched. If there is no symbol, empty search box is started."
 
 ;; Better Jumping
 (use-package avy
-  :demand
-  :commands (avy-goto-char
-             avy-goto-char-2
-             avy-goto-word-1
-             avy-goto-word-or-subword-1
-             avy-isearch)
-  :bind (("s-l" . avy-goto-line)
-         ("C-'" . avy-goto-line)
-         ("C-M-s" . avy-goto-char-timer)
-         :map isearch-mode-map
-         ("s-a" . avy-isearch)
-         ("C-'" . avy-isearch))
-  :config
-  ;; Darken background in GUI only.
-  (setq avy-background (display-graphic-p))
-  ;; Highlight the first decision char with `avy-lead-face-0'.
-  ;; https://github.com/abo-abo/avy/wiki/defcustom#avy-highlight-first
-  (setq avy-highlight-first t)
-  ;; The default method of displaying the overlays.
-  ;; https://github.com/abo-abo/avy/wiki/defcustom#avy-style
-  (setq avy-style 'at-full)
-  ;; Keys to be used. Use a-z.
-  (setq avy-keys (loop for c from ?a to ?z collect c))
-  ;;
-  ;; Time out for *-timer functions
-  (setq avy-timeout-seconds 0.3)
-  ;;
-  ;; avy version of one-step activation
-  ;; https://github.com/cjohansen/.emacs.d/commit/65efe88
-  (defun add-keys-to-avy (prefix c &optional mode)
-    (define-key global-map
-      (read-kbd-macro (concat prefix (string c)))
-      `(lambda ()
-         (interactive)
-         (funcall (cond
-                   ;; Word beginning
-                   ((eq ',mode 'word)  #'avy-goto-word-1)
-                   ;; Anywhere
-                   (t                  #'avy-goto-char))
-                  ,c))))
-  ;;
-  ;; Assign key bindings for all characters
-  (loop for c from ?! to ?~ do (add-keys-to-avy "M-s-" c))
-  (loop for c from ?! to ?~ do (add-keys-to-avy "H-" c))
-  (loop for c from ?! to ?~ do (add-keys-to-avy "C-M-s-" c 'word)))
+    :ensure t
+      :bind (("s-l" . avy-goto-line)
+                      ("C-'" . avy-goto-line)
+                               ("C-M-s" . avy-goto-char-timer)
+                                        :map isearch-mode-map
+                                                 ("s-a" . avy-isearch)
+                                                          ("C-'" . avy-isearch))
+        :config
+          (setq avy-background (display-graphic-p))
+            (setq avy-highlight-first t)
+              (setq avy-style 'at-full)
+                (setq avy-keys (cl-loop for c from ?a to ?z collect c))
+                  (setq avy-timeout-seconds 0.3))
 
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
 (defun unfill-paragraph (&optional region)
