@@ -1158,17 +1158,6 @@
   (global-anzu-mode)
   :diminish anzu-mode)
 
-;; Redisplaying parts of the buffer as pretty symbols
-(use-package pretty-mode
-  :config
-  (global-pretty-mode 1)
-  )
-;; This fixes bugs of the global-pretty-mode preventing correct composition
-(defadvice font-lock-fontify-syntactically-region (before prettify compile activate)
-  "Make font-lock do pretty-things."
-  (unless pretty-mode
-    (pretty-mode)))
-
 ;; Point history
 (use-package point-stack
   :bind
