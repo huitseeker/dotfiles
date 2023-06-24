@@ -869,93 +869,50 @@
 )
 
 ;;; Language server Setup
-
 (use-package lsp-mode
-  :ensure t
-  :commands lsp
-  :custom
-    ;; what to use when checking on-save. "check" is default, I prefer
-  ;; clippy
-  (lsp-rust-analyzer-cargo-watch-command "clippy")
-  (lsp-eldoc-render-all t)
-  (lsp-idle-delay 0.6)
-  ;; enable / disable the hints as you prefer:
-  (lsp-rust-analyzer-server-display-inlay-hints t)
-  (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
-  (lsp-rust-analyzer-display-chaining-hints t)
-  (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
-  (lsp-rust-analyzer-display-closure-return-type-hints t)
-  (lsp-rust-analyzer-display-parameter-hints nil)
-  (lsp-rust-analyzer-display-reborrow-hints nil)
-  :config
-    (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-  :init
-  (setq lsp-rust-server 'rust-analyzer
-        debug-on-error nil
-        lsp-rust-analyzer-inlay-hints-mode t)
-  (add-hook 'prog-mode-hook #'lsp))
+    :ensure t
+      :commands lsp
+        :hook (prog-mode . lsp)
+          :init
+            (setq lsp-rust-server 'rust-analyzer
+                          debug-on-error nil
+                                  lsp-rust-analyzer-inlay-hints-mode t)
+              :custom
+                (lsp-rust-analyzer-cargo-watch-command "clippy")
+                  (lsp-eldoc-render-all t)
+                    (lsp-idle-delay 0.6)
+                      (lsp-rust-analyzer-server-display-inlay-hints t)
+                        (lsp-rust-analyzer-display-chaining-hints t)
+                          (lsp-rust-analyzer-display-lifetime-elision-hints "skip_trivial")
+                            (lsp-rust-analyzer-display-closure-return-type-hints t)
+                              (lsp-rust-analyzer-display-parameter-hints nil)
+                                (lsp-rust-analyzer-display-reborrow-hints nil))
+
 (use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode
-  :hook ((lsp-mode . lsp-ui-mode))
-  :after lsp-mode
-  :bind (:map lsp-ui-mode-map
-              ("M-,"  . lsp-ui-peek-find-definitions)
-              ("M-?"  . lsp-ui-peek-find-references)
-              ("C-c u"   . lsp-ui-imenu)
-              ("C-c C-a" . lsp-ui-sideline-apply-code-actions))
-  :init
-  (setq lsp-ui-doc-position 'at-point
-        lsp-ui-doc-header nil
-        lsp-ui-doc-border "violet"
-        ;; lsp-ui-doc-include-signature t
-        lsp-ui-sideline-update-mode 'point
-        lsp-ui-sideline-delay 1
-        lsp-ui-sideline-ignore-duplicate t
-        lsp-ui-peek-always-show t
-        lsp-ui-flycheck-enable t
-        lsp-ui-doc-use-childframe nil))
-
-(with-eval-after-load 'lsp-mode
-  ;; enable log only for debug
-  (setq lsp-log-io nil)
-
-  ;; use `evil-matchit' instead
-  (setq lsp-enable-folding nil)
-
-  ;; handle yasnippet by myself
-  (setq lsp-enable-snippet nil)
-
-  ;; turn off for better performance
-  (setq lsp-enable-symbol-highlighting nil)
-
-  ;; auto restart lsp
-  (setq lsp-restart 'auto-restart)
-
-  ;; don't ping LSP lanaguage server too frequently
-  (defvar lsp-on-touch-time 0)
-  (defadvice lsp-on-change (around lsp-on-change-hack activate)
-    ;; don't run `lsp-on-change' too frequently
-    (when (> (- (float-time (current-time))
-                lsp-on-touch-time) 20) ;; 20 seconds
-      (setq lsp-on-touch-time (float-time (current-time)))
-      ad-do-it)))
-
-(defun my-connect-lsp (&optional no-reconnect)
-  "Connect lsp server.  If NO-RECONNECT is t, don't shutdown existing lsp connection."
-  (interactive "P")
-  (when (and (not no-reconnect)
-             (fboundp 'lsp-disconnect))
-    (lsp-disconnect))
-  (when (and buffer-file-name
-             (not (member (file-name-extension buffer-file-name)
-                          '("json"))))
-    (unless (and (boundp 'lsp-mode) lsp-mode)
-      (if (derived-mode-p 'js2-mode) (setq-local lsp-enable-imenu nil))
-      (lsp-deferred))))
-
-(use-package company-lsp
-  :ensure t)
+    :ensure t
+      :hook (lsp-mode . lsp-ui-mode)
+        :after lsp-mode
+          :bind (:map lsp-ui-mode-map
+                                    ("M-,"  . lsp-ui-peek-find-definitions)
+                                                  ("M-?"  . lsp-ui-peek-find-references)
+                                                                ("C-c u"   . lsp-ui-imenu)
+                                                                              ("C-c C-a" . lsp-ui-sideline-apply-code-actions))
+            :custom
+              (lsp-ui-doc-position 'at-point)
+                (lsp-ui-doc-header nil)
+                  (lsp-ui-doc-border "violet")
+                    (lsp-ui-sideline-update-mode 'point)
+                      (lsp-ui-sideline-delay 1)
+                        (lsp-ui-sideline-ignore-duplicate t)
+                          (lsp-ui-peek-always-show t)
+                            (lsp-ui-flycheck-enable t)
+                              (lsp-ui-doc-use-childframe nil)
+                                ;; disable some lsp-ui features
+                                (lsp-log-io nil)
+                                  (lsp-enable-folding nil)
+                                    (lsp-enable-snippet nil)
+                                      (lsp-enable-symbol-highlighting nil)
+                                        (lsp-restart 'auto-restart))
 
 ;; fuzzy completion/search
 (use-package fuzzy
