@@ -139,5 +139,5 @@ export PATH="$HOME/.gem/ruby/$highest_ruby_version/bin:$PATH"
 
 # Tmux
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  exec tmux new -A -t main
+  exec tmux new -A -t main -sn
 fi

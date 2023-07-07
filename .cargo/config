@@ -9,3 +9,9 @@ protocol = "sparse"
 [build]
 rustc-wrapper = "/opt/homebrew/bin/sccache"
 pipelining = true
+
+[env]
+RUSTC_BOOTSTRAP = "1"
+
+[unstable]
+sparse-registry = true
