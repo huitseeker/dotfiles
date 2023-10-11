@@ -3,8 +3,6 @@ cargo-features = ["workspace-inheritance"]
 rustflags = [
     "-C", "link-arg=-fuse-ld=lld",
 ]
-[registries.crates-io]
-protocol = "sparse"
 
 [build]
 rustc-wrapper = "/opt/homebrew/bin/sccache"
@@ -75,6 +73,7 @@ rustflags = [
     "-Wclippy::needless_borrow",
     "-Wclippy::needless_continue",
     "-Wclippy::needless_for_each",
+    "-Wclippy::needless_pass_by_value",
     "-Wclippy::option_option",
     "-Wclippy::path_buf_push_overwrite",
     "-Wclippy::ptr_as_ptr",
@@ -91,6 +90,7 @@ rustflags = [
     "-Wclippy::todo",
     "-Wclippy::trait_duplication_in_bounds",
     "-Wclippy::unimplemented",
+    "-Wclippy::unnecessary-mut-passed",
     "-Wclippy::unnested_or_patterns",
     "-Wclippy::unused_self",
     "-Wclippy::unwrap_used",
@@ -102,5 +102,6 @@ rustflags = [
     "-Wrust_2018_idioms",
     "-Wunused_lifetimes",
     "-Wunused_qualifications",
+    "-Wmissing_debug_implementations",
     # END - Embark standard lints v6 for Rust 1.55+
 ]
