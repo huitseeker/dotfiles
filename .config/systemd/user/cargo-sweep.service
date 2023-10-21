@@ -3,7 +3,7 @@
 
 [Service]
  Type=simple
- ExecStart=/bin/cargo sweep -r --installed
+ ExecStart=cargo sweep -r --installed
  TimeoutStopSec=600
  KillMode=process
  KillSignal=SIGINT
