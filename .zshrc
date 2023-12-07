@@ -125,6 +125,9 @@ SSL_CERT_DIR=/etc/ssl/certs/
 [ -f /usr/share/fzf/key-bindings.zsh ] && source /usr/share/fzf/key-bindings.zsh
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 
+# Cuda
+[ -d /opt/cuda/bin ] && export PATH="$PATH:/opt/cuda/bin"
+
 # really important or emacs will freak out
 export TERM=xterm
 if [[ -n "$TMUX" ]]; then
@@ -149,6 +152,8 @@ export LESSOPEN
 
 highest_ruby_version=$(ls -1 ~/.gem/ruby | sort -V | tail -n 1)
 export PATH="$HOME/.gem/ruby/$highest_ruby_version/bin:$PATH"
+export CC=clang
+export CXX=clang++
 
 # Tmux
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
