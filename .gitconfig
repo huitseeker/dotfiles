@@ -10,6 +10,7 @@
 [core]
         pager = ~/.cargo/bin/diffr|less -FRSX
 	excludesfile = ~/.gitignore_global
+	hooksPath = /Users/huitseeker/.config/git/hooks/
 [interactive]
     diffFilter = ~/.cargo/bin/diffr
 [alias]
@@ -128,7 +129,6 @@
         # Detect whitespace errors when applying a patch
         whitespace = fix
 [merge]
-        tool = mymeld
         conflictStyle = diff3
 [mergetool "mymeld"]
         cmd = meld $LOCAL $BASE $REMOTE -o $MERGED --diff $BASE $LOCAL --diff $BASE $REMOTE --auto-merge
@@ -165,7 +165,7 @@
 [pull]
         rebase = true
 [init]
-        defaultBranch = trunk
+        defaultBranch = main
 [rebase]
   autostash = true
   autosquash = true
@@ -184,3 +184,7 @@
 	process = git-lfs filter-process
 [diff]
 	colorMoved = zebra
+[rerere]
+	enabled = true
+[url "git@github.com:"]
+        insteadOf = "https://github.com/"

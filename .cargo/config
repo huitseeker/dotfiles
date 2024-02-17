@@ -102,6 +102,9 @@ rustflags = [
     "-Wrust_2018_idioms",
     "-Wunused_lifetimes",
     "-Wunused_qualifications",
-    "-Wmissing_debug_implementations",
+    # "-Wmissing_debug_implementations",
     # END - Embark standard lints v6 for Rust 1.55+
 ]
+
+[target.wasm32-unknown-unknown]
+runner = 'wasm-bindgen-test-runner'
