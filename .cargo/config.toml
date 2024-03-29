@@ -101,7 +101,7 @@ rustflags = [
     "-Wnonstandard_style",
     "-Wrust_2018_idioms",
     "-Wunused_lifetimes",
-    "-Wunused_qualifications",
+    "-Wunused_qual<ifications",
     # "-Wmissing_debug_implementations",
     # END - Embark standard lints v6 for Rust 1.55+
 ]
