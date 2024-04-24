@@ -3,6 +3,7 @@ cargo-features = ["workspace-inheritance"]
 rustflags = [
     "-C", "link-arg=-fuse-ld=lld",
     "-C", "target-cpu=native",
+    "--cfg", "tokio_unstable",
 ]
 
 [build]
