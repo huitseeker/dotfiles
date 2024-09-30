@@ -7,7 +7,7 @@ rustflags = [
 ]
 
 [build]
-rustc-wrapper = "/opt/homebrew/bin/sccache"
+rustc-wrapper = "sccache"
 pipelining = true
 
 [env]
