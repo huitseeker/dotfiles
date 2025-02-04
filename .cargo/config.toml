@@ -1,9 +1,22 @@
 cargo-features = ["workspace-inheritance"]
 [target.'cfg(all())']
 rustflags = [
-    "-C", "link-arg=-fuse-ld=lld",
+    # "-C", "link-arg=-fuse-ld=lld",
     "-C", "target-cpu=native",
     "--cfg", "tokio_unstable",
+    "-Wclippy::all",
+]
+
+[target.x86_64-apple-darwin]
+rustflags = [
+  "-C", "link-arg=-undefined",
+  "-C", "link-arg=dynamic_lookup",
+]
+
+[target.aarch64-apple-darwin]
+rustflags = [
+  "-C", "link-arg=-undefined",
+  "-C", "link-arg=dynamic_lookup",
 ]
 
 [build]
