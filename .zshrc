@@ -52,8 +52,8 @@ source $ZSH/oh-my-zsh.sh
 # Customize to your needs...
 autoload -U z
 
-export JAVA_HOME="/usr/lib/jvm/default/"
-export _JAVA_OPTIONS="-DJINTEGRA_NATIVE_MODE -DJINTEGRA_COINIT_VALUE=0 -Dsun.io.useCanonCaches=false -XX:CompileThreshold=1500 -XX:+TieredCompilation -XX:+UnlockExperimentalVMOptions -Xverify:none -XX:UseSSE=3 -XX:+UseThreadPriorities -XX:-UseLargePages -XX:+OptimizeStringConcat -XX:+UseCompressedOops -XX:ReservedCodeCacheSize=512m -XX:LargePageSizeInBytes=2m  -Xms512M -Xmx7168M -Xss1M -Dawt.useSystemAAFontSettings=lcd -Dsun.java2d.xrender=true"
+# export JAVA_HOME="/usr/lib/jvm/default/"
+# export _JAVA_OPTIONS="-DJINTEGRA_NATIVE_MODE -DJINTEGRA_COINIT_VALUE=0 -Dsun.io.useCanonCaches=false -XX:CompileThreshold=1500 -XX:+TieredCompilation -XX:+UnlockExperimentalVMOptions -Xverify:none -XX:UseSSE=3 -XX:+UseThreadPriorities -XX:-UseLargePages -XX:+OptimizeStringConcat -XX:+UseCompressedOops -XX:ReservedCodeCacheSize=512m -XX:LargePageSizeInBytes=2m  -Xms512M -Xmx7168M -Xss1M -Dawt.useSystemAAFontSettings=lcd -Dsun.java2d.xrender=true"
 export GNOME_DESKTOP_SESSION_ID=this-is-deprecated
 
 # Locale settings (utf-8)

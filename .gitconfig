@@ -8,9 +8,15 @@
 [color]
     ui = true
 [core]
-        pager = ~/.cargo/bin/diffr|less -FRSX
+        # pager = ~/.cargo/bin/diffr|less -FRSX
 	excludesfile = ~/.gitignore_global
-	hooksPath = /Users/huitseeker/.config/git/hooks/
+	hooksPath = ~/.config/git/hooks/
+# .gitconfig
+[pager]
+  # Use `delta`.
+  log = delta
+  show = delta
+  diff = delta
 [interactive]
     diffFilter = ~/.cargo/bin/diffr
 [alias]

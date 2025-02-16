@@ -29,7 +29,6 @@ alias latest="ls -ltc|head -n 2|tail -n 1|awk '{print \$8}'"
 #alias scalac="scalac-2.9"
 # alias spotify='rm ~/.cache/spotify/offline.bnk & spotify'
 alias lesspipe='lesspipe.sh'
-alias java='drip'
 alias ant='ant -Divy.cache.ttl.default=eternal'
 alias ant-scala='ant distpack -Dmaven.version.suffix="-`git rev-parse HEAD|cut -c 1-7`-SNAPSHOT"'
 alias ant-clean='ant -Divy.cache.ttl.default=eternal clean'
