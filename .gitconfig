@@ -9,7 +9,7 @@
     ui = true
 [core]
         # pager = ~/.cargo/bin/diffr|less -FRSX
-	excludesfile = ~/.gitignore_global
+	excludesFile = ~/.gitignore_global
 	hooksPath = ~/.config/git/hooks/
 # .gitconfig
 [pager]
