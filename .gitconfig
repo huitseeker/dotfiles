@@ -17,6 +17,7 @@
   log = delta
   show = delta
   diff = delta
+  difftool = true
 [interactive]
     diffFilter = ~/.cargo/bin/diffr
 [alias]
@@ -183,5 +184,3 @@
         prompt = false
 [difftool "difftastic"]
         cmd = difft "$LOCAL" "$REMOTE"
-[pager]
-        difftool = true

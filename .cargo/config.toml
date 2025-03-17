@@ -1,10 +1,13 @@
 cargo-features = ["workspace-inheritance"]
-[target.'cfg(all())']
+[target.'cfg(feature = "normal")']
 rustflags = [
     # "-C", "link-arg=-fuse-ld=lld",
-    "-C", "target-cpu=native",
+    # "-C", "target-cpu=native",
     "--cfg", "tokio_unstable",
     "-Wclippy::all",
+    "-Wfuture_incompatible",
+    "-Wnonstandard_style",
+    "-Wunused_lifetimes",
 ]
 
 [target.x86_64-apple-darwin]
@@ -81,7 +84,6 @@ rustflags = [
     "-Wclippy::match_wildcard_for_single_variants",
     "-Wclippy::match_wild_err_arm",
     "-Wclippy::mem_forget",
-    "-Wclippy::mismatched_target_os",
     "-Wclippy::missing_enforced_import_renames",
     "-Wclippy::mutex_integer",
     "-Wclippy::mut_mut",
@@ -104,6 +106,7 @@ rustflags = [
     "-Wclippy::string_to_string",
     "-Wclippy::todo",
     "-Wclippy::trait_duplication_in_bounds",
+    "-Wclippy::unexpected_cfgs",
     "-Wclippy::unimplemented",
     "-Wclippy::unnecessary-mut-passed",
     "-Wclippy::unnested_or_patterns",
@@ -116,7 +119,7 @@ rustflags = [
     "-Wnonstandard_style",
     "-Wrust_2018_idioms",
     "-Wunused_lifetimes",
-    "-Wunused_qual<ifications",
+    "-Wunused_qualifications",
     # "-Wmissing_debug_implementations",
     # END - Embark standard lints v6 for Rust 1.55+
 ]
