@@ -1,6 +1,9 @@
+[column]
+    ui = auto
 [branch]
     autosetuprebase = always
     autosetupmerge = always
+    sort = -committerdate
 [user]
     name = François Garillot
     email = francois@garillot.net
@@ -131,15 +134,17 @@
         rup = remote update
         rom = reset --hard origin/HEAD
         hubpush = push huitseeker HEAD
+	puush = push --force-with-lease
 [apply]
 
         # Detect whitespace errors when applying a patch
         whitespace = fix
 [merge]
-        conflictStyle = diff3
+        conflictStyle = zdiff3
 [push]
         default = simple
         followTags = true
+        autoSetupRemote = true
 [filter "media"]
         clean = git-media-clean %f
         smudge = git-media-smudge %f
@@ -150,12 +155,14 @@
 [transfer]
         fsckObjects = true
 [fetch]
+        all = true
         fsckobjects = false
         recurseSubmodules = on-demand
 	prune = true
 [receive]
         fsckobjects = true
 [commit]
+	verbose = true
         gpgsign = true
 [fsck]
         zeroPaddedFilemode = ignore
@@ -170,16 +177,21 @@
 [init]
         defaultBranch = main
 [rebase]
-  autostash = true
-  autosquash = true
+        autostash = true
+        autosquash = true
+        updateRefs = true
 [hub]
 	protocol = ssh
 [diff]
 	colorMoved = zebra
+        algorithm = histogram
+        mnemonicPrefix = true
+        renames = true
+        tool = difftastic
 [rerere]
 	enabled = true
+	autoupdate = true
 [diff]
-        tool = difftastic
 [difftool]
         prompt = false
 [difftool "difftastic"]
