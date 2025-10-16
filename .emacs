@@ -651,8 +651,8 @@
   :after magit
   :config (magithub-feature-autoinject t))
 
-(use-package magit-find-file
-  :bind (("C-x f" . magit-find-file-completing-read)))
+;; (use-package magit-find-file
+;;  :bind (("C-x f" . magit-find-file-completing-read)))
 
 ;; fast file find in git repository
  (use-package find-file-in-repository :ensure t

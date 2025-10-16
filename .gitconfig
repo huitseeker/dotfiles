@@ -21,6 +21,21 @@
   show = delta
   diff = delta
   difftool = true
+[delta]
+    navigate = true
+    line-numbers = true
+    features = solarized-hicontrast
+    # side-by-side = true
+[delta "solarized-hicontrast"]
+    # Works well with Solarized Dark (Higher Contrast) in Ghostty
+    syntax-theme = Solarized (dark)
+    plus-style  = "syntax #002b36"   # text+bold+underline on base03
+    minus-style = "syntax #002b36"
+    plus-emph-style  = "syntax bold #073642"
+    minus-emph-style = "syntax bold #073642"
+    commit-style = bold
+    file-style   = bold
+    hunk-header-style = "bold"
 [interactive]
     diffFilter = ~/.cargo/bin/diffr
 [alias]
@@ -163,7 +178,7 @@
         fsckobjects = true
 [commit]
 	verbose = true
-        gpgsign = true
+	gpgsign = true
 [fsck]
         zeroPaddedFilemode = ignore
 [grep]
