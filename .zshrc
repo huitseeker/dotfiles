@@ -120,6 +120,12 @@ SSL_CERT_DIR=/etc/ssl/certs/
 
 # really important or emacs will freak out
 export TERM=tmux-256color
+if [[ -n "$TMUX" ]]; then
+  export TERM=tmux-256color
+else
+  export TERM=xterm-256color
+fi
+
 
 export TERMINFO="$HOME/.terminfo"
 export TERMCAP="$HOME/.termcap"
