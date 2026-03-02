@@ -3,3 +3,5 @@
 /target
 .cursorrules
 .cargo/config.toml
+.claude
+*.md

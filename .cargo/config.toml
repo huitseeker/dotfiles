@@ -10,16 +10,20 @@ rustflags = [
     "-Wunused_lifetimes",
 ]
 
-[target.x86_64-apple-darwin]
-rustflags = [
-  "-C", "link-arg=-undefined",
-  "-C", "link-arg=dynamic_lookup",
-]
-
 [target.aarch64-apple-darwin]
+linker = "/opt/homebrew/opt/llvm/bin/clang"
 rustflags = [
   "-C", "link-arg=-undefined",
   "-C", "link-arg=dynamic_lookup",
+  "-C", "link-arg=-fuse-ld=/opt/homebrew/bin/ld64.lld",
+  "-L", "/opt/homebrew/opt/llvm/lib/c++",
+  "-C", "link-arg=-Wl,-rpath,/opt/homebrew/opt/llvm/lib/c++",
+]
+rustdocflags = [
+  "-C", "link-arg=-Wl,-undefined,dynamic_lookup",
+  "-C", "link-arg=-fuse-ld=/opt/homebrew/bin/ld64.lld",
+  "-L", "/opt/homebrew/opt/llvm/lib/c++",
+  "-C", "link-arg=-Wl,-rpath,/opt/homebrew/opt/llvm/lib/c++",
 ]
 
 [build]

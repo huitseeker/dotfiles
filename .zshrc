@@ -119,7 +119,7 @@ SSL_CERT_DIR=/etc/ssl/certs/
 [ -f /usr/share/fzf/completion.zsh ] && source /usr/share/fzf/completion.zsh
 
 # really important or emacs will freak out
-export TERM=tmux-256color
+export TERM=xterm
 if [[ -n "$TMUX" ]]; then
   export TERM=tmux-256color
 else
