@@ -150,6 +150,7 @@
         rom = reset --hard origin/HEAD
         hubpush = push huitseeker HEAD
 	puush = push --force-with-lease
+	autoreword = !git commit --fixup reword:$1 && GIT_EDITOR=true && git rebase --autosquash --interactive --rebase-merges $1~1 && echo \"autoreword finished\"
 [apply]
 
         # Detect whitespace errors when applying a patch

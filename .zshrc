@@ -1,14 +1,21 @@
 export ZSH_DISABLE_COMPFIX=true
 # Mac M1
 if [ -d "/opt/homebrew" ]; then
-   export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
-   export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
-   export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
-   export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-   export LDFLAGS="-L/opt/homebrew/opt/libomp/lib"
-   export CPPFLAGS="-I/opt/homebrew/opt/libomp/include"
-   export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
-   export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+     # use homebrew installed llvm clang instead of system provided clang
+     export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+#     export CC="$(brew --prefix llvm)/bin/clang"
+#     export CXX="$(brew --prefix llvm)/bin/clang++"
+     export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/llvm/lib"
+     export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/llvm/include"
+     export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+     export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
+     export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+     export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+#     export SDKROOT=$(xcrun --sdk macosx --show-sdk-path)
+#    export LDFLAGS="-L/opt/homebrew/opt/libomp/lib"
+#    export CPPFLAGS="-I/opt/homebrew/opt/libomp/include"
+#    export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+#    export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 fi
 
 # Path to your oh-my-zsh configuration.
