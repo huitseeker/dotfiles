@@ -118,6 +118,16 @@
         up = !git pull origin master && git remote prune origin && git submodule update --init --recursive
         undo = !git reset HEAD~1 --mixed
         top = !git log --format=format:%an | sort | uniq -c | sort -nr | head -n 20
+        # Hotspot files by churn over the last year
+        hot = !sh -c 'git log --format=format: --name-only --since=1.year.ago | sort | uniq -c | sort -nr | head -20' -
+        # Contributors ranked by non-merge commit count
+        who = shortlog -sn --no-merges HEAD
+        # Files most often mentioned in bug-fix commits
+        bugs = !sh -c 'git log -i --grep=fix --grep=bug --grep=broken --name-only --format= | sort | uniq -c | sort -nr | head -20' -
+        # Commit volume by month across repo history
+        pace = !sh -c 'git log --format=%ad --date=format:%Y-%m | sort | uniq -c' -
+        # Recent revert / hotfix / rollback history
+        fire = log --oneline --since=1.year.ago -i --grep=revert --grep=hotfix --grep=emergency --grep=rollback
 
         # from trevor bramble https://twitter.com/TrevorBramble/status/774292970681937920
         alias=!git config -l | grep ^alias | cut -c 7- | sort
@@ -151,6 +161,8 @@
         hubpush = push huitseeker HEAD
 	puush = push --force-with-lease
 	autoreword = !git commit --fixup reword:$1 && GIT_EDITOR=true && git rebase --autosquash --interactive --rebase-merges $1~1 && echo \"autoreword finished\"
+        # re-sign commits
+        rbsign = "!f() { git rebase -S --no-ff \"$1\"; }; f"
 [apply]
 
         # Detect whitespace errors when applying a patch
