@@ -1,12 +1,9 @@
 [Unit]
- Description=Automatic Cargo Sweep
+Description=Automatic Cargo Sweep
 
 [Service]
- Type=simple
- ExecStart=cargo sweep -r --installed
- TimeoutStopSec=600
- KillMode=process
- KillSignal=SIGINT
+Type=oneshot
+ExecStart=%h/.cargo/bin/cargo-sweep sweep -r --installed %h/tmp/
 
 [Install]
- WantedBy=default.target
+WantedBy=default.target

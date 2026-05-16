@@ -152,10 +152,10 @@ export LESSOPEN
 
 highest_ruby_version=$(ls -1 ~/.gem/ruby | sort -V | tail -n 1)
 export PATH="$HOME/.gem/ruby/$highest_ruby_version/bin:$PATH"
-export CC=clang
-export CXX=clang++
 
 # Tmux
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
   exec tmux new -A -t main -sn
 fi
+
+export EC_GPU_CUDA_NVCC_ARGS="--fatbin --gpu-architecture=sm_89 --generate-code=arch=compute_89,code=sm_89"
