@@ -1,0 +1,19 @@
+name: TruffleHog
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  scan:
+    name: "TruffleHog"
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          enable-cache: true
+      - name: Install TruffleHog
+        run: uv pip install --system trufflehog
+      - name: Run TruffleHog
+        run: trufflehog filesystem . --no-update
