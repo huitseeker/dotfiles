@@ -1,15 +1,20 @@
 name: CI
 
 on: [push]
-
+permissions:
+  contents: read
 jobs:
   build:
 
     runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v1
-    - name: ShellCheck-Linter
-      uses: azohra/shell-linter@latest
- 
 
+    steps:
+    - name: checkout
+      uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      with:
+        persist-credentials: false
+    - name: ShellCheck
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y shellcheck
+        shellcheck -S warning **/*.sh
