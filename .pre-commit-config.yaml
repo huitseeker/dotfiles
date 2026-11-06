@@ -3,13 +3,16 @@ repos:
     hooks:
       - id: ensure-trufflehog
         name: Ensure TruffleHog
-        entry: bash -c 'if command -v trufflehog &> /dev/null; then exit 0; fi; echo "TruffleHog not found. Install with: uv pip install --python ~/.venv/bin/python trufflehog"; exit 1'
+        entry: >-
+          bash -c 'if command -v trufflehog &> /dev/null; then exit 0; fi;
+          echo "TruffleHog not found. Install with: brew install trufflehog (macOS)
+          or: curl -sSfL https://raw.githubusercontent.com/trufflesecurity/trufflehog/v3.99.8/scripts/install.sh | sh -s -- -b /usr/local/bin"; exit 1'
         language: system
-        pass_fails: false
+        pass_filenames: false
         stages: [pre-commit]
 
   - repo: https://github.com/trufflesecurity/trufflehog
-    rev: main
+    rev: v3.99.8
     hooks:
       - id: trufflehog
         args: [--no-update]
