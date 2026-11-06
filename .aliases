@@ -43,6 +43,8 @@ alias batt='upower -d /org/freedesktop/UPower/devices/battery_BAT0|grep -E "stat
 alias pipupgrade="pip freeze --local | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip install -U"
 alias scalafmt="java -jar /home/huitseeker/tmp/scalafmt/cli/target/scala-2.11/scalafmt.jar"
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias aconfig='git -C "$HOME" --git-dir="$HOME/.cfg-agents/" --work-tree="$HOME"'
+alias agent-config='$HOME/.agents/scripts/agent-config'
 alias mirai='DYLD_LIBRARY_PATH=~/.rustup/toolchains/$(cat ~/tmp/MIRAI/rust-toolchain)-x86_64-unknown-linux-gnu/lib RUSTC_WRAPPER=mirai cargo +$(cat ~/tmp/MIRAI/rust-toolchain)'
 alias brew='/opt/homebrew/bin/brew'
 alias ibrew='arch -x86_64 /usr/local/bin/brew'

@@ -1,4 +1,14 @@
 export ZSH_DISABLE_COMPFIX=true
+
+# Record any tmux layer outside this host before TERM is normalized below.
+if [[ -z ${SSH_TINT_OUTER_TMUX_DEPTH+x} ]]; then
+  if [[ -z $TMUX && $TERM == (screen*|tmux*) ]]; then
+    export SSH_TINT_OUTER_TMUX_DEPTH=1
+  else
+    export SSH_TINT_OUTER_TMUX_DEPTH=0
+  fi
+fi
+
 # Mac M1
 if [ -d "/opt/homebrew" ]; then
      # use homebrew installed llvm clang instead of system provided clang
